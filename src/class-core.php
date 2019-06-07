@@ -22,9 +22,9 @@ class Core
 
     private function plugin_data()
     {
-        $main_file = explode('/', plugin_basename(WHT_MAIN))[1];
+        $main_file = explode('/', plugin_basename(__WHT_MAIN__))[1];
 
-        return get_plugin_data(plugin_dir_path(WHT_MAIN).$main_file);
+        return get_plugin_data(plugin_dir_path(__WHT_MAIN__).$main_file);
     }
 
     public function test()

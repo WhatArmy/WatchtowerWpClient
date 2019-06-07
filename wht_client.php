@@ -1,5 +1,6 @@
 <?php
-defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+defined('ABSPATH') or die('No script kiddies please!');
+
 /**
  * Plugin Name: WhatArmy Watchtower
  * Plugin URI: https://github.com/WhatArmy/WatchtowerWpClient
@@ -9,16 +10,12 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
  * Author URI: https://whatarmy.com
  **/
 
-define('WHT_MAIN', __FILE__);
+define('WHT_DB_VERSION', '1.0');
+define('WHT_REPO_URL', 'https://github.com/WhatArmy/WatchtowerWpClient');
+define('__WHT_MAIN__', __FILE__);
 define('MP_LARGE_DOWNLOADS', true);
 
 require __DIR__.'/vendor/autoload.php';
-/**
- * Include Plugin Class
- */
-if (!function_exists('get_plugins')) {
-    require_once ABSPATH.'wp-admin/includes/plugin.php';
-}
 
 use ClaudioSanches\WPAutoloader\Autoloader;
 use WhatArmy\Watchtower\Watchtower;
