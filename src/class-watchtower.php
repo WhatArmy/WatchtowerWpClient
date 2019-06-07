@@ -17,5 +17,24 @@ class Watchtower
     {
         new Api();
         new Backup();
+        new Self_Update();
+
+        register_activation_hook(WHT_MAIN, array($this, 'install_hook'));
+        register_activation_hook(WHT_MAIN, array($this, 'db_hook'));
+    }
+
+    public function install_hook()
+    {
+        $token = Token::generate();
+        add_option( 'watchtower', array(
+            'access_token' => $token,
+            'file_backup'  => 0
+        ) );
+        flush_rewrite_rules();
+    }
+
+    public function db_hook()
+    {
+
     }
 }

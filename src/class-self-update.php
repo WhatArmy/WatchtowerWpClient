@@ -7,7 +7,6 @@
 
 namespace WhatArmy\Watchtower;
 
-use \Puc_v4_Factory as Puc_v4_Factory;
 
 class Self_Update
 {
@@ -17,17 +16,13 @@ class Self_Update
      */
     public function __construct()
     {
-        $this->init();
-    }
-
-    private function init()
-    {
-        $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+        $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
             'https://github.com/WhatArmy/WatchtowerWpClient',
-            __FILE__,
+            WHT_MAIN,
             'whatarmy-watchtower-plugin'
         );
 
-        $myUpdateChecker->setBranch('master');
+        $myUpdateChecker->setBranch('develop');
     }
+
 }

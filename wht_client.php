@@ -1,11 +1,12 @@
 <?php
+defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 /**
- * Plugin Name: Whatarmy Watchtower
- * Plugin URI: https://github.com/c2pdev/WatchTower_Client
+ * Plugin Name: WhatArmy Watchtower
+ * Plugin URI: https://github.com/WhatArmy/WatchtowerWpClient
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
- * Author: Whatarmy
+ * Author: WhatArmy
  * Version: 2.0 Beta
- * Author URI: http://whatarmy.com
+ * Author URI: https://whatarmy.com
  **/
 
 define('WHT_MAIN', __FILE__);
@@ -20,7 +21,6 @@ if (!function_exists('get_plugins')) {
 }
 
 use ClaudioSanches\WPAutoloader\Autoloader;
-use WhatArmy\Watchtower\Self_Update;
 use WhatArmy\Watchtower\Watchtower;
 
 
@@ -29,4 +29,3 @@ $autoloader->addNamespace('WhatArmy\Watchtower', __DIR__.'/src');
 $autoloader->register();
 
 new Watchtower();
-new Self_Update();

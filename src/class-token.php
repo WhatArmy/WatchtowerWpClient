@@ -10,5 +10,13 @@ namespace WhatArmy\Watchtower;
 
 class Token
 {
+    public function generate()
+    {
+        return md5(uniqid());
+    }
 
+    public function get()
+    {
+        return get_option('watchtower_token');
+    }
 }
