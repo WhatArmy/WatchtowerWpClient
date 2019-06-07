@@ -1,0 +1,27 @@
+{
+    "name": "c2p/whatarmy_watchtower",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Code2Prog",
+            "email": "office@code2prog.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WhatArmy\\Watchtower\\": "src"
+        }
+    },
+    "require": {
+        "claudiosanches/wp-autoloader": "^1.0",
+        "php": ">=5.4",
+        "dg/mysql-dump": "dev-master",
+        "shuber/curl": "dev-master",
+        "alchemy/zippy": "^0.3",
+        "ext-zip": "*",
+        "ext-mysqli": "*",
+        "ext-json": "*",
+        "prospress/action-scheduler": "^2.2",
+        "yahnis-elsts/plugin-update-checker": "^4.6"
+    }
+}
