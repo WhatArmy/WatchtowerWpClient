@@ -12,6 +12,11 @@
             "WhatArmy\\Watchtower\\": "src"
         }
     },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
     "require": {
         "claudiosanches/wp-autoloader": "^1.0",
         "php": ">=5.4",
@@ -21,7 +26,7 @@
         "ext-zip": "*",
         "ext-mysqli": "*",
         "ext-json": "*",
-        "prospress/action-scheduler": "^2.2",
+        "prospress/action-scheduler": "dev-master",
         "yahnis-elsts/plugin-update-checker": "^4.6"
     }
 }

@@ -7,7 +7,10 @@
 
 namespace WhatArmy\Watchtower;
 
-
+/**
+ * Class Schedule
+ * @package WhatArmy\Watchtower
+ */
 class Schedule
 {
 

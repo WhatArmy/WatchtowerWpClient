@@ -7,7 +7,10 @@
 
 namespace WhatArmy\Watchtower;
 
-
+/**
+ * Class Self_Update
+ * @package WhatArmy\Watchtower
+ */
 class Self_Update
 {
 

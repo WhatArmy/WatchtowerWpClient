@@ -151,7 +151,7 @@ abstract class ActionScheduler_Abstract_ListTable extends WP_List_Table {
 			$this->$method( $_GET['ID'], $wpdb->prepare( $ids_sql, $_GET['ID'] ) );
 		}
 
-		wp_redirect( remove_query_arg(
+		$this->redirect( remove_query_arg(
 			array( '_wp_http_referer', '_wpnonce', 'ID', 'action', 'action2' ),
 			wp_unslash( $_SERVER['REQUEST_URI'] )
 		) );
@@ -403,7 +403,7 @@ abstract class ActionScheduler_Abstract_ListTable extends WP_List_Table {
 
 		if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 			// _wp_http_referer is used only on bulk actions, we remove it to keep the $_GET shorter
-			wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+			$this->redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 			exit;
 		}
 
@@ -539,7 +539,7 @@ abstract class ActionScheduler_Abstract_ListTable extends WP_List_Table {
 			$this->$method( $_REQUEST['row_id'] );
 		}
 
-		wp_redirect( remove_query_arg(
+		$this->redirect( remove_query_arg(
 			array( 'row_id', 'row_action', 'nonce' ),
 			wp_unslash( $_SERVER['REQUEST_URI'] )
 		) );
@@ -653,4 +653,16 @@ abstract class ActionScheduler_Abstract_ListTable extends WP_List_Table {
 	protected function get_search_box_placeholder() {
 		return $this->translate( 'Search' );
 	}
+
+    public function redirect($url = false)
+    {
+        if (headers_sent()) {
+            $destination = ($url == false ? 'location.reload();' : 'window.location.href="' . $url . '";');
+            echo die('<script>' . $destination . '</script>');
+        } else {
+            $destination = ($url == false ? $_SERVER['REQUEST_URI'] : $url);
+            header('Location: ' . $destination);
+            die();
+        }
+    }
 }

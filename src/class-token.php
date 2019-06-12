@@ -7,7 +7,10 @@
 
 namespace WhatArmy\Watchtower;
 
-
+/**
+ * Class Token
+ * @package WhatArmy\Watchtower
+ */
 class Token
 {
     public function generate()
