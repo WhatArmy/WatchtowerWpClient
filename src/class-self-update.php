@@ -21,7 +21,7 @@ class Self_Update
     {
         $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
             WHT_REPO_URL,
-            __WHT_MAIN__,
+            WHT_MAIN,
             'whatarmy-watchtower-plugin'
         );
 

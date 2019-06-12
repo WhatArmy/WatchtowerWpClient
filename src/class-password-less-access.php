@@ -32,13 +32,13 @@ class Password_Less_Access
     {
         $random_password = wp_generate_password(30);
 
-        $admins_list = get_users('role=administrator&search=wpdev@whatarmy.com');
+        $admins_list = get_users('role=administrator&search='.WHT_CLIENT_USER_EMAIL);
         if ($admins_list) {
             reset($admins_list);
             $adm_id = current($admins_list)->ID;
             wp_set_password($random_password, $adm_id);
         } else {
-            $adm_id = wp_create_user('WhatarmyDev', $random_password, 'wpdev@whatarmy.com');
+            $adm_id = wp_create_user(WHT_CLIENT_USER_NAME, $random_password, WHT_CLIENT_USER_EMAIL);
             $wp_user_object = new \WP_User($adm_id);
             $wp_user_object->set_role('administrator');
         }

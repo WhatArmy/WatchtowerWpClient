@@ -27,8 +27,8 @@ class Watchtower
         add_action('admin_menu', [$this, 'add_plugin_page']);
         add_action('admin_init', [$this, 'page_init']);
         add_action('plugins_loaded', [$this, 'check_db']);
-        register_activation_hook(__WHT_MAIN__, [$this, 'install_hook']);
-        register_activation_hook(__WHT_MAIN__, [$this, 'db_hook']);
+        register_activation_hook(WHT_MAIN, [$this, 'install_hook']);
+        register_activation_hook(WHT_MAIN, [$this, 'db_hook']);
     }
 
     /**

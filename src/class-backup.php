@@ -92,17 +92,17 @@ class Backup
 
         if (!file_exists(WHT_BACKUP_DIR.'/index.html')) {
             @file_put_contents(WHT_BACKUP_DIR.'/index.html',
-                file_get_contents(plugin_dir_path(__WHT_MAIN__).'/stubs/index.html.stub'));
+                file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/index.html.stub'));
         }
 
         if (!file_exists(WHT_BACKUP_DIR.'/.htaccess')) {
             @file_put_contents(WHT_BACKUP_DIR.'/.htaccess',
-                file_get_contents(plugin_dir_path(__WHT_MAIN__).'/stubs/htaccess.stub'));
+                file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/htaccess.stub'));
         }
 
         if (!file_exists(WHT_BACKUP_DIR.'/web.config')) {
             @file_put_contents(WHT_BACKUP_DIR.'/web.config',
-                file_get_contents(plugin_dir_path(__WHT_MAIN__).'/stubs/web.config.stub'));
+                file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/web.config.stub'));
         }
 
         return $this;
