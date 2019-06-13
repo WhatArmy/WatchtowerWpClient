@@ -59,6 +59,8 @@ class Api
             $this->resolve_action('run_backup_file_action'));
         register_rest_route($this->route_namespace(), 'backup/mysql/run',
             $this->resolve_action('run_backup_db_action'));
+        register_rest_route($this->route_namespace(), 'backup/mysql/download',
+            $this->resolve_action('run_backup_db_download_action'));
     }
 
 
@@ -81,6 +83,17 @@ class Api
         $res = $backup->mysqlBackup($request->get_param('callbackUrl'));
 
         return $this->make_response($res);
+    }
+
+    /**
+     * @param  WP_REST_Request  $request
+     * @return mixed
+     */
+    public function run_backup_db_download_action(WP_REST_Request $request)
+    {
+        $download = new Download;
+
+        return $download->serveFile($request->get_param('filename'));
     }
 
     /**

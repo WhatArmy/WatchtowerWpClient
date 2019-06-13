@@ -23,6 +23,8 @@ class Watchtower
         new Api();
         new Backup();
         new Self_Update();
+        new Download();
+        new Updates_Monitor();
 
         add_action('admin_menu', [$this, 'add_plugin_page']);
         add_action('admin_init', [$this, 'page_init']);
