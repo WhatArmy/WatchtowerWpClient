@@ -78,9 +78,9 @@ class Api
     public function run_backup_db_action(WP_REST_Request $request)
     {
         $backup = new Backup;
-        $res = $backup->mysqlBackup($request->get_param('callbackUrl'));
+        $backup->mysqlBackup($request->get_param('callbackUrl'));
 
-        return $this->make_response($res);
+        return $this->make_response('scheduled');
     }
 
 

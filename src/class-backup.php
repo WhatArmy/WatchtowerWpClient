@@ -149,18 +149,20 @@ class Backup
     {
         $headquarter = new Headquarter($callbackHeadquarterUrl);
         $headquarter->call('/backup_error', [
-            'backup_name' => $this->backupName
+            'backup_name' => $this->backupName,
         ]);
     }
 
     /**
      * @param $callbackHeadquarterUrl
+     * @param  string  $file_extension
      */
-    public function call_headquarter($callbackHeadquarterUrl)
+    public function call_headquarter($callbackHeadquarterUrl, $file_extension = 'zip')
     {
         $headquarter = new Headquarter($callbackHeadquarterUrl);
         $headquarter->call('/backup', [
-            'backup_name' => $this->backupName
+            'access_token' => get_option('watchtower')['access_token'],
+            'backup_name'  => join('.', [$this->backupName, $file_extension])
         ]);
     }
 
@@ -238,7 +240,7 @@ class Backup
         try {
             $dump = new \MySQLDump(new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME));
             $dump->save(WHT_BACKUP_DIR.'/'.$this->backupName.'.sql.gz');
-            $this->call_headquarter($callbackHeadquarterUrl);
+            $this->call_headquarter($callbackHeadquarterUrl, 'sql.gz');
         } catch (\Exception $e) {
             $this->call_headquarter_error($callbackHeadquarterUrl);
         }
