@@ -178,7 +178,8 @@ class Backup
                 "verify_peer_name" => false,
             ),
         );
-        $data = file_get_contents(WHT_HEADQUARTER_BACKUP_EX, false, stream_context_create($arrContextOptions));
+        $data = file_get_contents($callbackHeadquarterUrl.WHT_BACKUP_EXCLUSIONS_ENDPOINT, false,
+            stream_context_create($arrContextOptions));
         $ret = array();
 
         if (Utils::is_json($data)) {

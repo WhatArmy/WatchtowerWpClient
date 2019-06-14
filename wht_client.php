@@ -19,7 +19,7 @@ define('WHT_DB_VERSION', '1.0');
 define('WHT_CLIENT_USER_NAME', 'WatchTowerClient');
 define('WHT_CLIENT_USER_EMAIL', 'wpdev@whatarmy.com');
 
-define('WHT_HEADQUARTER_BACKUP_EX', 'https://whatarmy.alpha.watchtowerhq.co/backupExclusions');
+define('WHT_BACKUP_EXCLUSIONS_ENDPOINT', '/backupExclusions');
 define('WHT_BACKUP_DIR', wp_upload_dir()['basedir'].'/watchtower_backups');
 define('WHT_REPO_URL', 'https://github.com/WhatArmy/WatchtowerWpClient');
 define('MP_LARGE_DOWNLOADS', true);
