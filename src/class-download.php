@@ -79,9 +79,14 @@ class Download
         exit;
     }
 
-    protected function sendHeaders($file, $type, $size, $name = null)
+    /**
+     * @param $file
+     * @param  null  $name
+     */
+    protected function sendHeaders($file, $name = null)
     {
-        if (empty($name)) {
+        $mime = mime_content_type($file);
+        if ($name == null) {
             $name = basename($file);
         }
         header('Pragma: public');
@@ -90,14 +95,16 @@ class Download
         header('Cache-Control: private', false);
         header('Content-Transfer-Encoding: binary');
         header('Content-Disposition: attachment; filename="'.$name.'";');
-        header('Content-Type: '.$type);
-        header('Content-Length: '.$size);
+        header('Content-Type: '.$mime);
+        header('Content-Length: '.filesize($file));
     }
 
+    /**
+     * @param $file
+     */
     public function serveFile($file)
     {
-        $mime = mime_content_type($file);
-        self::sendHeaders($file, $mime, filesize($file), $file);
+        self::sendHeaders($file);
         $download_rate = 600 * 10;
         $handle = fopen($file, 'r');
         while (!feof($handle)) {
