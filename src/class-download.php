@@ -41,7 +41,7 @@ class Download
 
     }
 
-    protected static function has_access($token)
+    private function has_access($token)
     {
         if ($token == get_option('watchtower')['access_token']) {
             return true;
@@ -64,7 +64,7 @@ class Download
     public function handle_request()
     {
         global $wp;
-        $hasAccess = self::has_access($wp->query_vars['access_token']);
+        $hasAccess = $this->has_access($wp->query_vars['access_token']);
         $file = WHT_BACKUP_DIR.'/'.$wp->query_vars['backup_name'];
         if ($hasAccess == true && file_exists($file)) {
             $this->serveFile($file);

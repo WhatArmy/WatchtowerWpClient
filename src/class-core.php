@@ -42,7 +42,7 @@ class Core
         ];
     }
 
-    public function get_data()
+    public function get()
     {
         return [
             'site_name'         => get_option('blogname'),

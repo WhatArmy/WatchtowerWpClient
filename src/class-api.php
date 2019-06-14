@@ -125,7 +125,7 @@ class Api
 
         return $this->make_response([
             'client_version' => $core->wht_plugin_version(),
-            'core'           => $core->get_data(),
+            'core'           => $core->get(),
             'plugins'        => $plugins->get(),
             'themes'         => $themes->get(),
         ]);
@@ -155,7 +155,7 @@ class Api
     public function get_core_action()
     {
         $core = new Core;
-        return $this->make_response($core->get_data());
+        return $this->make_response($core->get());
     }
 
     /**
