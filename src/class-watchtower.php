@@ -20,10 +20,10 @@ class Watchtower
     public function __construct()
     {
         $this->load_wp_plugin_class();
+        new Download();
         new Api();
         new Backup();
         new Self_Update();
-        new Download();
         new Updates_Monitor();
 
         add_action('admin_menu', [$this, 'add_plugin_page']);

@@ -44,7 +44,11 @@ class Backup
         }
         $archive_location = WHT_BACKUP_DIR.'/'.$job['zip'].'.zip';
         $zippy = new ZipArchive();
-        $zippy->open($archive_location, ZipArchive::CREATE);
+        if (!file_exists($archive_location)) {
+            $zippy->open($archive_location, ZipArchive::CREATE);
+        } else {
+            $zippy->open($archive_location);
+        }
 
         $fileList = json_decode(file_get_contents(WHT_BACKUP_DIR.'/'.$job['data_file']));
 
@@ -161,9 +165,10 @@ class Backup
     }
 
     /**
+     * @param $callbackHeadquarterUrl
      * @return array
      */
-    private function exclusions()
+    private function exclusions($callbackHeadquarterUrl)
     {
         $arrContextOptions = array(
             "ssl" => array(
@@ -189,14 +194,15 @@ class Backup
     }
 
     /**
+     * @param $callbackHeadquarterUrl
      * @return $this
      */
-    private function create_job_list()
+    private function create_job_list($callbackHeadquarterUrl)
     {
         unlink(WHT_BACKUP_DIR.'/backup.job');
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(ABSPATH));
 
-        $excludes = $this->exclusions();
+        $excludes = $this->exclusions($callbackHeadquarterUrl);
         foreach ($iterator as $file) {
             if ($file->isDir()) {
                 continue;
@@ -249,7 +255,7 @@ class Backup
 
         if (get_option('watchtower')['file_backup'] == 1) {
             if (!file_exists(WHT_BACKUP_DIR."/backup.job")) {
-                $this->create_job_list();
+                $this->create_job_list($callbackHeadquarterUrl);
             }
 
             $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job");

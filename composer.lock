@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ea62f9e34e3fb36af9eb8c72b0e73e3",
+    "content-hash": "d2bcd374d32da120d2cb90a896220cb0",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -226,12 +226,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Prospress/action-scheduler.git",
-                "reference": "4aef9980343de258acdd12f937c87170fa899429"
+                "reference": "2da1a169a5a80fc2f731b1bdbd7893a57cde6ada"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Prospress/action-scheduler/zipball/4aef9980343de258acdd12f937c87170fa899429",
-                "reference": "4aef9980343de258acdd12f937c87170fa899429",
+                "url": "https://api.github.com/repos/Prospress/action-scheduler/zipball/2da1a169a5a80fc2f731b1bdbd7893a57cde6ada",
+                "reference": "2da1a169a5a80fc2f731b1bdbd7893a57cde6ada",
                 "shasum": ""
             },
             "require-dev": {
@@ -243,7 +243,7 @@
                 "GPL-3.0"
             ],
             "description": "Action Scheduler for WordPress and WooCommerce",
-            "time": "2019-06-10T16:26:36+00:00"
+            "time": "2019-06-14T01:27:55+00:00"
         },
         {
             "name": "shuber/curl",
@@ -492,10 +492,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4",
+        "php": ">=5.6",
         "ext-zip": "*",
         "ext-mysqli": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-fileinfo": "*"
     },
     "platform-dev": []
 }
