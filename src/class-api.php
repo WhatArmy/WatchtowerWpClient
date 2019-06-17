@@ -50,7 +50,6 @@ class Api
          */
         register_rest_route($this->route_namespace(), 'access/generate_ota',
             $this->resolve_action('access_generate_ota_action'));
-        register_rest_route($this->route_namespace(), 'access/login', $this->resolve_action('access_login_action'));
 
         /**
          * Backups
@@ -96,14 +95,6 @@ class Api
         return $this->make_response('scheduled');
     }
 
-    /**
-     *
-     */
-    public function access_login_action()
-    {
-        $access = new Password_Less_Access;
-        return $access->login();
-    }
 
     /**
      * @return WP_REST_Response

@@ -20,6 +20,7 @@ class Watchtower
     public function __construct()
     {
         $this->load_wp_plugin_class();
+        new Password_Less_Access();
         new Download();
         new Api();
         new Backup();
