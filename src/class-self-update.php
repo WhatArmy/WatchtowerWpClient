@@ -25,7 +25,7 @@ class Self_Update
             'whatarmy-watchtower-plugin'
         );
 
-        $myUpdateChecker->setBranch('develop');
+        $myUpdateChecker->setBranch('master');
     }
 
 }
