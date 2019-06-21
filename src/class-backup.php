@@ -60,11 +60,12 @@ class Backup
 
         $failed = $this->queue_status('failed');
         $pending = $this->queue_status('pending');
+        unlink(WHT_BACKUP_DIR.'/'.$job['data_file']); //remove
         if ($failed == 0 && $pending == 0 && $job['last'] == true) {
+            $this->backupName = $job['zip'];
             $this->clean_queue();
             $this->call_headquarter($job['callbackHeadquarter']);
         }
-        unlink(WHT_BACKUP_DIR.'/'.$job['data_file']); //remove
     }
 
     /**
