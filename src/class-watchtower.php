@@ -159,13 +159,6 @@ class Watchtower
             'watchtower-settings'
         );
 
-        add_settings_section(
-            'backups_section',
-            'Backups',
-            null,
-            'watchtower-settings'
-        );
-
         add_settings_field(
             'access_token',
             'Refresh Token',
