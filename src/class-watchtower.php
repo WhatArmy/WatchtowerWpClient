@@ -43,7 +43,6 @@ class Watchtower
         $token = new Token;
         add_option('watchtower', [
             'access_token' => $token->generate(),
-            'file_backup'  => 0
         ]);
         flush_rewrite_rules();
     }
@@ -168,15 +167,6 @@ class Watchtower
         );
 
         add_settings_field(
-            'file_backup',
-            'File Backup',
-            [$this, 'backups_callback'],
-            'watchtower-settings',
-            'backups_section',
-            []
-        );
-
-        add_settings_field(
             'access_token',
             'Refresh Token',
             [$this, 'access_token_callback'],
@@ -196,9 +186,6 @@ class Watchtower
     ) {
         $token = new Token;
         $new_input = array();
-        if (isset($input['file_backup'])) {
-            $new_input['file_backup'] = $input['file_backup'];
-        }
 
         if (isset($input['access_token']) && $input['access_token'] == 'true') {
             $new_input['access_token'] = $token->generate();
@@ -225,19 +212,6 @@ class Watchtower
         printf(
             '<input type="checkbox" value="true" name="watchtower[access_token]" />',
             isset($this->options['access_token']) ? esc_attr($this->options['access_token']) : ''
-        );
-    }
-
-    public function backups_callback()
-    {
-        $one = (get_option('watchtower')['file_backup'] == 1) ? "selected" : "";
-        $two = (get_option('watchtower')['file_backup'] == 0) ? "selected" : "";
-        printf(
-            '<select name="watchtower[file_backup]">
-<option value="1" '.$one.'>Enabled</option>
-<option value="0" '.$two.'>Disabled</option>
-</select>',
-            isset($this->options['file_backup']) ? esc_attr($this->options['file_backup']) : ''
         );
     }
 }

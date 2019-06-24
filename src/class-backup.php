@@ -257,47 +257,45 @@ class Backup
     {
         $this->create_backup_dir();
 
-        if (get_option('watchtower')['file_backup'] == 1) {
-            if (!file_exists(WHT_BACKUP_DIR."/backup.job")) {
-                $this->create_job_list($callbackHeadquarterUrl);
-            }
-
-            $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job");
-            $ct = 0;
-            $arr = [];
-            while (!$file->eof()) {
-                $f = str_replace(ABSPATH, "", $file->fgets());
-                if ($f != '') {
-                    array_push($arr, trim($f));
-                    $ct++;
-                }
-
-                if ($ct == WHT_BACKUP_FILES_PER_QUEUE) {
-                    as_schedule_single_action(time(), 'add_to_zip', [
-                        'files' => [
-                            "data_file" => $this->create_job_part_file('part_'.Utils::random_string(6), $arr),
-                            "zip"       => $this->backupName,
-                            "last"      => false,
-                        ]
-                    ]);
-                    $arr = [];
-                    $ct = 0;
-                }
-                if ($file->eof()) {
-                    as_schedule_single_action(time(), 'add_to_zip', [
-                        'files' => [
-                            "data_file"           => $this->create_job_part_file('part_'.Utils::random_string(6), $arr),
-                            "zip"                 => $this->backupName,
-                            "last"                => true,
-                            "callbackHeadquarter" => $callbackHeadquarterUrl,
-                        ]
-                    ]);
-                    $arr = [];
-                    $ct = 0;
-                }
-            }
-            $file = null;
+        if (!file_exists(WHT_BACKUP_DIR."/backup.job")) {
+            $this->create_job_list($callbackHeadquarterUrl);
         }
+
+        $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job");
+        $ct = 0;
+        $arr = [];
+        while (!$file->eof()) {
+            $f = str_replace(ABSPATH, "", $file->fgets());
+            if ($f != '') {
+                array_push($arr, trim($f));
+                $ct++;
+            }
+
+            if ($ct == WHT_BACKUP_FILES_PER_QUEUE) {
+                as_schedule_single_action(time(), 'add_to_zip', [
+                    'files' => [
+                        "data_file" => $this->create_job_part_file('part_'.Utils::random_string(6), $arr),
+                        "zip"       => $this->backupName,
+                        "last"      => false,
+                    ]
+                ]);
+                $arr = [];
+                $ct = 0;
+            }
+            if ($file->eof()) {
+                as_schedule_single_action(time(), 'add_to_zip', [
+                    'files' => [
+                        "data_file"           => $this->create_job_part_file('part_'.Utils::random_string(6), $arr),
+                        "zip"                 => $this->backupName,
+                        "last"                => true,
+                        "callbackHeadquarter" => $callbackHeadquarterUrl,
+                    ]
+                ]);
+                $arr = [];
+                $ct = 0;
+            }
+        }
+        $file = null;
 
         return $this->backupName;
     }
