@@ -39,6 +39,7 @@ class Watchtower
      */
     public function install_hook()
     {
+        wp_clear_scheduled_hook('WHT_cron_hook');
         $token = new Token;
         add_option('watchtower', [
             'access_token' => $token->generate(),
