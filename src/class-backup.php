@@ -65,6 +65,8 @@ class Backup
             $this->backupName = $job['zip'];
             $this->clean_queue();
             $this->call_headquarter($job['callbackHeadquarter']);
+        } else {
+            $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue']);
         }
     }
 
@@ -169,6 +171,19 @@ class Backup
 
     /**
      * @param $callbackHeadquarterUrl
+     * @param $status
+     */
+    public function call_headquarter_status($callbackHeadquarterUrl, $status)
+    {
+        $headquarter = new Headquarter($callbackHeadquarterUrl);
+        $headquarter->call('/backup_status', [
+            'access_token' => get_option('watchtower')['access_token'],
+            'status'       => $status,
+        ]);
+    }
+
+    /**
+     * @param $callbackHeadquarterUrl
      * @return array
      */
     private function exclusions($callbackHeadquarterUrl)
@@ -203,7 +218,11 @@ class Backup
      */
     private function create_job_list($callbackHeadquarterUrl)
     {
-        unlink(WHT_BACKUP_DIR.'/backup.job');
+        $file = WHT_BACKUP_DIR.'/backup.job';
+        if (file_exists($file)) {
+            unlink($file);
+        }
+
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(ABSPATH));
 
         $excludes = $this->exclusions($callbackHeadquarterUrl);
@@ -213,7 +232,7 @@ class Backup
             }
             $path = $file->getPathname();
             if (!Utils::strposa($path, $excludes) && $path != '') {
-                file_put_contents(WHT_BACKUP_DIR.'/backup.job', $path.PHP_EOL, FILE_APPEND | LOCK_EX);
+                file_put_contents($file, $path.PHP_EOL, FILE_APPEND | LOCK_EX);
             }
         }
         return $this;
@@ -261,9 +280,11 @@ class Backup
             $this->create_job_list($callbackHeadquarterUrl);
         }
 
-        $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job");
+        $jobTotal = $this->job_count();
+        $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job", "r");
         $ct = 0;
         $arr = [];
+        $par = 1;
         while (!$file->eof()) {
             $f = str_replace(ABSPATH, "", $file->fgets());
             if ($f != '') {
@@ -277,8 +298,10 @@ class Backup
                         "data_file" => $this->create_job_part_file('part_'.Utils::random_string(6), $arr),
                         "zip"       => $this->backupName,
                         "last"      => false,
+                        "queue"     => $par."/".$jobTotal,
                     ]
                 ]);
+                $par++;
                 $arr = [];
                 $ct = 0;
             }
@@ -289,6 +312,7 @@ class Backup
                         "zip"                 => $this->backupName,
                         "last"                => true,
                         "callbackHeadquarter" => $callbackHeadquarterUrl,
+                        "queue"               => $par."/".$jobTotal,
                     ]
                 ]);
                 $arr = [];
@@ -298,5 +322,16 @@ class Backup
         $file = null;
 
         return $this->backupName;
+    }
+
+    /**
+     * @return int
+     */
+    public function job_count()
+    {
+        $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job", 'r');
+        $file->seek(PHP_INT_MAX);
+        $sum = ($file->key() + 1) / WHT_BACKUP_FILES_PER_QUEUE;
+        return ceil($sum);
     }
 }
