@@ -65,9 +65,8 @@ class Backup
             $this->backupName = $job['zip'];
             $this->clean_queue();
             $this->call_headquarter($job['callbackHeadquarter']);
-        } else {
-            $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue']);
         }
+        $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['zip'].'.zip');
     }
 
     /**
@@ -173,12 +172,13 @@ class Backup
      * @param $callbackHeadquarterUrl
      * @param $status
      */
-    public function call_headquarter_status($callbackHeadquarterUrl, $status)
+    public function call_headquarter_status($callbackHeadquarterUrl, $status, $filename)
     {
         $headquarter = new Headquarter($callbackHeadquarterUrl);
         $headquarter->call('/backup_status', [
             'access_token' => get_option('watchtower')['access_token'],
             'status'       => $status,
+            'filename'     => $filename,
         ]);
     }
 
