@@ -90,9 +90,9 @@ class Api
     public function run_backup_file_action(WP_REST_Request $request)
     {
         $backup = new Backup;
-        $backup->fileBackup($request->get_param('callbackUrl'));
+        $filename = $backup->fileBackup($request->get_param('callbackUrl'));
 
-        return $this->make_response('scheduled');
+        return $this->make_response(['filename' => $filename.'.zip']);
     }
 
 
