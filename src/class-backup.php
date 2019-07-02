@@ -295,10 +295,11 @@ class Backup
             if ($ct == WHT_BACKUP_FILES_PER_QUEUE) {
                 as_schedule_single_action(time(), 'add_to_zip', [
                     'files' => [
-                        "data_file" => $this->create_job_part_file('part_'.Utils::random_string(6), $arr),
-                        "zip"       => $this->backupName,
-                        "last"      => false,
-                        "queue"     => $par."/".$jobTotal,
+                        "data_file"           => $this->create_job_part_file('part_'.Utils::random_string(6), $arr),
+                        "zip"                 => $this->backupName,
+                        "last"                => false,
+                        "callbackHeadquarter" => $callbackHeadquarterUrl,
+                        "queue"               => $par."/".$jobTotal,
                     ]
                 ]);
                 $par++;
