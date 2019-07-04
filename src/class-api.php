@@ -56,6 +56,8 @@ class Api
          */
         register_rest_route($this->route_namespace(), 'backup/file/run',
             $this->resolve_action('run_backup_file_action'));
+        register_rest_route($this->route_namespace(), 'backup/file/run_queue',
+            $this->resolve_action('run_backup_file_queue_action'));
         register_rest_route($this->route_namespace(), 'backup/mysql/run',
             $this->resolve_action('run_backup_db_action'));
     }
@@ -68,6 +70,18 @@ class Api
     {
         $access = new Password_Less_Access;
         return $this->make_response($access->generate_ota());
+    }
+
+    /**
+     * @param  WP_REST_Request  $request
+     * @return WP_REST_Response
+     */
+    public function run_backup_file_queue_action(WP_REST_Request $request)
+    {
+        $backup = new Backup;
+        $backup->pokeQueue();
+
+        return $this->make_response('done');
     }
 
     /**
