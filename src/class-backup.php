@@ -34,6 +34,12 @@ class Backup
 
     }
 
+    public function pokeQueue()
+    {
+//        $queue = \ActionScheduler_QueueRunner::instance();
+//        $queue->run();
+    }
+
     /**
      * @param $job
      */
@@ -218,9 +224,10 @@ class Backup
      */
     private function create_job_list($callbackHeadquarterUrl)
     {
-        $file = WHT_BACKUP_DIR.'/backup.job';
-        if (file_exists($file)) {
-            unlink($file);
+        $jobFile = WHT_BACKUP_DIR.'/backup.job';
+
+        if (file_exists($jobFile)) {
+            unlink($jobFile);
         }
 
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(ABSPATH));
@@ -232,7 +239,7 @@ class Backup
             }
             $path = $file->getPathname();
             if (!Utils::strposa($path, $excludes) && $path != '') {
-                file_put_contents($file, $path.PHP_EOL, FILE_APPEND | LOCK_EX);
+                file_put_contents($jobFile, $path.PHP_EOL, FILE_APPEND | LOCK_EX);
             }
         }
         return $this;
