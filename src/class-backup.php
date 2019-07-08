@@ -281,6 +281,7 @@ class Backup
      */
     public function fileBackup($callbackHeadquarterUrl)
     {
+        $this->cleanup_old_backups(WHT_BACKUP_DIR);
         $this->create_backup_dir();
 
         if (!file_exists(WHT_BACKUP_DIR."/backup.job")) {
@@ -341,5 +342,16 @@ class Backup
         $file->seek(PHP_INT_MAX);
         $sum = ($file->key() + 1) / WHT_BACKUP_FILES_PER_QUEUE;
         return ceil($sum);
+    }
+
+    public function cleanup_old_backups($path)
+    {
+        foreach (glob($path.'/*') as $file) {
+            if (is_file($file)) {
+                if (time() - filemtime($file) >= 60 * 60 * 24 * 2) {
+                    unlink($file);
+                }
+            }
+        }
     }
 }
