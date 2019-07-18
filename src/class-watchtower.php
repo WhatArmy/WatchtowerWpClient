@@ -32,6 +32,7 @@ class Watchtower
         add_action('plugins_loaded', [$this, 'check_db']);
         register_activation_hook(WHT_MAIN, [$this, 'install_hook']);
         register_activation_hook(WHT_MAIN, [$this, 'check_db']);
+        add_action('admin_notices', [$this, 'wht_activation_notice']);
     }
 
     /**
@@ -45,6 +46,28 @@ class Watchtower
             'access_token' => $token->generate(),
         ]);
         flush_rewrite_rules();
+        set_transient('wht-activation-notice-message', true, 5);
+    }
+
+
+    /**
+     * Admin Notice on Activation.
+     * @since 0.1.0
+     */
+    public function wht_activation_notice()
+    {
+
+        if (get_transient('wht-activation-notice-message')) {
+            ?>
+            <div class="updated notice is-dismissible" style="padding-top:15px;padding-bottom:15px;">
+                <h2>Thank you for using WhatArmy Watchtower!</h2>
+                <h4 style="margin-bottom:0;">Here is you <a
+                            href="<?php echo admin_url('options-general.php?page=watchtower-setting-admin'); ?>">Access
+                        Token</a>.</h4>
+            </div>
+            <?php
+            delete_transient('wht-activation-notice-message');
+        }
     }
 
     /**
