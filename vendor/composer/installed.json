@@ -223,23 +223,23 @@
     },
     {
         "name": "prospress/action-scheduler",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "2.2.5",
+        "version_normalized": "2.2.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Prospress/action-scheduler.git",
-            "reference": "2da1a169a5a80fc2f731b1bdbd7893a57cde6ada"
+            "reference": "fd7c6b76a7af27d6403ffe39b0963dbd8ce50488"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Prospress/action-scheduler/zipball/2da1a169a5a80fc2f731b1bdbd7893a57cde6ada",
-            "reference": "2da1a169a5a80fc2f731b1bdbd7893a57cde6ada",
+            "url": "https://api.github.com/repos/Prospress/action-scheduler/zipball/fd7c6b76a7af27d6403ffe39b0963dbd8ce50488",
+            "reference": "fd7c6b76a7af27d6403ffe39b0963dbd8ce50488",
             "shasum": ""
         },
         "require-dev": {
             "wp-cli/wp-cli": "1.5.1"
         },
-        "time": "2019-06-14T01:27:55+00:00",
+        "time": "2019-04-24T12:45:40+00:00",
         "type": "wordpress-plugin",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
@@ -448,23 +448,23 @@
     },
     {
         "name": "yahnis-elsts/plugin-update-checker",
-        "version": "v4.6",
-        "version_normalized": "4.6.0.0",
+        "version": "v4.7",
+        "version_normalized": "4.7.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/YahnisElsts/plugin-update-checker.git",
-            "reference": "45374e3c02126fbebebf0244c5d5da4c5e0166ac"
+            "reference": "6da68b119277a400fad0ca6ec54f223b10bd8230"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/45374e3c02126fbebebf0244c5d5da4c5e0166ac",
-            "reference": "45374e3c02126fbebebf0244c5d5da4c5e0166ac",
+            "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/6da68b119277a400fad0ca6ec54f223b10bd8230",
+            "reference": "6da68b119277a400fad0ca6ec54f223b10bd8230",
             "shasum": ""
         },
         "require": {
             "php": ">=5.2.0"
         },
-        "time": "2019-04-02T17:56:11+00:00",
+        "time": "2019-07-05T18:39:53+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

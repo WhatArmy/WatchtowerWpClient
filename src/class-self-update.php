@@ -26,6 +26,13 @@ class Self_Update
         );
 
         $myUpdateChecker->setBranch('master');
+        $myUpdateChecker->addResultFilter(function ($info, $response = null) {
+            $info->icons = array(
+                '1x' => WHT_MAIN_URI.'/assets/images/logo1x.png',
+                '2x' => WHT_MAIN_URI.'/assets/images/logo2x.png',
+            );
+            return $info;
+        });
     }
 
 }

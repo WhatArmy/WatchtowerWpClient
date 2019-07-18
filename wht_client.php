@@ -6,7 +6,7 @@ defined('ABSPATH') or die('No script kiddies please!');
  * Plugin URI: https://github.com/WhatArmy/WatchtowerWpClient
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
  * Author: WhatArmy
- * Version: 2.1.5
+ * Version: 2.1.6
  * Author URI: https://whatarmy.com
  **/
 
@@ -14,6 +14,7 @@ defined('ABSPATH') or die('No script kiddies please!');
  * Constants
  */
 define('WHT_MAIN', __FILE__);
+define('WHT_MAIN_URI', plugin_dir_url(__FILE__));
 define('WHT_DB_VERSION', '1.0');
 
 define('WHT_CLIENT_USER_NAME', 'WatchTowerClient');

@@ -27,7 +27,7 @@
     "ext-zip": "*",
     "ext-mysqli": "*",
     "ext-json": "*",
-    "prospress/action-scheduler": "dev-master",
+    "prospress/action-scheduler": "^2.2.1",
     "yahnis-elsts/plugin-update-checker": "^4.6",
     "ext-fileinfo": "*"
   }
