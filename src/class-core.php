@@ -102,7 +102,9 @@ class Core
         if ($path !== false && $path != '' && file_exists($path)) {
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path,
                 \FilesystemIterator::SKIP_DOTS)) as $object) {
-                $bytesTotal += $object->getSize();
+                if (strpos($object->getPath(), WHT_BACKUP_DIR_NAME) == false) {
+                    $bytesTotal += $object->getSize();
+                }
             }
         }
         if ($humanReadable == true) {
