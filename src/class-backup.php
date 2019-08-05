@@ -265,6 +265,8 @@ class Backup
      */
     public function mysqlBackup($callbackHeadquarterUrl)
     {
+        $this->cleanup_old_backups(WHT_BACKUP_DIR);
+        $this->create_backup_dir();
         try {
             $dump = new \MySQLDump(new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME));
             $dump->save(WHT_BACKUP_DIR.'/'.$this->backupName.'.sql.gz');
