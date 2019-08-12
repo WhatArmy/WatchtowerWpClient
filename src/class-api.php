@@ -129,7 +129,6 @@ class Api
         $themes = new Theme;
 
         return $this->make_response([
-            'client_version' => $core->wht_plugin_version(),
             'core'           => $core->get(),
             'plugins'        => $plugins->get(),
             'themes'         => $themes->get(),
@@ -151,7 +150,7 @@ class Api
     public function test_action()
     {
         $core = new Core;
-        return $this->make_response($core->test());
+        return $this->make_response();
     }
 
     /**
@@ -179,7 +178,11 @@ class Api
      */
     private function make_response($data = [], $status_code = 200)
     {
-        $response = new WP_REST_Response($data);
+        $core = new Core;
+        $response = new WP_REST_Response([
+            'version' => $core->test()['version'],
+            'data'    => $data
+        ]);
         $response->set_status($status_code);
 
         return $response;
