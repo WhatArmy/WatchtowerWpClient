@@ -60,8 +60,23 @@ class Api
             $this->resolve_action('run_backup_file_queue_action'));
         register_rest_route($this->route_namespace(), 'backup/mysql/run',
             $this->resolve_action('run_backup_db_action'));
+
+        /**
+         * Utilities
+         */
+        register_rest_route($this->route_namespace(), 'utility/cleanup',
+            $this->resolve_action('run_cleanup_action'));
+
     }
 
+
+    public function run_cleanup_action()
+    {
+        Schedule::clean_queue();
+        Utils::cleanup_old_backups(WHT_BACKUP_DIR, 1);
+
+        return $this->make_response('cleaned');
+    }
 
     /**
      * @return WP_REST_Response
@@ -129,9 +144,9 @@ class Api
         $themes = new Theme;
 
         return $this->make_response([
-            'core'           => $core->get(),
-            'plugins'        => $plugins->get(),
-            'themes'         => $themes->get(),
+            'core'    => $core->get(),
+            'plugins' => $plugins->get(),
+            'themes'  => $themes->get(),
         ]);
     }
 
