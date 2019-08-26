@@ -89,4 +89,15 @@ class Utils
 
         return false;
     }
+
+    public static function cleanup_old_backups($path, $ms = 60 * 60 * 12)
+    {
+        foreach (glob($path.'/*') as $file) {
+            if (is_file($file)) {
+                if (time() - filemtime($file) >=  $ms) {
+                    unlink($file);
+                }
+            }
+        }
+    }
 }

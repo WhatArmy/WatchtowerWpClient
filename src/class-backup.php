@@ -69,9 +69,10 @@ class Backup
         unlink(WHT_BACKUP_DIR.'/'.$job['data_file']); //remove
         if ($failed == 0 && $pending == 0 && $job['last'] == true) {
             $this->backupName = $job['zip'];
-            $this->clean_queue();
+            Schedule::clean_queue();
             $this->call_headquarter($job['callbackHeadquarter']);
         }
+
         $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['zip'].'.zip');
     }
 
@@ -117,26 +118,6 @@ class Backup
                 file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/web.config.stub'));
         }
 
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function clean_queue()
-    {
-        global $wpdb;
-        $tasks = $wpdb->get_results('SELECT ID  FROM '.$wpdb->posts.' WHERE post_type = "scheduled-action" AND post_title = "add_to_zip"');
-
-        foreach ($tasks as $task) {
-            $task_id = $task->ID;
-            $wpdb->delete($wpdb->prefix.'comments',
-                ['comment_author' => 'ActionScheduler', 'comment_post_ID' => $task_id]);
-            $wpdb->delete($wpdb->prefix.'postmeta',
-                ['meta_key' => '_action_manager_schedule', 'post_id' => $task_id]);
-            $wpdb->delete($wpdb->prefix.'posts',
-                ['post_type' => 'scheduled-action', 'post_title' => 'add_to_zip', 'ID' => $task_id]);
-        }
         return $this;
     }
 
@@ -238,7 +219,7 @@ class Backup
                 continue;
             }
             $path = $file->getPathname();
-            if (!Utils::strposa($path, $excludes) && $path != '') {
+            if (!Utils::strposa($path, $excludes) && $path != '' && strpos($path, WHT_BACKUP_DIR_NAME) == false) {
                 file_put_contents($jobFile, $path.PHP_EOL, FILE_APPEND | LOCK_EX);
             }
         }
@@ -265,7 +246,7 @@ class Backup
      */
     public function mysqlBackup($callbackHeadquarterUrl)
     {
-        $this->cleanup_old_backups(WHT_BACKUP_DIR);
+        Utils::cleanup_old_backups(WHT_BACKUP_DIR);
         $this->create_backup_dir();
         try {
             $dump = new \MySQLDump(new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME));
@@ -283,7 +264,7 @@ class Backup
      */
     public function fileBackup($callbackHeadquarterUrl)
     {
-        $this->cleanup_old_backups(WHT_BACKUP_DIR);
+        Utils::cleanup_old_backups(WHT_BACKUP_DIR);
         $this->create_backup_dir();
 
         if (!file_exists(WHT_BACKUP_DIR."/backup.job")) {
@@ -346,14 +327,4 @@ class Backup
         return ceil($sum);
     }
 
-    public function cleanup_old_backups($path)
-    {
-        foreach (glob($path.'/*') as $file) {
-            if (is_file($file)) {
-                if (time() - filemtime($file) >= 60 * 60 * 24 * 2) {
-                    unlink($file);
-                }
-            }
-        }
-    }
 }
