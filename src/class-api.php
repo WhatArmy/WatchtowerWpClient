@@ -67,9 +67,26 @@ class Api
         register_rest_route($this->route_namespace(), 'utility/cleanup',
             $this->resolve_action('run_cleanup_action'));
 
+        register_rest_route($this->route_namespace(), 'utility/upgrade_plugin',
+            $this->resolve_action('run_upgrade_plugin_action'));
+
     }
 
+    /**
+     * @param  WP_REST_Request  $request
+     * @return WP_REST_Response
+     */
+    public function run_upgrade_plugin_action(WP_REST_Request $request)
+    {
+        $plugin = new Plugin();
+        $res = $plugin->doUpdate($request->get_param('toUpdate'));
 
+        return $this->make_response($res);
+    }
+
+    /**
+     * @return WP_REST_Response
+     */
     public function run_cleanup_action()
     {
         Schedule::clean_queue();

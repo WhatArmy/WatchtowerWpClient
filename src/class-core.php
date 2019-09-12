@@ -69,6 +69,7 @@ class Core
             'admin_url'         => admin_url(),
             'content_dir'       => (defined('WP_CONTENT_DIR')) ? WP_CONTENT_DIR : false,
             'pwp_name'          => (defined('PWP_NAME')) ? PWP_NAME : false,
+            'wpe_auth'          => (defined('WPE_APIKEY')) ? md5('wpe_auth_salty_dog|'.WPE_APIKEY) : false,
         ];
     }
 

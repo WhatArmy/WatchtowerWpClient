@@ -20,10 +20,10 @@ class Theme
         $themes_list = array();
         foreach ($themes as $theme_short_name => $theme) {
             array_push($themes_list, array(
-                'name'    => $theme['Name'],
-                'version' => $theme['Version'],
-                'theme'   => $theme_short_name,
-                'updates' => $this->check_updates($theme_short_name, $theme['Version']),
+                'name'     => $theme['Name'],
+                'version'  => $theme['Version'],
+                'theme'    => $theme_short_name,
+                'updates'  => $this->check_updates($theme_short_name, $theme['Version']),
             ));
         }
 

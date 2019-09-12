@@ -13,6 +13,31 @@ namespace WhatArmy\Watchtower;
  */
 class Plugin
 {
+    public $upgrader;
+
+    /**
+     * Plugin constructor.
+     */
+    public function __construct()
+    {
+        if (!function_exists('show_message')) {
+            require_once ABSPATH.'wp-admin/includes/misc.php';
+        }
+        if (!function_exists('request_filesystem_credentials')) {
+            require_once ABSPATH.'wp-admin/includes/file.php';
+        }
+
+        if (!class_exists('\Plugin_Upgrader')) {
+            require_once ABSPATH.'wp-admin/includes/class-wp-upgrader.php';
+        }
+
+        $skin = new Updater_Skin();
+        $this->upgrader = new \Plugin_Upgrader($skin);
+    }
+
+    /**
+     * @return array
+     */
     public function get()
     {
         $plugins = get_plugins();
@@ -21,6 +46,7 @@ class Plugin
             array_push($plugins_list, [
                 'name'      => $plugin['Name'],
                 'slug'      => plugin_basename(plugin_dir_path($plugin_path)),
+                'basename'  => $plugin_path,
                 'version'   => $plugin['Version'],
                 'is_active' => $this->is_active($plugin_path),
                 'updates'   => $this->check_updates($plugin_path),
@@ -62,5 +88,16 @@ class Plugin
                 'required' => false,
             );
         }
+    }
+
+    /**
+     * @param $plugins
+     * @return array|false
+     */
+    public function doUpdate($plugins)
+    {
+        $plugins = explode(',', $plugins);
+        $res = $this->upgrader->bulk_upgrade($plugins);
+        return $res;
     }
 }
