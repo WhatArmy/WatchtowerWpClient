@@ -12,6 +12,7 @@ use mysqli;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileObject;
+use Symfony\Component\Finder\Finder;
 use ZipArchive;
 
 /**
@@ -211,17 +212,30 @@ class Backup
             unlink($jobFile);
         }
 
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(ABSPATH));
-
         $excludes = $this->exclusions($callbackHeadquarterUrl);
-        foreach ($iterator as $file) {
+        $finder = new Finder();
+        $finder->in( ABSPATH );
+        $finder->followLinks(false);
+        $finder->ignoreDotFiles(false);
+        $finder->ignoreVCS(true);
+        $finder->ignoreUnreadableDirs(true);
+        // Skip unreadable files too
+        $files = $finder->filter(
+            function (\SplFileInfo $file) use ($excludes) {
+                $path = $file->getPathname();
+                if (!$file->isReadable() || Utils::strposa($path, $excludes) || strpos($path, WHT_BACKUP_DIR_NAME)) {
+                    return false;
+                }
+            }
+        );
+
+
+        foreach ($files as $file) {
             if ($file->isDir()) {
                 continue;
             }
             $path = $file->getPathname();
-            if (!Utils::strposa($path, $excludes) && $path != '' && strpos($path, WHT_BACKUP_DIR_NAME) == false) {
-                file_put_contents($jobFile, $path.PHP_EOL, FILE_APPEND | LOCK_EX);
-            }
+            file_put_contents($jobFile, $path.PHP_EOL, FILE_APPEND | LOCK_EX);
         }
         return $this;
     }
@@ -267,9 +281,7 @@ class Backup
         Utils::cleanup_old_backups(WHT_BACKUP_DIR);
         $this->create_backup_dir();
 
-        if (!file_exists(WHT_BACKUP_DIR."/backup.job")) {
-            $this->create_job_list($callbackHeadquarterUrl);
-        }
+        $this->create_job_list($callbackHeadquarterUrl);
 
         $jobTotal = $this->job_count();
         $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job", "r");

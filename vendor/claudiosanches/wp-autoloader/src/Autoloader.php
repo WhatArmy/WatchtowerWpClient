@@ -37,7 +37,7 @@ class Autoloader
      * @param string $baseDir A base directory for class files in the
      * namespace.
      */
-    public function addNamespace($prefix, $baseDir)
+    public function addNamespace(string $prefix, string $baseDir)
     {
         $prefix  = trim($prefix, '\\') . '\\';
         $baseDir = rtrim($baseDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
@@ -56,7 +56,7 @@ class Autoloader
      * @return string        The mapped file name on success, or emtpy string on
      * failure.
      */
-    public function loadClass($class)
+    public function loadClass($class): string
     {
         $prefix = $class;
 
@@ -111,7 +111,7 @@ class Autoloader
      * @param  string $path Relative class path.
      * @return string
      */
-    protected function normalizePath($path)
+    protected function normalizePath(string $path): string
     {
         return str_replace('_', '-', strtolower($path));
     }
@@ -122,7 +122,7 @@ class Autoloader
      * @param  string $relativeClass Relative class.
      * @return string
      */
-    protected function getRelativeFile($relativeClass)
+    protected function getRelativeFile(string $relativeClass): string
     {
         // Class file names should be based on the class name with
         // "class-" prepended and the underscores in the class name
@@ -144,7 +144,7 @@ class Autoloader
      * @param  string $file The file to require.
      * @return bool         True if the file exists, false if not.
      */
-    protected function requireFile($file)
+    protected function requireFile(string $file): bool
     {
         if (file_exists($file)) {
             require $file;

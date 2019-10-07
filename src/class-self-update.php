@@ -19,7 +19,7 @@ class Self_Update
      */
     public function __construct()
     {
-        $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
+        $myUpdateChecker = \Puc_v4p8_Factory::buildUpdateChecker(
             WHT_REPO_URL,
             WHT_MAIN,
             'whatarmy-watchtower-plugin'

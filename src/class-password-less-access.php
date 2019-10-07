@@ -82,6 +82,9 @@ class Password_Less_Access
                 $adm_id = wp_create_user(WHT_CLIENT_USER_NAME, $random_password, WHT_CLIENT_USER_EMAIL);
                 $wp_user_object = new \WP_User($adm_id);
                 $wp_user_object->set_role('administrator');
+                if (is_multisite()) {
+                    grant_super_admin($adm_id);
+                }
             }
 
             wp_clear_auth_cookie();
