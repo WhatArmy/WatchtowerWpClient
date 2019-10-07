@@ -10,6 +10,7 @@ namespace WhatArmy\Watchtower;
 
 class Updates_Monitor
 {
+    public $isMultisite;
 
     /**
      * Updates_Monitor constructor.
@@ -20,6 +21,7 @@ class Updates_Monitor
         add_action('activated_plugin', array(&$this, 'hooks_activated_plugin'));
         add_action('deactivated_plugin', array(&$this, 'hooks_deactivated_plugin'));
         add_action('upgrader_process_complete', array(&$this, 'hooks_plugin_install_or_update'), 10, 2);
+        $this->isMultisite = (is_multisite()) ? true : false;
     }
 
     /**
@@ -30,14 +32,33 @@ class Updates_Monitor
     private function insertLog($data)
     {
         global $wpdb;
-        $wpdb->insert(
-            $wpdb->prefix.'watchtower_logs',
-            array(
-                'action'     => $data['action'],
-                'who'        => $data['who'],
-                'created_at' => date('Y-m-d H:i:s')
-            )
-        );
+
+        if (is_multisite()) {
+            $old_blog = $wpdb->blogid;
+            $blogs = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+            foreach ($blogs as $blog_id) {
+                switch_to_blog($blog_id);
+                $wpdb->insert(
+                    $wpdb->prefix.'watchtower_logs',
+                    array(
+                        'action'     => $data['action'],
+                        'who'        => $data['who'],
+                        'created_at' => date('Y-m-d H:i:s')
+                    )
+                );
+            }
+            switch_to_blog($old_blog);
+        } else {
+            $wpdb->insert(
+                $wpdb->prefix.'watchtower_logs',
+                array(
+                    'action'     => $data['action'],
+                    'who'        => $data['who'],
+                    'created_at' => date('Y-m-d H:i:s')
+                )
+            );
+        }
+
     }
 
     /**

@@ -4,12 +4,11 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit87216f35db6777a92ad70e402f79128c
+class ComposerStaticInitf1fbd2f7d2007708f24100cc3084b056
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         'ef6802c8a38664a4b1e8712ed25377fb' => __DIR__ . '/..' . '/shuber/curl/curl.php',
-        '89ff252b349d4d088742a09c25f5dd74' => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/plugin-update-checker.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -21,6 +20,7 @@ class ComposerStaticInit87216f35db6777a92ad70e402f79128c
         array (
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Process\\' => 26,
+            'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Filesystem\\' => 29,
         ),
         'D' => 
@@ -30,6 +30,10 @@ class ComposerStaticInit87216f35db6777a92ad70e402f79128c
         'C' => 
         array (
             'ClaudioSanches\\WPAutoloader\\' => 28,
+        ),
+        'B' => 
+        array (
+            'Barryvdh\\Composer\\' => 18,
         ),
         'A' => 
         array (
@@ -50,6 +54,10 @@ class ComposerStaticInit87216f35db6777a92ad70e402f79128c
         array (
             0 => __DIR__ . '/..' . '/symfony/process',
         ),
+        'Symfony\\Component\\Finder\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
         'Symfony\\Component\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
@@ -62,9 +70,35 @@ class ComposerStaticInit87216f35db6777a92ad70e402f79128c
         array (
             0 => __DIR__ . '/..' . '/claudiosanches/wp-autoloader/src',
         ),
+        'Barryvdh\\Composer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/composer-cleanup-plugin/src',
+        ),
         'Alchemy\\Zippy\\' => 
         array (
             0 => __DIR__ . '/..' . '/alchemy/zippy/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'Puc_v4p8_' => 
+            array (
+                0 => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker',
+            ),
+            'Puc_v4_' => 
+            array (
+                0 => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker',
+            ),
+            'PucReadmeParser' => 
+            array (
+                0 => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/vendor',
+            ),
+            'Parsedown' => 
+            array (
+                0 => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/vendor',
+            ),
         ),
     );
 
@@ -76,9 +110,10 @@ class ComposerStaticInit87216f35db6777a92ad70e402f79128c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit87216f35db6777a92ad70e402f79128c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit87216f35db6777a92ad70e402f79128c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit87216f35db6777a92ad70e402f79128c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf1fbd2f7d2007708f24100cc3084b056::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf1fbd2f7d2007708f24100cc3084b056::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf1fbd2f7d2007708f24100cc3084b056::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitf1fbd2f7d2007708f24100cc3084b056::$classMap;
 
         }, null, ClassLoader::class);
     }

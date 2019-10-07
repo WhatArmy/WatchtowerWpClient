@@ -30,9 +30,54 @@ class Watchtower
         add_action('admin_menu', [$this, 'add_plugin_page']);
         add_action('admin_init', [$this, 'page_init']);
         add_action('plugins_loaded', [$this, 'check_db']);
-        register_activation_hook(WHT_MAIN, [$this, 'install_hook']);
+
+
+        if (function_exists('is_multisite') && is_multisite()) {
+            register_activation_hook(WHT_MAIN, [$this, 'install_hook_multisite']);
+            add_action('init', [$this, 'new_blog']);
+            add_action('wp_delete_site', [$this, 'delete_blog']);
+        } else {
+            register_activation_hook(WHT_MAIN, [$this, 'install_hook']);
+        }
+
         register_activation_hook(WHT_MAIN, [$this, 'check_db']);
         add_action('admin_notices', [$this, 'wht_activation_notice']);
+    }
+
+    public function delete_blog($blog)
+    {
+        global $wpdb;
+        if (is_int($blog)) {
+            $blog_id = $blog;
+        } else {
+            $blog_id = $blog->id;
+        }
+        switch_to_blog($blog_id);
+        $table_name = $wpdb->prefix.'watchtower_logs';
+        $wpdb->query("DROP TABLE IF EXISTS ".$table_name);
+        restore_current_blog();
+
+    }
+
+    public function new_blog()
+    {
+        if (!get_option('watchtower')) {
+            $this->install_hook();
+        }
+    }
+
+    public function install_hook_multisite()
+    {
+        global $wpdb;
+
+        $old_blog = $wpdb->blogid;
+        $blogs = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+        foreach ($blogs as $blog_id) {
+            switch_to_blog($blog_id);
+            $this->install_hook();
+        }
+        switch_to_blog($old_blog);
+        return;
     }
 
     /**
@@ -40,7 +85,6 @@ class Watchtower
      */
     public function install_hook()
     {
-        wp_clear_scheduled_hook('WHT_cron_hook');
         $token = new Token;
         add_option('watchtower', [
             'access_token' => $token->generate(),
@@ -56,7 +100,6 @@ class Watchtower
      */
     public function wht_activation_notice()
     {
-
         if (get_transient('wht-activation-notice-message')) {
             ?>
             <div class="updated notice is-dismissible" style="padding-top:15px;padding-bottom:15px;">
