@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * MySQL database dump.
  *
@@ -11,14 +9,14 @@ declare(strict_types=1);
  */
 class MySQLDump
 {
-	public const NONE = 0;
-	public const DROP = 1;
-	public const CREATE = 2;
-	public const DATA = 4;
-	public const TRIGGERS = 8;
-	public const ALL = 15; // DROP | CREATE | DATA | TRIGGERS
+	const MAX_SQL_SIZE = 1e6;
 
-	private const MAX_SQL_SIZE = 1e6;
+	const NONE = 0;
+	const DROP = 1;
+	const CREATE = 2;
+	const DATA = 4;
+	const TRIGGERS = 8;
+	const ALL = 15; // DROP | CREATE | DATA | TRIGGERS
 
 	/** @var array */
 	public $tables = [
@@ -31,8 +29,9 @@ class MySQLDump
 
 	/**
 	 * Connects to database.
+	 * @param  mysqli connection
 	 */
-	public function __construct(mysqli $connection, string $charset = 'utf8')
+	public function __construct(mysqli $connection, $charset = 'utf8')
 	{
 		$this->connection = $connection;
 
@@ -47,8 +46,10 @@ class MySQLDump
 
 	/**
 	 * Saves dump to the file.
+	 * @param  string filename
+	 * @return void
 	 */
-	public function save(string $file): void
+	public function save($file)
 	{
 		$handle = strcasecmp(substr($file, -3), '.gz') ? fopen($file, 'wb') : gzopen($file, 'wb');
 		if (!$handle) {
@@ -61,8 +62,9 @@ class MySQLDump
 	/**
 	 * Writes dump to logical file.
 	 * @param  resource
+	 * @return void
 	 */
-	public function write($handle = null): void
+	public function write($handle = null)
 	{
 		if ($handle === null) {
 			$handle = fopen('php://output', 'wb');
@@ -113,14 +115,10 @@ class MySQLDump
 	/**
 	 * Dumps table to logical file.
 	 * @param  resource
+	 * @return void
 	 */
-	public function dumpTable($handle, $table): void
+	public function dumpTable($handle, $table)
 	{
-		$mode = isset($this->tables[$table]) ? $this->tables[$table] : $this->tables['*'];
-		if ($mode === self::NONE) {
-			return;
-		}
-
 		$delTable = $this->delimite($table);
 		$res = $this->connection->query("SHOW CREATE TABLE $delTable");
 		$row = $res->fetch_assoc();
@@ -128,6 +126,7 @@ class MySQLDump
 
 		fwrite($handle, "-- --------------------------------------------------------\n\n");
 
+		$mode = isset($this->tables[$table]) ? $this->tables[$table] : $this->tables['*'];
 		$view = isset($row['Create View']);
 
 		if ($mode & self::DROP) {
@@ -207,7 +206,7 @@ class MySQLDump
 	}
 
 
-	private function delimite(string $s): string
+	private function delimite($s)
 	{
 		return '`' . str_replace('`', '``', $s) . '`';
 	}

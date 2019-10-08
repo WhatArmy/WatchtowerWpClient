@@ -153,23 +153,23 @@
     },
     {
         "name": "dg/mysql-dump",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "v1.5.0",
+        "version_normalized": "1.5.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/dg/MySQL-dump.git",
-            "reference": "9c7a0a32e512d8cde6a26de0ebb8a96739c5a028"
+            "reference": "6c9cf07092bcc4a140bef01c64d883ebfccfccfa"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dg/MySQL-dump/zipball/9c7a0a32e512d8cde6a26de0ebb8a96739c5a028",
-            "reference": "9c7a0a32e512d8cde6a26de0ebb8a96739c5a028",
+            "url": "https://api.github.com/repos/dg/MySQL-dump/zipball/6c9cf07092bcc4a140bef01c64d883ebfccfccfa",
+            "reference": "6c9cf07092bcc4a140bef01c64d883ebfccfccfa",
             "shasum": ""
         },
         "require": {
-            "php": ">=7.1"
+            "php": ">=5.6"
         },
-        "time": "2019-09-29T09:09:55+00:00",
+        "time": "2018-10-31T00:31:09+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -329,8 +329,8 @@
     },
     {
         "name": "symfony/filesystem",
-        "version": "v3.4.31",
-        "version_normalized": "3.4.31.0",
+        "version": "v3.4.32",
+        "version_normalized": "3.4.32.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/filesystem.git",
@@ -381,27 +381,27 @@
     },
     {
         "name": "symfony/finder",
-        "version": "v4.3.4",
-        "version_normalized": "4.3.4.0",
+        "version": "v3.4.32",
+        "version_normalized": "3.4.32.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/finder.git",
-            "reference": "86c1c929f0a4b24812e1eb109262fc3372c8e9f2"
+            "reference": "2b6a666d6ff7fb65d10b97d817c8e7930944afb9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/finder/zipball/86c1c929f0a4b24812e1eb109262fc3372c8e9f2",
-            "reference": "86c1c929f0a4b24812e1eb109262fc3372c8e9f2",
+            "url": "https://api.github.com/repos/symfony/finder/zipball/2b6a666d6ff7fb65d10b97d817c8e7930944afb9",
+            "reference": "2b6a666d6ff7fb65d10b97d817c8e7930944afb9",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1.3"
+            "php": "^5.5.9|>=7.0.8"
         },
-        "time": "2019-08-14T12:26:46+00:00",
+        "time": "2019-09-01T21:32:23+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "4.3-dev"
+                "dev-master": "3.4-dev"
             }
         },
         "installation-source": "dist",
@@ -492,23 +492,23 @@
     },
     {
         "name": "symfony/process",
-        "version": "v3.4.31",
-        "version_normalized": "3.4.31.0",
+        "version": "v3.4.32",
+        "version_normalized": "3.4.32.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/process.git",
-            "reference": "d822cb654000a95b7855362c0d5b127f6a6d8baa"
+            "reference": "344dc588b163ff58274f1769b90b75237f32ed16"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/process/zipball/d822cb654000a95b7855362c0d5b127f6a6d8baa",
-            "reference": "d822cb654000a95b7855362c0d5b127f6a6d8baa",
+            "url": "https://api.github.com/repos/symfony/process/zipball/344dc588b163ff58274f1769b90b75237f32ed16",
+            "reference": "344dc588b163ff58274f1769b90b75237f32ed16",
             "shasum": ""
         },
         "require": {
             "php": "^5.5.9|>=7.0.8"
         },
-        "time": "2019-08-26T07:52:58+00:00",
+        "time": "2019-09-25T14:09:38+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

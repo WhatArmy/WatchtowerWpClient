@@ -21,7 +21,7 @@
   "require": {
     "claudiosanches/wp-autoloader": "^1.0",
     "php": ">=5.6",
-    "dg/mysql-dump": "dev-master",
+    "dg/mysql-dump": "1.5.0",
     "shuber/curl": "dev-master",
     "alchemy/zippy": "^0.3",
     "ext-zip": "*",
@@ -30,7 +30,7 @@
     "prospress/action-scheduler": "^2.2.1",
     "yahnis-elsts/plugin-update-checker": "^4.6",
     "ext-fileinfo": "*",
-    "symfony/finder": "^4.3",
+    "symfony/finder": "3.x",
     "barryvdh/composer-cleanup-plugin": "0.2.x"
   }
 }

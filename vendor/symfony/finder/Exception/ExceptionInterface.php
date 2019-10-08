@@ -12,8 +12,14 @@
 namespace Symfony\Component\Finder\Exception;
 
 /**
- * @author Andreas Erhard <andreas.erhard@i-med.ac.at>
+ * @author Jean-François Simon <contact@jfsimon.fr>
+ *
+ * @deprecated since 3.3, to be removed in 4.0.
  */
-class DirectoryNotFoundException extends \InvalidArgumentException
+interface ExceptionInterface
 {
+    /**
+     * @return \Symfony\Component\Finder\Adapter\AdapterInterface
+     */
+    public function getAdapter();
 }
