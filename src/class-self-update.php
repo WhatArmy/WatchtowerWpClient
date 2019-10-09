@@ -25,7 +25,7 @@ class Self_Update
             'whatarmy-watchtower-plugin'
         );
 
-        $myUpdateChecker->setBranch('master');
+        $myUpdateChecker->setBranch('feature/test_changelogs');
         $myUpdateChecker->addResultFilter(function ($info, $response = null) {
             $info->icons = array(
                 '1x' => WHT_MAIN_URI.'/assets/images/logo1x.png',
