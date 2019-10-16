@@ -70,6 +70,20 @@ class Api
         register_rest_route($this->route_namespace(), 'utility/upgrade_plugin',
             $this->resolve_action('run_upgrade_plugin_action'));
 
+        register_rest_route($this->route_namespace(), 'utility/upgrade_core',
+            $this->resolve_action('run_upgrade_core_action'));
+
+    }
+
+    /**
+     * @return WP_REST_Response
+     */
+    public function run_upgrade_core_action()
+    {
+        $core = new Core();
+        $res = $core->upgrade();
+
+        return $this->make_response($res);
     }
 
     /**

@@ -23,6 +23,9 @@ class Core
         $this->plugin_data = $this->plugin_data();
     }
 
+    /**
+     * @return array
+     */
     private function plugin_data()
     {
         $main_file = explode('/', plugin_basename(WHT_MAIN))[1];
@@ -30,11 +33,17 @@ class Core
         return get_plugin_data(plugin_dir_path(WHT_MAIN).$main_file);
     }
 
+    /**
+     * @return mixed
+     */
     public function wht_plugin_version()
     {
         return $this->plugin_data['Version'];
     }
 
+    /**
+     * @return array
+     */
     public function test()
     {
         return [
@@ -42,6 +51,9 @@ class Core
         ];
     }
 
+    /**
+     * @return array
+     */
     public function get()
     {
         return [
@@ -73,6 +85,9 @@ class Core
         ];
     }
 
+    /**
+     * @return array
+     */
     private function check_updates()
     {
         global $wp_version;
@@ -96,6 +111,11 @@ class Core
         }
     }
 
+    /**
+     * @param  string  $path
+     * @param  bool  $humanReadable
+     * @return int|string
+     */
     public function installation_file_size($path = ABSPATH, $humanReadable = true)
     {
         $bytesTotal = 0;
@@ -114,6 +134,9 @@ class Core
         return $bytesTotal;
     }
 
+    /**
+     * @return mixed
+     */
     public function external_ip()
     {
         $curl = new \Curl();
@@ -124,6 +147,9 @@ class Core
         return $ip;
     }
 
+    /**
+     * @return mixed
+     */
     public function db_size()
     {
         global $wpdb;
@@ -138,6 +164,9 @@ class Core
         return $query->MB;
     }
 
+    /**
+     * @return array
+     */
     public function admins_list()
     {
         $admins_list = get_users('role=administrator');
@@ -150,5 +179,42 @@ class Core
         }
 
         return $admins;
+    }
+
+
+    public function upgrade()
+    {
+        if (!function_exists('show_message')) {
+            require_once ABSPATH.'wp-admin/includes/misc.php';
+        }
+        if (!function_exists('request_filesystem_credentials')) {
+            require_once ABSPATH.'wp-admin/includes/file.php';
+        }
+        if (!function_exists('find_core_update')) {
+            require_once ABSPATH.'wp-admin/includes/update.php';
+        }
+        if (!class_exists('WP_Upgrader')) {
+            require_once ABSPATH.'wp-admin/includes/class-wp-upgrader.php';
+        }
+        if (!class_exists('Core_Upgrader')) {
+            require_once ABSPATH.'wp-admin/includes/class-core-upgrader.php';
+        }
+        if (!class_exists('Automatic_Upgrader_Skin')) {
+            include_once ABSPATH.'wp-admin/includes/class-automatic-upgrader-skin.php';
+        }
+
+        $core = get_site_transient("update_core");
+        $upgrader = new \Core_Upgrader(new Updater_Skin());
+        $upgrader->init();
+        $res = $upgrader->upgrade($core->updates[0]);
+        if (is_wp_error($res)) {
+            return array(
+                'error'   => 1,
+                'message' => 'WordPress core upgrade failed.'
+            );
+        } else {
+            return 'success';
+        }
+
     }
 }
