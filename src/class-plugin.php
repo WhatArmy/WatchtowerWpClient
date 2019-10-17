@@ -31,8 +31,7 @@ class Plugin
             require_once ABSPATH.'wp-admin/includes/class-wp-upgrader.php';
         }
 
-        $skin = new Updater_Skin();
-        $this->upgrader = new \Plugin_Upgrader($skin);
+        $this->upgrader = new \Plugin_Upgrader(new Updater_Skin());
     }
 
     /**
