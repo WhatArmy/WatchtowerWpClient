@@ -260,7 +260,14 @@ class Watchtower
      */
     public function access_token_info()
     {
-        print '<h1 class="centered">Access Token</h1><span class="watchtower_token_area"><span class="watchtower_token_field clip" data-clipboard-text="'.get_option('watchtower')['access_token'].'">'.get_option('watchtower')['access_token'].'<span id="wht-copied">Copied!</span></span></span>';
+        print '<h1 class="centered">Access Token</h1>
+<span class="watchtower_token_area">
+<span class="watchtower_token_field clip" data-clipboard-text="'.get_option('watchtower')['access_token'].'">
+'.get_option('watchtower')['access_token'].'
+<span id="wht-copied">Copied!</span>
+<span id="wht-copy-info">Click to Copy</span>
+</span>
+</span>';
     }
 
     /**
