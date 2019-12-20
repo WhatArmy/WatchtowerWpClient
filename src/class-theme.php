@@ -13,6 +13,27 @@ namespace WhatArmy\Watchtower;
  */
 class Theme
 {
+    public $upgrader;
+
+    /**
+     * Plugin constructor.
+     */
+    public function __construct()
+    {
+        if (!function_exists('show_message')) {
+            require_once ABSPATH.'wp-admin/includes/misc.php';
+        }
+        if (!function_exists('request_filesystem_credentials')) {
+            require_once ABSPATH.'wp-admin/includes/file.php';
+        }
+
+        if (!class_exists('\Theme_Upgrader')) {
+            require_once ABSPATH.'wp-admin/includes/class-wp-upgrader.php';
+        }
+
+        $this->upgrader = new \Theme_Upgrader(new Updater_Skin());
+    }
+
     public function get()
     {
         do_action("wp_update_themes");
@@ -20,10 +41,10 @@ class Theme
         $themes_list = array();
         foreach ($themes as $theme_short_name => $theme) {
             array_push($themes_list, array(
-                'name'     => $theme['Name'],
-                'version'  => $theme['Version'],
-                'theme'    => $theme_short_name,
-                'updates'  => $this->check_updates($theme_short_name, $theme['Version']),
+                'name'    => $theme['Name'],
+                'version' => $theme['Version'],
+                'theme'   => $theme_short_name,
+                'updates' => $this->check_updates($theme_short_name, $theme['Version']),
             ));
         }
 
@@ -61,5 +82,15 @@ class Theme
                 'required' => false,
             );
         }
+    }
+
+    /**
+     * @param $themes
+     * @return array|false
+     */
+    public function doUpdate($themes)
+    {
+        $themes = explode(',', $themes);
+        return $this->upgrader->bulk_upgrade($themes);
     }
 }
