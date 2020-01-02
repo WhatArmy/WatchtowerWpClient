@@ -96,7 +96,6 @@ class Plugin
     public function doUpdate($plugins)
     {
         $plugins = explode(',', $plugins);
-        $res = $this->upgrader->bulk_upgrade($plugins);
-        return $res;
+        return $this->upgrader->bulk_upgrade($plugins);
     }
 }
