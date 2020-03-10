@@ -25,7 +25,7 @@ class Self_Update
             'whatarmy-watchtower-plugin'
         );
 
-        $use_beta = (get_option('watchtower')['use_beta'] == 1) ? "develop" : "master";
+        $use_beta = (get_option('watchtower')['use_beta'] == true) ? "develop" : "master";
 
         $myUpdateChecker->setBranch($use_beta);
         $myUpdateChecker->addResultFilter(function ($info, $response = null) {
