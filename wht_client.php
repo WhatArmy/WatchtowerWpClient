@@ -6,7 +6,7 @@ defined('ABSPATH') or die('No script kiddies please!');
  * Plugin URI: https://github.com/WhatArmy/WatchtowerWpClient
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
  * Author: WhatArmy
- * Version: 2.4.3
+ * Version: 3.0.1
  * Author URI: https://whatarmy.com
  **/
 
@@ -24,7 +24,7 @@ define('WHT_CLIENT_USER_EMAIL', 'wpdev@whatarmy.com');
 
 define('WHT_BACKUP_DIR_NAME', 'watchtower_backups');
 define('WHT_BACKUP_EXCLUSIONS_ENDPOINT', '/backupExclusions');
-define('WHT_BACKUP_DIR', wp_upload_dir()['basedir'].'/'.WHT_BACKUP_DIR_NAME);
+define('WHT_BACKUP_DIR', wp_upload_dir()['basedir'] . '/' . WHT_BACKUP_DIR_NAME);
 define('WHT_BACKUP_FILES_PER_QUEUE', 400);
 
 define('WHT_REPO_URL', 'https://github.com/WhatArmy/WatchtowerWpClient');
@@ -32,14 +32,14 @@ define('WHT_REPO_URL', 'https://github.com/WhatArmy/WatchtowerWpClient');
 /**
  * Run App
  */
-require_once(plugin_dir_path(WHT_MAIN).'/vendor/prospress/action-scheduler/action-scheduler.php');
-require __DIR__.'/vendor/autoload.php';
+require_once(plugin_dir_path(WHT_MAIN) . '/vendor/woocommerce/action-scheduler/action-scheduler.php');
+require __DIR__ . '/vendor/autoload.php';
 
 use ClaudioSanches\WPAutoloader\Autoloader;
 use WhatArmy\Watchtower\Watchtower;
 
 $autoloader = new Autoloader();
-$autoloader->addNamespace('WhatArmy\Watchtower', __DIR__.'/src');
+$autoloader->addNamespace('WhatArmy\Watchtower', __DIR__ . '/src');
 $autoloader->register();
 
 new Watchtower();

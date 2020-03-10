@@ -28,7 +28,7 @@ class Backup
      */
     public function __construct()
     {
-        $this->backupName = date('Y_m_d__H_i_s')."_".Utils::random_string();
+        $this->backupName = date('Y_m_d__H_i_s') . "_" . Utils::random_string();
         add_filter('action_scheduler_queue_runner_batch_size', [$this, 'batch_size']);
         add_filter('action_scheduler_queue_runner_concurrent_batches', [$this, 'concurrent_batches']);
         add_action('add_to_zip', [$this, 'add_to_zip']);
@@ -49,7 +49,7 @@ class Backup
         if (defined('WPE_ISP')) {
             ini_set('memory_limit', '512M');
         }
-        $archive_location = WHT_BACKUP_DIR.'/'.$job['zip'].'.zip';
+        $archive_location = WHT_BACKUP_DIR . '/' . $job['zip'] . '.zip';
         $zippy = new ZipArchive();
         if (!file_exists($archive_location)) {
             $zippy->open($archive_location, ZipArchive::CREATE);
@@ -57,24 +57,24 @@ class Backup
             $zippy->open($archive_location);
         }
 
-        $fileList = json_decode(file_get_contents(WHT_BACKUP_DIR.'/'.$job['data_file']));
+        $fileList = json_decode(file_get_contents(WHT_BACKUP_DIR . '/' . $job['data_file']));
 
         foreach ($fileList as $file) {
-            $zippy->addFile(ABSPATH.$file, $file);
+            $zippy->addFile(ABSPATH . $file, $file);
         }
         $zippy->close();
 
 
-        $failed = $this->queue_status('failed');
-        $pending = $this->queue_status('pending');
-        unlink(WHT_BACKUP_DIR.'/'.$job['data_file']); //remove
+        $failed = $this->queue_status('failed', $job['zip']);
+        $pending = $this->queue_status('pending', $job['zip']);
+        unlink(WHT_BACKUP_DIR . '/' . $job['data_file']); //remove
         if ($failed == 0 && $pending == 0 && $job['last'] == true) {
             $this->backupName = $job['zip'];
-            Schedule::clean_queue();
+            Schedule::clean_queue($job['zip']);
             $this->call_headquarter($job['callbackHeadquarter']);
         }
 
-        $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['zip'].'.zip');
+        $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['zip'] . '.zip');
     }
 
     /**
@@ -104,19 +104,19 @@ class Backup
             mkdir(WHT_BACKUP_DIR, 0777, true);
         }
 
-        if (!file_exists(WHT_BACKUP_DIR.'/index.html')) {
-            @file_put_contents(WHT_BACKUP_DIR.'/index.html',
-                file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/index.html.stub'));
+        if (!file_exists(WHT_BACKUP_DIR . '/index.html')) {
+            @file_put_contents(WHT_BACKUP_DIR . '/index.html',
+                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/index.html.stub'));
         }
 
-        if (!file_exists(WHT_BACKUP_DIR.'/.htaccess')) {
-            @file_put_contents(WHT_BACKUP_DIR.'/.htaccess',
-                file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/htaccess.stub'));
+        if (!file_exists(WHT_BACKUP_DIR . '/.htaccess')) {
+            @file_put_contents(WHT_BACKUP_DIR . '/.htaccess',
+                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/htaccess.stub'));
         }
 
-        if (!file_exists(WHT_BACKUP_DIR.'/web.config')) {
-            @file_put_contents(WHT_BACKUP_DIR.'/web.config',
-                file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/web.config.stub'));
+        if (!file_exists(WHT_BACKUP_DIR . '/web.config')) {
+            @file_put_contents(WHT_BACKUP_DIR . '/web.config',
+                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/web.config.stub'));
         }
 
         return $this;
@@ -124,12 +124,13 @@ class Backup
 
     /**
      * @param $status
+     * @param null $group
      * @return int
      */
-    public function queue_status($status)
+    public function queue_status($status, $group = null)
     {
         global $wpdb;
-        $results = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}posts WHERE post_type = 'scheduled-action' AND post_title ='add_to_zip' AND post_status = '".$status."'",
+        $results = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}posts WHERE post_type = 'scheduled-action' AND post_title ='add_to_zip' AND post_status = '" . $status . "'",
             OBJECT);
 
         return count($results);
@@ -145,14 +146,14 @@ class Backup
 
     /**
      * @param $callbackHeadquarterUrl
-     * @param  string  $file_extension
+     * @param string $file_extension
      */
     public function call_headquarter($callbackHeadquarterUrl, $file_extension = 'zip')
     {
         $headquarter = new Headquarter($callbackHeadquarterUrl);
         $headquarter->call('/backup', [
             'access_token' => get_option('watchtower')['access_token'],
-            'backup_name'  => join('.', [$this->backupName, $file_extension])
+            'backup_name' => join('.', [$this->backupName, $file_extension])
         ]);
     }
 
@@ -165,8 +166,8 @@ class Backup
         $headquarter = new Headquarter($callbackHeadquarterUrl);
         $headquarter->call('/backup_status', [
             'access_token' => get_option('watchtower')['access_token'],
-            'status'       => $status,
-            'filename'     => $filename,
+            'status' => $status,
+            'filename' => $filename,
         ]);
     }
 
@@ -178,20 +179,20 @@ class Backup
     {
         $arrContextOptions = array(
             "ssl" => array(
-                "verify_peer"      => false,
+                "verify_peer" => false,
                 "verify_peer_name" => false,
             ),
         );
-        $data = file_get_contents($callbackHeadquarterUrl.WHT_BACKUP_EXCLUSIONS_ENDPOINT, false,
+        $data = file_get_contents($callbackHeadquarterUrl . WHT_BACKUP_EXCLUSIONS_ENDPOINT, false,
             stream_context_create($arrContextOptions));
         $ret = array();
 
         if (Utils::is_json($data)) {
             foreach (json_decode($data) as $d) {
                 if ($d->isContentDir == true) {
-                    $p = WP_CONTENT_DIR.'/'.$d->path;
+                    $p = WP_CONTENT_DIR . '/' . $d->path;
                 } else {
-                    $p = ABSPATH.$d->path;
+                    $p = ABSPATH . $d->path;
                 }
                 array_push($ret, $p);
             }
@@ -206,7 +207,7 @@ class Backup
      */
     private function create_job_list($callbackHeadquarterUrl)
     {
-        $jobFile = WHT_BACKUP_DIR.'/backup.job';
+        $jobFile = WHT_BACKUP_DIR . '/backup.job';
 
         if (file_exists($jobFile)) {
             unlink($jobFile);
@@ -214,7 +215,7 @@ class Backup
 
         $excludes = $this->exclusions($callbackHeadquarterUrl);
         $finder = new Finder();
-        $finder->in( ABSPATH );
+        $finder->in(ABSPATH);
         $finder->followLinks(false);
         $finder->ignoreDotFiles(false);
         $finder->ignoreVCS(true);
@@ -235,7 +236,7 @@ class Backup
                 continue;
             }
             $path = $file->getPathname();
-            file_put_contents($jobFile, $path.PHP_EOL, FILE_APPEND | LOCK_EX);
+            file_put_contents($jobFile, $path . PHP_EOL, FILE_APPEND | LOCK_EX);
         }
         return $this;
     }
@@ -247,8 +248,8 @@ class Backup
      */
     private function create_job_part_file($name, $data)
     {
-        if (!file_exists(WHT_BACKUP_DIR."/".$name)) {
-            file_put_contents(WHT_BACKUP_DIR.'/'.$name, json_encode($data));
+        if (!file_exists(WHT_BACKUP_DIR . "/" . $name)) {
+            file_put_contents(WHT_BACKUP_DIR . '/' . $name, json_encode($data));
         }
 
         return $name;
@@ -264,7 +265,7 @@ class Backup
         $this->create_backup_dir();
         try {
             $dump = new \MySQLDump(new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME));
-            $dump->save(WHT_BACKUP_DIR.'/'.$this->backupName.'.sql.gz');
+            $dump->save(WHT_BACKUP_DIR . '/' . $this->backupName . '.sql.gz');
             $this->call_headquarter($callbackHeadquarterUrl, 'sql.gz');
         } catch (\Exception $e) {
             $this->call_headquarter_error($callbackHeadquarterUrl);
@@ -284,7 +285,7 @@ class Backup
         $this->create_job_list($callbackHeadquarterUrl);
 
         $jobTotal = $this->job_count();
-        $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job", "r");
+        $file = new SplFileObject(WHT_BACKUP_DIR . "/backup.job", "r");
         $ct = 0;
         $arr = [];
         $par = 1;
@@ -298,13 +299,13 @@ class Backup
             if ($ct == WHT_BACKUP_FILES_PER_QUEUE) {
                 as_schedule_single_action(time(), 'add_to_zip', [
                     'files' => [
-                        "data_file"           => $this->create_job_part_file('part_'.Utils::random_string(6), $arr),
-                        "zip"                 => $this->backupName,
-                        "last"                => false,
+                        "data_file" => $this->create_job_part_file('part_' . Utils::random_string(6), $arr),
+                        "zip" => $this->backupName,
+                        "last" => false,
                         "callbackHeadquarter" => $callbackHeadquarterUrl,
-                        "queue"               => $par."/".$jobTotal,
+                        "queue" => $par . "/" . $jobTotal,
                     ]
-                ]);
+                ], $this->backupName);
                 $par++;
                 $arr = [];
                 $ct = 0;
@@ -312,13 +313,13 @@ class Backup
             if ($file->eof()) {
                 as_schedule_single_action(time(), 'add_to_zip', [
                     'files' => [
-                        "data_file"           => $this->create_job_part_file('part_'.Utils::random_string(6), $arr),
-                        "zip"                 => $this->backupName,
-                        "last"                => true,
+                        "data_file" => $this->create_job_part_file('part_' . Utils::random_string(6), $arr),
+                        "zip" => $this->backupName,
+                        "last" => true,
                         "callbackHeadquarter" => $callbackHeadquarterUrl,
-                        "queue"               => $par."/".$jobTotal,
+                        "queue" => $par . "/" . $jobTotal,
                     ]
-                ]);
+                ], $this->backupName);
                 $arr = [];
                 $ct = 0;
             }
@@ -333,7 +334,7 @@ class Backup
      */
     public function job_count()
     {
-        $file = new SplFileObject(WHT_BACKUP_DIR."/backup.job", 'r');
+        $file = new SplFileObject(WHT_BACKUP_DIR . "/backup.job", 'r');
         $file->seek(PHP_INT_MAX);
         $sum = ($file->key() + 1) / WHT_BACKUP_FILES_PER_QUEUE;
         return ceil($sum);

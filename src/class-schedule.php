@@ -15,21 +15,16 @@ class Schedule
 {
 
     /**
-     *
+     * @param null $group
      */
-    public static function clean_queue()
+    public static function clean_queue($group = null)
     {
         global $wpdb;
-        $tasks = $wpdb->get_results('SELECT ID  FROM '.$wpdb->posts.' WHERE post_type = "scheduled-action" AND post_title = "add_to_zip"');
+        $actions = $wpdb->get_results('SELECT action_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip"');
 
-        foreach ($tasks as $task) {
-            $task_id = $task->ID;
-            $wpdb->delete($wpdb->prefix.'comments',
-                ['comment_author' => 'ActionScheduler', 'comment_post_ID' => $task_id]);
-            $wpdb->delete($wpdb->prefix.'postmeta',
-                ['meta_key' => '_action_manager_schedule', 'post_id' => $task_id]);
-            $wpdb->delete($wpdb->prefix.'posts',
-                ['post_type' => 'scheduled-action', 'post_title' => 'add_to_zip', 'ID' => $task_id]);
+        foreach ($actions as $action) {
+            $wpdb->delete($wpdb->prefix . 'actionscheduler_logs', ['action_id' => $action->action_id]);
+            $wpdb->delete($wpdb->prefix . 'actionscheduler_actions', ['action_id' => $action->action_id]);
         }
     }
 }

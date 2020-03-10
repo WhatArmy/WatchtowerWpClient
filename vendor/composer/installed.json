@@ -1,41 +1,43 @@
 [
     {
         "name": "alchemy/zippy",
-        "version": "0.3.5",
-        "version_normalized": "0.3.5.0",
+        "version": "0.4.9",
+        "version_normalized": "0.4.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/alchemy-fr/Zippy.git",
-            "reference": "92c773f7bbe47fdb30c61dbaea3dcbf4dd13a40a"
+            "reference": "59fbeefb9a249122867ef25e53addfcce31850d7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/alchemy-fr/Zippy/zipball/92c773f7bbe47fdb30c61dbaea3dcbf4dd13a40a",
-            "reference": "92c773f7bbe47fdb30c61dbaea3dcbf4dd13a40a",
+            "url": "https://api.github.com/repos/alchemy-fr/Zippy/zipball/59fbeefb9a249122867ef25e53addfcce31850d7",
+            "reference": "59fbeefb9a249122867ef25e53addfcce31850d7",
             "shasum": ""
         },
         "require": {
             "doctrine/collections": "~1.0",
-            "ext-mbstring": "*",
-            "php": ">=5.3.3",
-            "symfony/filesystem": "^2.0.5|^3.0",
-            "symfony/process": "^2.1|^3.0"
+            "php": ">=5.5",
+            "symfony/filesystem": "^2.0.5 || ^3.0 || ^4.0",
+            "symfony/polyfill-mbstring": "^1.3",
+            "symfony/process": "^2.1 || ^3.0 || ^4.0"
         },
         "require-dev": {
             "ext-zip": "*",
             "guzzle/guzzle": "~3.0",
-            "phpunit/phpunit": "^4.0|^5.0",
-            "symfony/finder": "^2.0.5|^3.0"
+            "guzzlehttp/guzzle": "^6.0",
+            "phpunit/phpunit": "^4.0 || ^5.0",
+            "symfony/finder": "^2.0.5 || ^3.0 || ^4.0"
         },
         "suggest": {
             "ext-zip": "To use the ZipExtensionAdapter",
-            "guzzle/guzzle": "To use the GuzzleTeleporter"
+            "guzzle/guzzle": "To use the GuzzleTeleporter with Guzzle 3",
+            "guzzlehttp/guzzle": "To use the GuzzleTeleporter with Guzzle 6"
         },
-        "time": "2016-02-15T22:46:40+00:00",
+        "time": "2018-02-22T13:58:36+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "0.2.x-dev"
+                "dev-master": "0.4.x-dev"
             }
         },
         "installation-source": "dist",
@@ -153,23 +155,23 @@
     },
     {
         "name": "dg/mysql-dump",
-        "version": "v1.5.0",
-        "version_normalized": "1.5.0.0",
+        "version": "v1.5.1",
+        "version_normalized": "1.5.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/dg/MySQL-dump.git",
-            "reference": "6c9cf07092bcc4a140bef01c64d883ebfccfccfa"
+            "reference": "e0e287b715b43293773a8b0edf8514f606e01780"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dg/MySQL-dump/zipball/6c9cf07092bcc4a140bef01c64d883ebfccfccfa",
-            "reference": "6c9cf07092bcc4a140bef01c64d883ebfccfccfa",
+            "url": "https://api.github.com/repos/dg/MySQL-dump/zipball/e0e287b715b43293773a8b0edf8514f606e01780",
+            "reference": "e0e287b715b43293773a8b0edf8514f606e01780",
             "shasum": ""
         },
         "require": {
             "php": ">=5.6"
         },
-        "time": "2018-10-31T00:31:09+00:00",
+        "time": "2019-09-10T21:36:25+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -195,17 +197,17 @@
     },
     {
         "name": "doctrine/collections",
-        "version": "v1.6.2",
-        "version_normalized": "1.6.2.0",
+        "version": "1.6.4",
+        "version_normalized": "1.6.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/collections.git",
-            "reference": "c5e0bc17b1620e97c968ac409acbff28b8b850be"
+            "reference": "6b1e4b2b66f6d6e49983cebfe23a21b7ccc5b0d7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/collections/zipball/c5e0bc17b1620e97c968ac409acbff28b8b850be",
-            "reference": "c5e0bc17b1620e97c968ac409acbff28b8b850be",
+            "url": "https://api.github.com/repos/doctrine/collections/zipball/6b1e4b2b66f6d6e49983cebfe23a21b7ccc5b0d7",
+            "reference": "6b1e4b2b66f6d6e49983cebfe23a21b7ccc5b0d7",
             "shasum": ""
         },
         "require": {
@@ -217,7 +219,7 @@
             "phpunit/phpunit": "^7.0",
             "vimeo/psalm": "^3.2.2"
         },
-        "time": "2019-06-09T13:48:14+00:00",
+        "time": "2019-11-13T13:07:11+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -236,16 +238,16 @@
         ],
         "authors": [
             {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
                 "name": "Roman Borschel",
                 "email": "roman@code-factory.org"
             },
             {
                 "name": "Benjamin Eberlei",
                 "email": "kontakt@beberlei.de"
-            },
-            {
-                "name": "Guilherme Blanco",
-                "email": "guilhermeblanco@gmail.com"
             },
             {
                 "name": "Jonathan Wage",
@@ -264,33 +266,6 @@
             "iterators",
             "php"
         ]
-    },
-    {
-        "name": "prospress/action-scheduler",
-        "version": "2.2.5",
-        "version_normalized": "2.2.5.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Prospress/action-scheduler.git",
-            "reference": "fd7c6b76a7af27d6403ffe39b0963dbd8ce50488"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Prospress/action-scheduler/zipball/fd7c6b76a7af27d6403ffe39b0963dbd8ce50488",
-            "reference": "fd7c6b76a7af27d6403ffe39b0963dbd8ce50488",
-            "shasum": ""
-        },
-        "require-dev": {
-            "wp-cli/wp-cli": "1.5.1"
-        },
-        "time": "2019-04-24T12:45:40+00:00",
-        "type": "wordpress-plugin",
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-3.0"
-        ],
-        "description": "Action Scheduler for WordPress and WooCommerce"
     },
     {
         "name": "shuber/curl",
@@ -329,28 +304,28 @@
     },
     {
         "name": "symfony/filesystem",
-        "version": "v3.4.32",
-        "version_normalized": "3.4.32.0",
+        "version": "v4.4.5",
+        "version_normalized": "4.4.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/filesystem.git",
-            "reference": "00e3a6ddd723b8bcfe4f2a1b6f82b98eeeb51516"
+            "reference": "266c9540b475f26122b61ef8b23dd9198f5d1cfd"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/filesystem/zipball/00e3a6ddd723b8bcfe4f2a1b6f82b98eeeb51516",
-            "reference": "00e3a6ddd723b8bcfe4f2a1b6f82b98eeeb51516",
+            "url": "https://api.github.com/repos/symfony/filesystem/zipball/266c9540b475f26122b61ef8b23dd9198f5d1cfd",
+            "reference": "266c9540b475f26122b61ef8b23dd9198f5d1cfd",
             "shasum": ""
         },
         "require": {
-            "php": "^5.5.9|>=7.0.8",
+            "php": "^7.1.3",
             "symfony/polyfill-ctype": "~1.8"
         },
-        "time": "2019-08-20T13:31:17+00:00",
+        "time": "2020-01-21T08:20:44+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.4-dev"
+                "dev-master": "4.4-dev"
             }
         },
         "installation-source": "dist",
@@ -381,23 +356,23 @@
     },
     {
         "name": "symfony/finder",
-        "version": "v3.4.32",
-        "version_normalized": "3.4.32.0",
+        "version": "v3.4.38",
+        "version_normalized": "3.4.38.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/finder.git",
-            "reference": "2b6a666d6ff7fb65d10b97d817c8e7930944afb9"
+            "reference": "5ec813ccafa8164ef21757e8c725d3a57da59200"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/finder/zipball/2b6a666d6ff7fb65d10b97d817c8e7930944afb9",
-            "reference": "2b6a666d6ff7fb65d10b97d817c8e7930944afb9",
+            "url": "https://api.github.com/repos/symfony/finder/zipball/5ec813ccafa8164ef21757e8c725d3a57da59200",
+            "reference": "5ec813ccafa8164ef21757e8c725d3a57da59200",
             "shasum": ""
         },
         "require": {
             "php": "^5.5.9|>=7.0.8"
         },
-        "time": "2019-09-01T21:32:23+00:00",
+        "time": "2020-02-14T07:34:21+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -432,17 +407,17 @@
     },
     {
         "name": "symfony/polyfill-ctype",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.14.0",
+        "version_normalized": "1.14.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-ctype.git",
-            "reference": "550ebaac289296ce228a706d0867afc34687e3f4"
+            "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/550ebaac289296ce228a706d0867afc34687e3f4",
-            "reference": "550ebaac289296ce228a706d0867afc34687e3f4",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
+            "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
             "shasum": ""
         },
         "require": {
@@ -451,11 +426,11 @@
         "suggest": {
             "ext-ctype": "For best performance"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2020-01-13T11:15:53+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.14-dev"
             }
         },
         "installation-source": "dist",
@@ -491,28 +466,89 @@
         ]
     },
     {
-        "name": "symfony/process",
-        "version": "v3.4.32",
-        "version_normalized": "3.4.32.0",
+        "name": "symfony/polyfill-mbstring",
+        "version": "v1.14.0",
+        "version_normalized": "1.14.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/process.git",
-            "reference": "344dc588b163ff58274f1769b90b75237f32ed16"
+            "url": "https://github.com/symfony/polyfill-mbstring.git",
+            "reference": "34094cfa9abe1f0f14f48f490772db7a775559f2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/process/zipball/344dc588b163ff58274f1769b90b75237f32ed16",
-            "reference": "344dc588b163ff58274f1769b90b75237f32ed16",
+            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/34094cfa9abe1f0f14f48f490772db7a775559f2",
+            "reference": "34094cfa9abe1f0f14f48f490772db7a775559f2",
             "shasum": ""
         },
         "require": {
-            "php": "^5.5.9|>=7.0.8"
+            "php": ">=5.3.3"
         },
-        "time": "2019-09-25T14:09:38+00:00",
+        "suggest": {
+            "ext-mbstring": "For best performance"
+        },
+        "time": "2020-01-13T11:15:53+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.4-dev"
+                "dev-master": "1.14-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Mbstring\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony polyfill for the Mbstring extension",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "mbstring",
+            "polyfill",
+            "portable",
+            "shim"
+        ]
+    },
+    {
+        "name": "symfony/process",
+        "version": "v4.4.5",
+        "version_normalized": "4.4.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/process.git",
+            "reference": "bf9166bac906c9e69fb7a11d94875e7ced97bcd7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/process/zipball/bf9166bac906c9e69fb7a11d94875e7ced97bcd7",
+            "reference": "bf9166bac906c9e69fb7a11d94875e7ced97bcd7",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.1.3"
+        },
+        "time": "2020-02-07T20:06:44+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.4-dev"
             }
         },
         "installation-source": "dist",
@@ -542,33 +578,68 @@
         "homepage": "https://symfony.com"
     },
     {
-        "name": "yahnis-elsts/plugin-update-checker",
-        "version": "v4.8",
-        "version_normalized": "4.8.0.0",
+        "name": "woocommerce/action-scheduler",
+        "version": "3.1.1",
+        "version_normalized": "3.1.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/YahnisElsts/plugin-update-checker.git",
-            "reference": "8ad3ff27698473accf51470ce46679c37279fa5c"
+            "url": "https://github.com/woocommerce/action-scheduler.git",
+            "reference": "ca6f65cca0aa6bdc02e6939c93fd439c5a552b76"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/8ad3ff27698473accf51470ce46679c37279fa5c",
-            "reference": "8ad3ff27698473accf51470ce46679c37279fa5c",
+            "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/ca6f65cca0aa6bdc02e6939c93fd439c5a552b76",
+            "reference": "ca6f65cca0aa6bdc02e6939c93fd439c5a552b76",
+            "shasum": ""
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.6",
+            "woocommerce/woocommerce-sniffs": "0.0.8",
+            "wp-cli/wp-cli": "~1.5.1"
+        },
+        "time": "2020-02-25T02:28:35+00:00",
+        "type": "wordpress-plugin",
+        "extra": {
+            "scripts-description": {
+                "test": "Run unit tests",
+                "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+                "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-or-later"
+        ],
+        "description": "Action Scheduler for WordPress and WooCommerce",
+        "homepage": "https://actionscheduler.org/"
+    },
+    {
+        "name": "yahnis-elsts/plugin-update-checker",
+        "version": "v4.9",
+        "version_normalized": "4.9.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/YahnisElsts/plugin-update-checker.git",
+            "reference": "28f29c940cc22754aff85a99645e3c0a51c097e8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/28f29c940cc22754aff85a99645e3c0a51c097e8",
+            "reference": "28f29c940cc22754aff85a99645e3c0a51c097e8",
             "shasum": ""
         },
         "require": {
+            "ext-json": "*",
             "php": ">=5.2.0"
         },
-        "time": "2019-10-03T09:37:04+00:00",
+        "time": "2020-02-07T11:07:19+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
-            "psr-0": {
-                "Puc_v4p8_": "",
-                "Puc_v4_": "",
-                "PucReadmeParser": "vendor/",
-                "Parsedown": "vendor/"
-            }
+            "files": [
+                "load-v4p9.php"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [

@@ -53,8 +53,8 @@ class Watchtower
             $blog_id = $blog->id;
         }
         switch_to_blog($blog_id);
-        $table_name = $wpdb->prefix.'watchtower_logs';
-        $wpdb->query("DROP TABLE IF EXISTS ".$table_name);
+        $table_name = $wpdb->prefix . 'watchtower_logs';
+        $wpdb->query("DROP TABLE IF EXISTS " . $table_name);
         restore_current_blog();
 
     }
@@ -119,7 +119,7 @@ class Watchtower
     public function load_wp_plugin_class()
     {
         if (!function_exists('get_plugins')) {
-            require_once ABSPATH.'wp-admin/includes/plugin.php';
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
     }
 
@@ -131,7 +131,7 @@ class Watchtower
         global $wpdb;
 
         $charset_collate = $wpdb->get_charset_collate();
-        $table_name = $wpdb->prefix.'watchtower_logs';
+        $table_name = $wpdb->prefix . 'watchtower_logs';
 
 
         $sql = "CREATE TABLE $table_name (
@@ -142,7 +142,7 @@ class Watchtower
 		UNIQUE KEY id (id)
 	) $charset_collate;";
 
-        require_once(ABSPATH.'wp-admin/includes/upgrade.php');
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
 
         update_option('watchtower_db_version', $version);
@@ -179,8 +179,8 @@ class Watchtower
     {
         $this->options = get_option('watchtower');
         ?>
-        <script src="<?php echo plugin_dir_url(__FILE__).'../assets/js/clipboard.js'; ?>"></script>
-        <link href="<?php echo plugin_dir_url(__FILE__).'../assets/css/wht_dashboard.css'; ?>" rel="stylesheet"
+        <script src="<?php echo plugin_dir_url(__FILE__) . '../assets/js/clipboard.js'; ?>"></script>
+        <link href="<?php echo plugin_dir_url(__FILE__) . '../assets/css/wht_dashboard.css'; ?>" rel="stylesheet"
               type="text/css" media="all">
         <div class="wrap">
             <div class="wht-wrap">
@@ -233,6 +233,15 @@ class Watchtower
             'access_token_section',
             []
         );
+
+        add_settings_field(
+            'use_beta',
+            'Use Beta Plugin',
+            [$this, 'use_beta_callback'],
+            'watchtower-settings',
+            'access_token_section',
+            []
+        );
     }
 
     /**
@@ -242,7 +251,8 @@ class Watchtower
      */
     public function sanitize(
         $input
-    ) {
+    )
+    {
         $token = new Token;
         $new_input = array();
 
@@ -250,6 +260,12 @@ class Watchtower
             $new_input['access_token'] = $token->generate();
         } else {
             $new_input['access_token'] = get_option('watchtower')['access_token'];
+        }
+
+        if (isset($input['use_beta']) && $input['use_beta'] == 'true') {
+            $new_input['use_beta'] = true;
+        } else {
+            $new_input['use_beta'] = false;
         }
 
         return $new_input;
@@ -262,8 +278,8 @@ class Watchtower
     {
         print '<h1 class="centered">Access Token</h1>
 <span class="watchtower_token_area">
-<span class="watchtower_token_field clip" data-clipboard-text="'.get_option('watchtower')['access_token'].'">
-'.get_option('watchtower')['access_token'].'
+<span class="watchtower_token_field clip" data-clipboard-text="' . get_option('watchtower')['access_token'] . '">
+' . get_option('watchtower')['access_token'] . '
 <span id="wht-copied">Copied!</span>
 <span id="wht-copy-info">Click to Copy</span>
 </span>
@@ -278,6 +294,15 @@ class Watchtower
         printf(
             '<input type="checkbox" value="true" name="watchtower[access_token]" />',
             isset($this->options['access_token']) ? esc_attr($this->options['access_token']) : ''
+        );
+    }
+
+    public function use_beta_callback()
+    {
+        $is_checked = (get_option('watchtower')['use_beta'] == 1) ? "checked" : "";
+        printf(
+            '<input type="checkbox" value="true" name="watchtower[use_beta]" '.$is_checked.'/>',
+            isset($this->options['use_beta']) ? esc_attr($this->options['use_beta']) : ''
         );
     }
 }
