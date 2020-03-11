@@ -184,7 +184,7 @@ class Watchtower
               type="text/css" media="all">
         <div class="wrap">
             <div class="wht-wrap">
-                <h1 class="titled">Watchtower Settings</h1>
+                <img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/logo.png'; ?>" alt="">
                 <form method="post" action="options.php">
                     <?php
                     settings_fields('watchtower');
