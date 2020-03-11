@@ -305,7 +305,7 @@ class Backup
                         "callbackHeadquarter" => $callbackHeadquarterUrl,
                         "queue" => $par . "/" . $jobTotal,
                     ]
-                ], $this->backupName);
+                ], Utils::slugify($this->backupName));
                 $par++;
                 $arr = [];
                 $ct = 0;
@@ -319,7 +319,7 @@ class Backup
                         "callbackHeadquarter" => $callbackHeadquarterUrl,
                         "queue" => $par . "/" . $jobTotal,
                     ]
-                ], $this->backupName);
+                ], Utils::slugify($this->backupName));
                 $arr = [];
                 $ct = 0;
             }

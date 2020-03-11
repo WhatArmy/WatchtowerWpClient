@@ -73,7 +73,7 @@ class Utils
     /**
      * @param $haystack
      * @param $needle
-     * @param  int  $offset
+     * @param int $offset
      * @return bool
      */
     public static function strposa($haystack, $needle, $offset = 0)
@@ -92,12 +92,39 @@ class Utils
 
     public static function cleanup_old_backups($path, $ms = 60 * 60 * 12)
     {
-        foreach (glob($path.'/*') as $file) {
+        foreach (glob($path . '/*') as $file) {
             if (is_file($file)) {
-                if (time() - filemtime($file) >=  $ms) {
+                if (time() - filemtime($file) >= $ms) {
                     unlink($file);
                 }
             }
         }
+    }
+
+    public static function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }
