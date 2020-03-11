@@ -37,8 +37,7 @@ class Backup
 
     public function pokeQueue()
     {
-//        $queue = \ActionScheduler_QueueRunner::instance();
-//        $queue->run();
+        //todo: to implementation
     }
 
     /**
@@ -65,8 +64,8 @@ class Backup
         $zippy->close();
 
 
-        $failed = $this->queue_status('failed', $job['zip']);
-        $pending = $this->queue_status('pending', $job['zip']);
+        $failed = Schedule::status('failed', $job['zip']);
+        $pending = Schedule::status('pending', $job['zip']);
         unlink(WHT_BACKUP_DIR . '/' . $job['data_file']); //remove
         if ($failed == 0 && $pending == 0 && $job['last'] == true) {
             $this->backupName = $job['zip'];
@@ -120,20 +119,6 @@ class Backup
         }
 
         return $this;
-    }
-
-    /**
-     * @param $status
-     * @param null $group
-     * @return int
-     */
-    public function queue_status($status, $group = null)
-    {
-        global $wpdb;
-        $results = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}posts WHERE post_type = 'scheduled-action' AND post_title ='add_to_zip' AND post_status = '" . $status . "'",
-            OBJECT);
-
-        return count($results);
     }
 
     public function call_headquarter_error($callbackHeadquarterUrl)

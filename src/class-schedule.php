@@ -23,15 +23,35 @@ class Schedule
 
         if ($group != null) {
             $gr = $wpdb->get_row('SELECT * FROM ' . $wpdb->prefix . 'actionscheduler_groups WHERE slug =  "' . Utils::slugify($group) . '"');
-            $actions = $wpdb->get_results('SELECT action_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip" AND group_id = "' . $gr->group_id . '"');
+            $actions = $wpdb->get_results('SELECT action_id,group_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip" AND group_id = "' . $gr->group_id . '"');
             $wpdb->delete($wpdb->prefix . 'actionscheduler_groups', ['group_id' => $gr->group_id]);
 
         } else {
-            $actions = $wpdb->get_results('SELECT action_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip"');
+            $actions = $wpdb->get_results('SELECT action_id,group_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip"');
         }
         foreach ($actions as $action) {
             $wpdb->delete($wpdb->prefix . 'actionscheduler_logs', ['action_id' => $action->action_id]);
             $wpdb->delete($wpdb->prefix . 'actionscheduler_actions', ['action_id' => $action->action_id]);
+            $wpdb->delete($wpdb->prefix . 'actionscheduler_groups', ['group_id' => $action->group_id]);
         }
+    }
+
+    /**
+     * @param $status
+     * @param null $group
+     * @return int
+     */
+    public static function status($status, $group = null)
+    {
+        global $wpdb;
+        if ($group != null) {
+            $gr = $wpdb->get_row('SELECT * FROM ' . $wpdb->prefix . 'actionscheduler_groups WHERE slug =  "' . Utils::slugify($group) . '"');
+            $results = $wpdb->get_results('SELECT action_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip" AND status = "' . $status . '" AND group_id = "' . $gr->group_id . '"');
+
+        } else {
+            $results = $wpdb->get_results('SELECT action_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip" AND status = "' . $status . '"');
+        }
+
+        return count($results);
     }
 }
