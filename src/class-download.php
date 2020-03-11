@@ -121,7 +121,7 @@ class Download
 //        exit;
 
         $download = new Stream_Download();
-        $download->downloadFile();
+        $download->downloadFile($file, basename($file));
     }
 
 }
