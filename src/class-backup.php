@@ -66,8 +66,9 @@ class Backup
 
         $failed = Schedule::status('failed', $job['zip']);
         $pending = Schedule::status('pending', $job['zip']);
+        $in_progress = Schedule::status('in-progress', $job['zip']);
         unlink(WHT_BACKUP_DIR . '/' . $job['data_file']); //remove
-        if ($failed == 0 && $pending == 0 && $job['last'] == true) {
+        if ($failed == 0 && $pending == 0 && $in_progress == 0 && $job['last'] == true) {
             $this->backupName = $job['zip'];
             Schedule::clean_queue($job['zip']);
             $this->call_headquarter($job['callbackHeadquarter']);
@@ -246,6 +247,8 @@ class Backup
      */
     public function mysqlBackup($callbackHeadquarterUrl)
     {
+        ini_set('memory_limit', '256M');
+        set_time_limit(0);
         Utils::cleanup_old_backups(WHT_BACKUP_DIR);
         $this->create_backup_dir();
         try {
