@@ -68,7 +68,7 @@ class Backup
         $pending = Schedule::status('pending', $job['zip']);
         $in_progress = Schedule::status('in-progress', $job['zip']);
         unlink(WHT_BACKUP_DIR . '/' . $job['data_file']); //remove
-        if ($failed == 0 && $pending == 0 && $in_progress == 0 && $job['last'] == true) {
+        if ($failed == 0 && $pending == 0 && $in_progress == 1 && $job['last'] == true) {
             $this->backupName = $job['zip'];
             Schedule::clean_queue($job['zip']);
             $this->call_headquarter($job['callbackHeadquarter']);
