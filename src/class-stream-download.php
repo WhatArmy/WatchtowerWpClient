@@ -8,6 +8,7 @@ class Stream_Download
 {
     public function downloadFile($sourceFile, $fileName, $chunkSize = 1)
     {
+        $file = $sourceFile;
         $bufferSize = $chunkSize * (1024 * 1024);
 
         // don't forget to send the data too
@@ -31,7 +32,7 @@ class Stream_Download
         }
 
         fclose($sourceFile);
-        unlink($sourceFile);
+        unlink($file);
         exit;
     }
 
