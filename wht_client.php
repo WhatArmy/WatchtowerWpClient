@@ -6,7 +6,7 @@ defined('ABSPATH') or die('No script kiddies please!');
  * Plugin URI: https://github.com/WhatArmy/WatchtowerWpClient
  * Description: The WhatArmy WordPress plugin allows us to monitor, backup, upgrade, and manage your site!
  * Author: WhatArmy
- * Version: 3.0.12
+ * Version: 3.0.13
  * Author URI: https://whatarmy.com
  **/
 
@@ -43,3 +43,4 @@ $autoloader->addNamespace('WhatArmy\Watchtower', __DIR__ . '/src');
 $autoloader->register();
 
 new Watchtower();
+

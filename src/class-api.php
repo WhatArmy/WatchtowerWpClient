@@ -7,6 +7,8 @@
 
 namespace WhatArmy\Watchtower;
 
+use WhatArmy\Watchtower\Files\File_Backup;
+use WhatArmy\Watchtower\Mysql\Mysql_Backup;
 use WP_REST_Request as WP_REST_Request;
 use WP_REST_Response as WP_REST_Response;
 
@@ -139,7 +141,7 @@ class Api
      */
     public function run_backup_file_queue_action(WP_REST_Request $request)
     {
-        $backup = new Backup;
+        $backup = new File_Backup();
         $backup->pokeQueue();
 
         return $this->make_response('done');
@@ -151,8 +153,8 @@ class Api
      */
     public function run_backup_db_action(WP_REST_Request $request)
     {
-        $backup = new Backup;
-        $backup->mysqlBackup($request->get_param('callbackUrl'));
+        $backup = new Mysql_Backup();
+        $backup->run($request->get_param('callbackUrl'));
 
         return $this->make_response('scheduled');
     }
@@ -164,8 +166,8 @@ class Api
      */
     public function run_backup_file_action(WP_REST_Request $request)
     {
-        $backup = new Backup;
-        $filename = $backup->fileBackup($request->get_param('callbackUrl'));
+        $backup = new File_Backup();
+        $filename = $backup->run($request->get_param('callbackUrl'));
 
         return $this->make_response(['filename' => $filename.'.zip']);
     }

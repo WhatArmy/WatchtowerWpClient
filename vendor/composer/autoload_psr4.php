@@ -12,6 +12,7 @@ return array(
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
+    'Ifsnop\\' => array($vendorDir . '/ifsnop/mysqldump-php/src/Ifsnop'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib/Doctrine/Common/Collections'),
     'ClaudioSanches\\WPAutoloader\\' => array($vendorDir . '/claudiosanches/wp-autoloader/src'),
     'Barryvdh\\Composer\\' => array($vendorDir . '/barryvdh/composer-cleanup-plugin/src'),

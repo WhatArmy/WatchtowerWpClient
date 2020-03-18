@@ -5,21 +5,22 @@
  * Time: 16:03
  */
 
-namespace WhatArmy\Watchtower;
+namespace WhatArmy\Watchtower\Files;
 
 
 use mysqli;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use SplFileObject;
 use Symfony\Component\Finder\Finder;
+use WhatArmy\Watchtower\Headquarter;
+use WhatArmy\Watchtower\Schedule;
+use WhatArmy\Watchtower\Utils;
 use ZipArchive;
 
 /**
  * Class Backup
  * @package WhatArmy\Watchtower
  */
-class Backup
+class File_Backup
 {
     public $backupName;
 
@@ -29,10 +30,7 @@ class Backup
     public function __construct()
     {
         $this->backupName = date('Y_m_d__H_i_s') . "_" . Utils::random_string();
-        add_filter('action_scheduler_queue_runner_batch_size', [$this, 'batch_size']);
-        add_filter('action_scheduler_queue_runner_concurrent_batches', [$this, 'concurrent_batches']);
         add_action('add_to_zip', [$this, 'add_to_zip']);
-
     }
 
     public function pokeQueue()
@@ -77,23 +75,6 @@ class Backup
         $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['zip'] . '.zip');
     }
 
-    /**
-     * @param $concurrent_batches
-     * @return int
-     */
-    public function concurrent_batches($concurrent_batches)
-    {
-        return 1;
-    }
-
-    /**
-     * @param $batch_size
-     * @return int
-     */
-    public function batch_size($batch_size)
-    {
-        return 1;
-    }
 
     /**
      * @return $this
@@ -242,35 +223,15 @@ class Backup
     }
 
     /**
-     * @param $callbackHeadquarterUrl
+     * @param $callback_url
      * @return string
      */
-    public function mysqlBackup($callbackHeadquarterUrl)
-    {
-        ini_set('memory_limit', '256M');
-        set_time_limit(0);
-        Utils::cleanup_old_backups(WHT_BACKUP_DIR);
-        $this->create_backup_dir();
-        try {
-            $dump = new \MySQLDump(new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME));
-            $dump->save(WHT_BACKUP_DIR . '/' . $this->backupName . '.sql.gz');
-            $this->call_headquarter($callbackHeadquarterUrl, 'sql.gz');
-        } catch (\Exception $e) {
-            $this->call_headquarter_error($callbackHeadquarterUrl);
-        }
-        return $this->backupName;
-    }
-
-    /**
-     * @param $callbackHeadquarterUrl
-     * @return string
-     */
-    public function fileBackup($callbackHeadquarterUrl)
+    public function run($callback_url)
     {
         Utils::cleanup_old_backups(WHT_BACKUP_DIR);
         $this->create_backup_dir();
 
-        $this->create_job_list($callbackHeadquarterUrl);
+        $this->create_job_list($callback_url);
 
         $jobTotal = $this->job_count();
         $file = new SplFileObject(WHT_BACKUP_DIR . "/backup.job", "r");
@@ -290,7 +251,7 @@ class Backup
                         "data_file" => $this->create_job_part_file('part_' . Utils::random_string(6), $arr),
                         "zip" => $this->backupName,
                         "last" => false,
-                        "callbackHeadquarter" => $callbackHeadquarterUrl,
+                        "callbackHeadquarter" => $callback_url,
                         "queue" => $par . "/" . $jobTotal,
                     ]
                 ], Utils::slugify($this->backupName));
@@ -304,7 +265,7 @@ class Backup
                         "data_file" => $this->create_job_part_file('part_' . Utils::random_string(6), $arr),
                         "zip" => $this->backupName,
                         "last" => true,
-                        "callbackHeadquarter" => $callbackHeadquarterUrl,
+                        "callbackHeadquarter" => $callback_url,
                         "queue" => $par . "/" . $jobTotal,
                     ]
                 ], Utils::slugify($this->backupName));

@@ -20,6 +20,10 @@ class Utils
         return $match[0];
     }
 
+    /**
+     * @param int $length
+     * @return string
+     */
     public static function random_string($length = 12)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -90,6 +94,21 @@ class Utils
         return false;
     }
 
+    /**
+     * @param $needle
+     * @param $replace
+     * @param $haystack
+     * @return string|string[]
+     */
+    public static function str_replace_once($needle, $replace, $haystack) {
+        $pos = strpos($haystack, $needle);
+        return (false !== $pos) ? substr_replace($haystack, $replace, $pos, strlen($needle)) : $haystack;
+    }
+
+    /**
+     * @param $path
+     * @param float|int $ms
+     */
     public static function cleanup_old_backups($path, $ms = 60 * 60 * 12)
     {
         foreach (glob($path . '/*') as $file) {
@@ -101,6 +120,10 @@ class Utils
         }
     }
 
+    /**
+     * @param $text
+     * @return false|string|string[]|null
+     */
     public static function slugify($text)
     {
         // replace non letter or digits by -
