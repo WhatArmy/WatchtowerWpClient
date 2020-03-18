@@ -247,7 +247,7 @@ class Backup
      */
     public function mysqlBackup($callbackHeadquarterUrl)
     {
-        ini_set('memory_limit', '256M');
+        ini_set('memory_limit', '512M');
         set_time_limit(0);
         Utils::cleanup_old_backups(WHT_BACKUP_DIR);
         $this->create_backup_dir();
