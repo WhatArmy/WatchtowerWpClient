@@ -636,17 +636,17 @@
     },
     {
         "name": "woocommerce/action-scheduler",
-        "version": "3.1.2",
-        "version_normalized": "3.1.2.0",
+        "version": "3.1.4",
+        "version_normalized": "3.1.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/woocommerce/action-scheduler.git",
-            "reference": "59dbd87de0c8a826b08142fd122279409dffadf7"
+            "reference": "5a01f0b549a283dc88c2feeef877650215907a76"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/59dbd87de0c8a826b08142fd122279409dffadf7",
-            "reference": "59dbd87de0c8a826b08142fd122279409dffadf7",
+            "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/5a01f0b549a283dc88c2feeef877650215907a76",
+            "reference": "5a01f0b549a283dc88c2feeef877650215907a76",
             "shasum": ""
         },
         "require-dev": {
@@ -654,7 +654,7 @@
             "woocommerce/woocommerce-sniffs": "0.0.8",
             "wp-cli/wp-cli": "~1.5.1"
         },
-        "time": "2020-03-10T14:45:52+00:00",
+        "time": "2020-03-18T15:05:10+00:00",
         "type": "wordpress-plugin",
         "extra": {
             "scripts-description": {

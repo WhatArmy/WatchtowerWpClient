@@ -75,6 +75,23 @@ class File_Backup
         $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['zip'] . '.zip');
     }
 
+    /**
+     * @param $concurrent_batches
+     * @return int
+     */
+    public function concurrent_batches($concurrent_batches)
+    {
+        return 1;
+    }
+
+    /**
+     * @param $batch_size
+     * @return int
+     */
+    public function batch_size($batch_size)
+    {
+        return 1;
+    }
 
     /**
      * @return $this
