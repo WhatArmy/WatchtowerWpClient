@@ -14,6 +14,35 @@ namespace WhatArmy\Watchtower;
 class Schedule
 {
 
+    /**
+     * @param $callbackHeadquarterUrl
+     * @param string $file_extension
+     */
+    public static function call_headquarter($callbackHeadquarterUrl, $backup_name, $file_extension = 'zip')
+    {
+        $headquarter = new Headquarter($callbackHeadquarterUrl);
+        $headquarter->call('/backup', [
+            'access_token' => get_option('watchtower')['access_token'],
+            'backup_name' => join('.', [$backup_name, $file_extension])
+        ]);
+    }
+
+    /**
+     * @param $callbackHeadquarterUrl
+     * @param $status
+     * @param $filename
+     */
+    public static function call_headquarter_status($callbackHeadquarterUrl, $status, $filename)
+    {
+        $headquarter = new Headquarter($callbackHeadquarterUrl);
+        $headquarter->call('/backup_status', [
+            'access_token' => get_option('watchtower')['access_token'],
+            'status' => $status,
+            'filename' => $filename,
+        ]);
+    }
+
+
     public static function cancel_queue_and_cleanup($filename)
     {
 

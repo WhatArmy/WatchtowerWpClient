@@ -68,47 +68,12 @@ class File_Backup
         if ($failed == 0 && $pending == 0 && $in_progress == 1 && $job['last'] == true) {
             $this->backupName = $job['zip'];
             Schedule::clean_queue($job['zip']);
-            $this->call_headquarter($job['callbackHeadquarter']);
+            Schedule::call_headquarter($job['callbackHeadquarter'], $this->backupName);
         }
 
-        $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['zip'] . '.zip');
+        Schedule::call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['zip'] . '.zip');
     }
 
-
-    public function call_headquarter_error($callbackHeadquarterUrl)
-    {
-        $headquarter = new Headquarter($callbackHeadquarterUrl);
-        $headquarter->call('/backup_error', [
-            'backup_name' => $this->backupName,
-        ]);
-    }
-
-    /**
-     * @param $callbackHeadquarterUrl
-     * @param string $file_extension
-     */
-    public function call_headquarter($callbackHeadquarterUrl, $file_extension = 'zip')
-    {
-        $headquarter = new Headquarter($callbackHeadquarterUrl);
-        $headquarter->call('/backup', [
-            'access_token' => get_option('watchtower')['access_token'],
-            'backup_name' => join('.', [$this->backupName, $file_extension])
-        ]);
-    }
-
-    /**
-     * @param $callbackHeadquarterUrl
-     * @param $status
-     */
-    public function call_headquarter_status($callbackHeadquarterUrl, $status, $filename)
-    {
-        $headquarter = new Headquarter($callbackHeadquarterUrl);
-        $headquarter->call('/backup_status', [
-            'access_token' => get_option('watchtower')['access_token'],
-            'status' => $status,
-            'filename' => $filename,
-        ]);
-    }
 
     /**
      * @param $callbackHeadquarterUrl

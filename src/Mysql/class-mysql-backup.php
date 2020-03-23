@@ -5,7 +5,6 @@ namespace WhatArmy\Watchtower\Mysql;
 
 
 use Ifsnop\Mysqldump\Mysqldump;
-use WhatArmy\Watchtower\Headquarter;
 use WhatArmy\Watchtower\Schedule;
 use WhatArmy\Watchtower\Utils;
 
@@ -133,27 +132,16 @@ class Mysql_Backup
     public function add_to_dump($job)
     {
         if ($job['last'] == false) {
-            $this->dump_data($job['table'], $job['dir'], $job['range']);
+            $this->dump_data($job['table'], $job['dir'], $this->group);
         } else {
             $this->backupName = $job['dir'] . '_dump.sql';
             Schedule::clean_queue($job['group'], 'add_to_dump');
             Utils::gzCompressFile($this->backupName);
             unlink($this->backupName);
-            $this->call_headquarter($job['callbackHeadquarter'], 'gz');
+            Schedule::call_headquarter($job['callbackHeadquarter'], $job['filename'], 'gz');
         }
-    }
 
-    /**
-     * @param $callbackHeadquarterUrl
-     * @param string $file_extension
-     */
-    public function call_headquarter($callbackHeadquarterUrl, $file_extension = 'zip')
-    {
-        $headquarter = new Headquarter($callbackHeadquarterUrl);
-        $headquarter->call('/backup', [
-            'access_token' => get_option('watchtower')['access_token'],
-            'backup_name' => join('.', [$this->backupName, $file_extension])
-        ]);
+        Schedule::call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $this->backupName);
     }
 
     /**
@@ -168,27 +156,32 @@ class Mysql_Backup
 
         $stats = $this->prepare_jobs();
         $this->dump_structure($stats, $dir);
+        $ct = 1;
         foreach ($stats as $table) {
             if ($this->should_separate($table)) {
 
                 foreach ($this->split_to_parts($table) as $part) {
+                    $total = count($this->split_to_parts($table)) + 1;
                     $this->dispatch_job([
                         'job' => [
                             "table" => $table['name'],
                             "range" => ['start' => $part['start'], 'end' => $part['end']],
                             "dir" => $dir,
                             "last" => false,
+                            "filename" => $this->group . '_dump.sql.gz',
                             "file" => Utils::slugify($this->group),
                             "callbackHeadquarter" => $callback_url,
+                            "queue" => ($ct . '/' . $total),
                         ]
                     ], Utils::slugify($this->group));
+                    $ct++;
                 }
             } else {
                 $this->dump_data($table['name'], $dir, null);
             }
         }
 
-        $this->add_finish_job($dir, $callback_url);
+        $this->add_finish_job($dir, $callback_url, $ct);
 
         return $this->group . '_dump.sql.gz';
     }
@@ -196,15 +189,18 @@ class Mysql_Backup
     /**
      * @param $dir
      * @param $callback_url
+     * @param $total
      */
-    private function add_finish_job($dir, $callback_url)
+    private function add_finish_job($dir, $callback_url, $total)
     {
         $this->dispatch_job([
             'job' => [
                 "dir" => $dir,
                 "last" => true,
                 "file" => $this->group,
+                "filename" => $this->group . '_dump.sql.gz',
                 "callbackHeadquarter" => $callback_url,
+                "queue" => $total . "/" . $total
             ]
         ], Utils::slugify($this->group));
     }
