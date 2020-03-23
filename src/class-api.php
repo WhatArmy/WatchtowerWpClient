@@ -155,7 +155,7 @@ class Api
      */
     public function cancel_backup_action(WP_REST_Request $request)
     {
-        Schedule::cancel_queue_and_cleanup($request->get_param('callbackUrl'));
+        Schedule::cancel_queue_and_cleanup($request->get_param('filename'));
 
         return $this->make_response('done');
     }
