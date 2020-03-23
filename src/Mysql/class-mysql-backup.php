@@ -158,6 +158,7 @@ class Mysql_Backup
 
     /**
      * @param $callback_url
+     * @return string
      */
     public function run($callback_url)
     {
@@ -189,6 +190,7 @@ class Mysql_Backup
 
         $this->add_finish_job($dir, $callback_url);
 
+        return $this->group . '_dump.sql.gz';
     }
 
     /**

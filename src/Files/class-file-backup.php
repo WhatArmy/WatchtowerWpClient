@@ -32,7 +32,7 @@ class File_Backup
         add_action('add_to_zip', [$this, 'add_to_zip']);
     }
 
-    public function pokeQueue()
+    public function poke_queue()
     {
         //todo: to implementation
     }

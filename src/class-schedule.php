@@ -14,6 +14,11 @@ namespace WhatArmy\Watchtower;
 class Schedule
 {
 
+    public static function cancel_queue_and_cleanup()
+    {
+
+    }
+
     /**
      * @param null $group
      * @param string $hook
