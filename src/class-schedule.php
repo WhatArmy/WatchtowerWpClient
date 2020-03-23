@@ -14,7 +14,7 @@ namespace WhatArmy\Watchtower;
 class Schedule
 {
 
-    public static function cancel_queue_and_cleanup()
+    public static function cancel_queue_and_cleanup($filename)
     {
 
     }
