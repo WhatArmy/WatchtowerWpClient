@@ -150,4 +150,26 @@ class Utils
 
         return $text;
     }
+
+    public static function create_backup_dir()
+    {
+        if (!file_exists(WHT_BACKUP_DIR)) {
+            mkdir(WHT_BACKUP_DIR, 0777, true);
+        }
+
+        if (!file_exists(WHT_BACKUP_DIR . '/index.html')) {
+            @file_put_contents(WHT_BACKUP_DIR . '/index.html',
+                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/index.html.stub'));
+        }
+
+        if (!file_exists(WHT_BACKUP_DIR . '/.htaccess')) {
+            @file_put_contents(WHT_BACKUP_DIR . '/.htaccess',
+                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/htaccess.stub'));
+        }
+
+        if (!file_exists(WHT_BACKUP_DIR . '/web.config')) {
+            @file_put_contents(WHT_BACKUP_DIR . '/web.config',
+                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/web.config.stub'));
+        }
+    }
 }

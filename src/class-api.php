@@ -62,6 +62,8 @@ class Api
             $this->resolve_action('run_backup_file_queue_action'));
         register_rest_route($this->route_namespace(), 'backup/mysql/run',
             $this->resolve_action('run_backup_db_action'));
+        register_rest_route($this->route_namespace(), 'backup/cancel',
+            $this->resolve_action('cancel_backup_action'));
 
         /**
          * Utilities
@@ -145,6 +147,14 @@ class Api
         $backup->pokeQueue();
 
         return $this->make_response('done');
+    }
+
+    /**
+     * @param WP_REST_Request $request
+     */
+    public function cancel_backup_action(WP_REST_Request $request)
+    {
+
     }
 
     /**

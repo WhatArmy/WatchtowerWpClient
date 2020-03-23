@@ -18,6 +18,12 @@
       "*": "dist"
     }
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/code2prog/mysqldump-php"
+    }
+  ],
   "require": {
     "claudiosanches/wp-autoloader": "^1.0",
     "php": ">=5.6",
@@ -32,6 +38,6 @@
     "ext-fileinfo": "*",
     "symfony/finder": "3.x",
     "barryvdh/composer-cleanup-plugin": "0.2.x",
-    "ifsnop/mysqldump-php": "^2.8"
+    "ifsnop/mysqldump-php": "dev-master"
   }
 }

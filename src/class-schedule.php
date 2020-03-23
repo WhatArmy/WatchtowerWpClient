@@ -16,18 +16,19 @@ class Schedule
 
     /**
      * @param null $group
+     * @param string $hook
      */
-    public static function clean_queue($group = null)
+    public static function clean_queue($group = null, $hook = 'add_to_zip')
     {
         global $wpdb;
 
         if ($group != null) {
             $gr = $wpdb->get_row('SELECT * FROM ' . $wpdb->prefix . 'actionscheduler_groups WHERE slug =  "' . Utils::slugify($group) . '"');
-            $actions = $wpdb->get_results('SELECT action_id,group_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip" AND group_id = "' . $gr->group_id . '"');
+            $actions = $wpdb->get_results('SELECT action_id,group_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "' . $hook . '" AND group_id = "' . $gr->group_id . '"');
             $wpdb->delete($wpdb->prefix . 'actionscheduler_groups', ['group_id' => $gr->group_id]);
 
         } else {
-            $actions = $wpdb->get_results('SELECT action_id,group_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip"');
+            $actions = $wpdb->get_results('SELECT action_id,group_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "' . $hook . '"');
         }
         foreach ($actions as $action) {
             $wpdb->delete($wpdb->prefix . 'actionscheduler_logs', ['action_id' => $action->action_id]);

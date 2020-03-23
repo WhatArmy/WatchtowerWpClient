@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5958d86b8d3ac8accc48ab4ace7e922d",
+    "content-hash": "5fc7b4d0044d2de2cebbdd5d3743532f",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -266,16 +266,16 @@
         },
         {
             "name": "ifsnop/mysqldump-php",
-            "version": "v2.8",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ifsnop/mysqldump-php.git",
-                "reference": "b6919eff87c36b18fe0d4b3a53635df03c8a3b38"
+                "url": "https://github.com/code2prog/mysqldump-php.git",
+                "reference": "1e3934b17fb20e703e8a76583dc791e4ec06d84f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ifsnop/mysqldump-php/zipball/b6919eff87c36b18fe0d4b3a53635df03c8a3b38",
-                "reference": "b6919eff87c36b18fe0d4b3a53635df03c8a3b38",
+                "url": "https://api.github.com/repos/code2prog/mysqldump-php/zipball/1e3934b17fb20e703e8a76583dc791e4ec06d84f",
+                "reference": "1e3934b17fb20e703e8a76583dc791e4ec06d84f",
                 "shasum": ""
             },
             "require": {
@@ -291,7 +291,6 @@
                     "Ifsnop\\": "src/Ifsnop/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -305,7 +304,6 @@
             "description": "PHP version of mysqldump cli that comes with MySQL",
             "homepage": "https://github.com/ifsnop/mysqldump-php",
             "keywords": [
-                "PHP7",
                 "database",
                 "hhvm",
                 "mariadb",
@@ -315,9 +313,13 @@
                 "pdo",
                 "php",
                 "php5",
+                "php7",
                 "sql"
             ],
-            "time": "2019-10-29T23:13:43+00:00"
+            "support": {
+                "source": "https://github.com/code2prog/mysqldump-php/tree/master"
+            },
+            "time": "2020-03-20T14:11:54+00:00"
         },
         {
             "name": "shuber/curl",
@@ -703,7 +705,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "shuber/curl": 20
+        "shuber/curl": 20,
+        "ifsnop/mysqldump-php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

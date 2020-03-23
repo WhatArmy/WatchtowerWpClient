@@ -8,7 +8,6 @@
 namespace WhatArmy\Watchtower\Files;
 
 
-use mysqli;
 use SplFileObject;
 use Symfony\Component\Finder\Finder;
 use WhatArmy\Watchtower\Headquarter;
@@ -75,50 +74,6 @@ class File_Backup
         $this->call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['zip'] . '.zip');
     }
 
-    /**
-     * @param $concurrent_batches
-     * @return int
-     */
-    public function concurrent_batches($concurrent_batches)
-    {
-        return 1;
-    }
-
-    /**
-     * @param $batch_size
-     * @return int
-     */
-    public function batch_size($batch_size)
-    {
-        return 1;
-    }
-
-    /**
-     * @return $this
-     */
-    public function create_backup_dir()
-    {
-        if (!file_exists(WHT_BACKUP_DIR)) {
-            mkdir(WHT_BACKUP_DIR, 0777, true);
-        }
-
-        if (!file_exists(WHT_BACKUP_DIR . '/index.html')) {
-            @file_put_contents(WHT_BACKUP_DIR . '/index.html',
-                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/index.html.stub'));
-        }
-
-        if (!file_exists(WHT_BACKUP_DIR . '/.htaccess')) {
-            @file_put_contents(WHT_BACKUP_DIR . '/.htaccess',
-                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/htaccess.stub'));
-        }
-
-        if (!file_exists(WHT_BACKUP_DIR . '/web.config')) {
-            @file_put_contents(WHT_BACKUP_DIR . '/web.config',
-                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/web.config.stub'));
-        }
-
-        return $this;
-    }
 
     public function call_headquarter_error($callbackHeadquarterUrl)
     {
@@ -246,7 +201,7 @@ class File_Backup
     public function run($callback_url)
     {
         Utils::cleanup_old_backups(WHT_BACKUP_DIR);
-        $this->create_backup_dir();
+        Utils::create_backup_dir();
 
         $this->create_job_list($callback_url);
 
