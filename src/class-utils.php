@@ -100,7 +100,8 @@ class Utils
      * @param $haystack
      * @return string|string[]
      */
-    public static function str_replace_once($needle, $replace, $haystack) {
+    public static function str_replace_once($needle, $replace, $haystack)
+    {
         $pos = strpos($haystack, $needle);
         return (false !== $pos) ? substr_replace($haystack, $replace, $pos, strlen($needle)) : $haystack;
     }
@@ -171,5 +172,28 @@ class Utils
             @file_put_contents(WHT_BACKUP_DIR . '/web.config',
                 file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/web.config.stub'));
         }
+    }
+
+    public static function gzCompressFile($source, $level = 9)
+    {
+        $dest = $source . '.gz';
+        $mode = 'wb' . $level;
+        $error = false;
+        if ($fp_out = gzopen($dest, $mode)) {
+            if ($fp_in = fopen($source, 'rb')) {
+                while (!feof($fp_in))
+                    gzwrite($fp_out, fread($fp_in, 1024 * 512));
+                fclose($fp_in);
+            } else {
+                $error = true;
+            }
+            gzclose($fp_out);
+        } else {
+            $error = true;
+        }
+        if ($error)
+            return false;
+        else
+            return $dest;
     }
 }

@@ -5,6 +5,7 @@ namespace WhatArmy\Watchtower\Mysql;
 
 
 use Ifsnop\Mysqldump\Mysqldump;
+use WhatArmy\Watchtower\Headquarter;
 use WhatArmy\Watchtower\Schedule;
 use WhatArmy\Watchtower\Utils;
 
@@ -12,6 +13,7 @@ class Mysql_Backup
 {
     private $db;
     public $group;
+    public $backupName;
 
     /**
      * Backup constructor.
@@ -81,9 +83,9 @@ class Mysql_Backup
             ]);
         }
 
-        $dump->start($dir . '/dump_tmp.sql');
+        $dump->start($dir . '_dump_tmp.sql');
 
-        $this->merge($dir . '/dump_tmp.sql', $dir . '/dump.sql');
+        $this->merge($dir . '_dump_tmp.sql', $dir . '_dump.sql');
     }
 
     /**
@@ -105,7 +107,7 @@ class Mysql_Backup
         $dump = new Mysqldump("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASSWORD, $dumpSettings);
 
 
-        $dump->start($dir . '/dump.sql');
+        $dump->start($dir . '_dump.sql');
     }
 
     /**
@@ -133,9 +135,25 @@ class Mysql_Backup
         if ($job['last'] == false) {
             $this->dump_data($job['table'], $job['dir'], $job['range']);
         } else {
+            $this->backupName = $job['dir'] . '_dump.sql';
             Schedule::clean_queue($job['group'], 'add_to_dump');
-            //todo: headquarter
+            Utils::gzCompressFile($this->backupName);
+            unlink($this->backupName);
+            $this->call_headquarter($job['callbackHeadquarter'], 'gz');
         }
+    }
+
+    /**
+     * @param $callbackHeadquarterUrl
+     * @param string $file_extension
+     */
+    public function call_headquarter($callbackHeadquarterUrl, $file_extension = 'zip')
+    {
+        $headquarter = new Headquarter($callbackHeadquarterUrl);
+        $headquarter->call('/backup', [
+            'access_token' => get_option('watchtower')['access_token'],
+            'backup_name' => join('.', [$this->backupName, $file_extension])
+        ]);
     }
 
     /**
@@ -144,10 +162,8 @@ class Mysql_Backup
     public function run($callback_url)
     {
         Utils::create_backup_dir();
-//        $this->group = date('Y_m_d__H_i_s') . "_" . Utils::random_string();
-        $this->group = date('Y_m_d');
+        $this->group = date('Y_m_d__H_i_s') . "_" . Utils::random_string();
         $dir = WHT_BACKUP_DIR . '/' . $this->group;
-        mkdir($dir, 0777, true);
 
         $stats = $this->prepare_jobs();
         $this->dump_structure($stats, $dir);
@@ -161,7 +177,7 @@ class Mysql_Backup
                             "range" => ['start' => $part['start'], 'end' => $part['end']],
                             "dir" => $dir,
                             "last" => false,
-                            "group" => Utils::slugify($this->group),
+                            "file" => Utils::slugify($this->group),
                             "callbackHeadquarter" => $callback_url,
                         ]
                     ], Utils::slugify($this->group));
@@ -185,7 +201,7 @@ class Mysql_Backup
             'job' => [
                 "dir" => $dir,
                 "last" => true,
-                "group" => $this->group,
+                "file" => $this->group,
                 "callbackHeadquarter" => $callback_url,
             ]
         ], Utils::slugify($this->group));
