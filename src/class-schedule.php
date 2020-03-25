@@ -45,7 +45,30 @@ class Schedule
 
     public static function cancel_queue_and_cleanup($filename)
     {
+        global $wpdb;
 
+        $group = Utils::extract_group_from_filename($filename);
+        if (strpos($filename, '.sql.gz') !== false) {
+            self::clean_queue($group, 'add_to_dump');
+            if (file_exists(WHT_BACKUP_DIR . '/' . $filename)) {
+                unlink(WHT_BACKUP_DIR . '/' . $filename);
+            }
+            if (file_exists(WHT_BACKUP_DIR . '/' . $group . '_dump_tmp.sql')) {
+                unlink(WHT_BACKUP_DIR . '/' . $group . '_dump_tmp.sql');
+            }
+            if (file_exists(WHT_BACKUP_DIR . '/' . $group . '_dump.sql')) {
+                unlink(WHT_BACKUP_DIR . '/' . $group . '_dump.sql');
+            }
+        }
+
+        if (strpos($filename, '.zip') !== false) {
+            $gr = $wpdb->get_row('SELECT * FROM ' . $wpdb->prefix . 'actionscheduler_groups WHERE slug =  "' . Utils::slugify($group) . '"');
+            $actions = $wpdb->get_results('SELECT action_id,group_id,args  FROM ' . $wpdb->prefix . 'actionscheduler_actions WHERE hook = "add_to_zip" AND group_id = "' . $gr->group_id . '"');
+            foreach ($actions as $action) {
+                unlink(WHT_BACKUP_DIR . '/' . json_decode($action->args)->files->data_file);
+            }
+            self::clean_queue($group);
+        }
     }
 
     /**

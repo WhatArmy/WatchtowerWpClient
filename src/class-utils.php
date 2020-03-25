@@ -95,6 +95,22 @@ class Utils
     }
 
     /**
+     * @param $filename
+     * @return string
+     */
+    public static function extract_group_from_filename($filename)
+    {
+        if (strpos($filename, '_dump.sql.gz') !== false) {
+            return explode('_dump.sql.gz', $filename)[0];
+        }
+
+        if (strpos($filename, '.zip') !== false) {
+            return explode('.zip', $filename)[0];
+        }
+
+    }
+
+    /**
      * @param $needle
      * @param $replace
      * @param $haystack

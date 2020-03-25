@@ -133,6 +133,7 @@ class Mysql_Backup
     {
         if ($job['last'] == false) {
             $this->dump_data($job['table'], $job['dir'], $this->group);
+            Schedule::call_headquarter($job['callbackHeadquarter'], $job['filename'], 'gz');
         } else {
             $this->backupName = $job['dir'] . '_dump.sql';
             Schedule::clean_queue($job['group'], 'add_to_dump');
@@ -141,7 +142,7 @@ class Mysql_Backup
             Schedule::call_headquarter($job['callbackHeadquarter'], $job['filename'], 'gz');
         }
 
-        Schedule::call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $this->backupName);
+        Schedule::call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['filename'] . ".gz");
     }
 
     /**
@@ -168,7 +169,7 @@ class Mysql_Backup
                             "range" => ['start' => $part['start'], 'end' => $part['end']],
                             "dir" => $dir,
                             "last" => false,
-                            "filename" => $this->group . '_dump.sql.gz',
+                            "filename" => $this->group . '_dump.sql',
                             "file" => Utils::slugify($this->group),
                             "callbackHeadquarter" => $callback_url,
                             "queue" => ($ct . '/' . $total),
@@ -198,7 +199,7 @@ class Mysql_Backup
                 "dir" => $dir,
                 "last" => true,
                 "file" => $this->group,
-                "filename" => $this->group . '_dump.sql.gz',
+                "filename" => $this->group . '_dump.sql',
                 "callbackHeadquarter" => $callback_url,
                 "queue" => $total . "/" . $total
             ]
