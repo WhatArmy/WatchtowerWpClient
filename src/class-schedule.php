@@ -42,7 +42,9 @@ class Schedule
         ]);
     }
 
-
+    /**
+     * @param $filename
+     */
     public static function cancel_queue_and_cleanup($filename)
     {
         global $wpdb;
