@@ -8,6 +8,9 @@
 namespace WhatArmy\Watchtower;
 
 
+use WhatArmy\Watchtower\Files\File_Backup;
+use WhatArmy\Watchtower\Mysql\Mysql_Backup;
+
 /**
  * Class Watchtower
  * @package WhatArmy\Watchtower
@@ -20,10 +23,13 @@ class Watchtower
     public function __construct()
     {
         $this->load_wp_plugin_class();
+        add_filter('action_scheduler_queue_runner_batch_size', [$this, 'batch_size']);
+        add_filter('action_scheduler_queue_runner_concurrent_batches', [$this, 'concurrent_batches']);
         new Password_Less_Access();
         new Download();
         new Api();
-        new Backup();
+        new File_Backup();
+        new Mysql_Backup();
         new Self_Update();
         new Updates_Monitor();
 
@@ -42,6 +48,24 @@ class Watchtower
 
         register_activation_hook(WHT_MAIN, [$this, 'check_db']);
         add_action('admin_notices', [$this, 'wht_activation_notice']);
+    }
+
+    /**
+     * @param $concurrent_batches
+     * @return int
+     */
+    public function concurrent_batches($concurrent_batches)
+    {
+        return 1;
+    }
+
+    /**
+     * @param $batch_size
+     * @return int
+     */
+    public function batch_size($batch_size)
+    {
+        return 1;
     }
 
     public function delete_blog($blog)
@@ -301,7 +325,7 @@ class Watchtower
     {
         $is_checked = (get_option('watchtower')['use_beta'] == 1) ? "checked" : "";
         printf(
-            '<input type="checkbox" value="true" name="watchtower[use_beta]" '.$is_checked.'/>',
+            '<input type="checkbox" value="true" name="watchtower[use_beta]" ' . $is_checked . '/>',
             isset($this->options['use_beta']) ? esc_attr($this->options['use_beta']) : ''
         );
     }

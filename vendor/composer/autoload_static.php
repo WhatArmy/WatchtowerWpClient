@@ -26,6 +26,10 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Filesystem\\' => 29,
         ),
+        'I' => 
+        array (
+            'Ifsnop\\' => 7,
+        ),
         'D' => 
         array (
             'Doctrine\\Common\\Collections\\' => 28,
@@ -68,6 +72,10 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
         'Symfony\\Component\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
+        ),
+        'Ifsnop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ifsnop/mysqldump-php/src/Ifsnop',
         ),
         'Doctrine\\Common\\Collections\\' => 
         array (
