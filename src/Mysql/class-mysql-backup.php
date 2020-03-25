@@ -33,15 +33,26 @@ class Mysql_Backup
 
     private function db_stats()
     {
+        global $wpdb;
+
         $tables_stats = $this->db->get_results("SELECT table_name 'name', table_rows 'rows', round(((data_length + index_length)/1024/1024),2) 'size_mb' 
                                       FROM information_schema.TABLES 
                                       WHERE table_schema = '" . DB_NAME . "';", ARRAY_N);
         $to_ret = new \stdClass();
+        $exclusion = [
+            $wpdb->prefix . 'actionscheduler_actions',
+            $wpdb->prefix . 'actionscheduler_claims',
+            $wpdb->prefix . 'actionscheduler_groups',
+            $wpdb->prefix . 'actionscheduler_logs',
+        ];
         foreach ($tables_stats as $table) {
-            $to_ret->{$table[0]} = [
-                'count' => $table[1],
-                'size' => $table[2],
-            ];
+            if (!in_array($table[0], $exclusion)) {
+                $to_ret->{$table[0]} = [
+                    'count' => $table[1],
+                    'size' => $table[2],
+                ];
+            }
+
         }
         $to_ret = json_decode(json_encode($to_ret), true);
 
@@ -132,17 +143,15 @@ class Mysql_Backup
     public function add_to_dump($job)
     {
         if ($job['last'] == false) {
-            $this->dump_data($job['table'], $job['dir'], $this->group);
-            Schedule::call_headquarter($job['callbackHeadquarter'], $job['filename'], 'gz');
+            $this->dump_data($job['table'], $job['dir'], $job['range']);
         } else {
+            Schedule::call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['filename'] . ".gz");
             $this->backupName = $job['dir'] . '_dump.sql';
             Schedule::clean_queue($job['group'], 'add_to_dump');
             Utils::gzCompressFile($this->backupName);
             unlink($this->backupName);
             Schedule::call_headquarter($job['callbackHeadquarter'], $job['filename'], 'gz');
         }
-
-        Schedule::call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['filename'] . ".gz");
     }
 
     /**
@@ -162,7 +171,7 @@ class Mysql_Backup
             if ($this->should_separate($table)) {
 
                 foreach ($this->split_to_parts($table) as $part) {
-                    $total = count($this->split_to_parts($table)) + 1;
+                    error_log($table['name'] . '/' . $part['start'] . '/' . $part['end']);
                     $this->dispatch_job([
                         'job' => [
                             "table" => $table['name'],
@@ -172,7 +181,7 @@ class Mysql_Backup
                             "filename" => $this->group . '_dump.sql',
                             "file" => Utils::slugify($this->group),
                             "callbackHeadquarter" => $callback_url,
-                            "queue" => ($ct . '/' . $total),
+                            "queue" => '1/1',
                         ]
                     ], Utils::slugify($this->group));
                     $ct++;
@@ -182,7 +191,7 @@ class Mysql_Backup
             }
         }
 
-        $this->add_finish_job($dir, $callback_url, $ct);
+        $this->add_finish_job($dir, $callback_url);
 
         return $this->group . '_dump.sql.gz';
     }
@@ -190,9 +199,8 @@ class Mysql_Backup
     /**
      * @param $dir
      * @param $callback_url
-     * @param $total
      */
-    private function add_finish_job($dir, $callback_url, $total)
+    private function add_finish_job($dir, $callback_url)
     {
         $this->dispatch_job([
             'job' => [
@@ -201,7 +209,7 @@ class Mysql_Backup
                 "file" => $this->group,
                 "filename" => $this->group . '_dump.sql',
                 "callbackHeadquarter" => $callback_url,
-                "queue" => $total . "/" . $total
+                "queue" => '100/100'
             ]
         ], Utils::slugify($this->group));
     }
