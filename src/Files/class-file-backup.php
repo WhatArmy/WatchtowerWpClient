@@ -10,7 +10,6 @@ namespace WhatArmy\Watchtower\Files;
 
 use SplFileObject;
 use Symfony\Component\Finder\Finder;
-use WhatArmy\Watchtower\Headquarter;
 use WhatArmy\Watchtower\Schedule;
 use WhatArmy\Watchtower\Utils;
 use ZipArchive;
