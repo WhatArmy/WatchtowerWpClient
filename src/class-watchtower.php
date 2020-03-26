@@ -23,6 +23,7 @@ class Watchtower
     public function __construct()
     {
         $this->load_wp_plugin_class();
+
         add_filter('action_scheduler_queue_runner_batch_size', [$this, 'batch_size']);
         add_filter('action_scheduler_queue_runner_concurrent_batches', [$this, 'concurrent_batches']);
         new Password_Less_Access();
@@ -36,7 +37,6 @@ class Watchtower
         add_action('admin_menu', [$this, 'add_plugin_page']);
         add_action('admin_init', [$this, 'page_init']);
         add_action('plugins_loaded', [$this, 'check_db']);
-
 
         if (function_exists('is_multisite') && is_multisite()) {
             register_activation_hook(WHT_MAIN, [$this, 'install_hook_multisite']);
@@ -209,12 +209,40 @@ class Watchtower
         <div class="wrap">
             <div class="wht-wrap">
                 <img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/logo.png'; ?>" alt="">
-                <form method="post" action="options.php">
+                <form method="post" action="options.php" id="wht-form">
                     <?php
                     settings_fields('watchtower');
-                    do_settings_sections('watchtower-settings');
-                    submit_button('Update settings');
                     ?>
+                    <?php
+                    do_settings_sections('watchtower-settings');
+                    ?>
+
+                    <hr style="margin-top:40px;">
+                    <div class="wht-info-paragraph">
+                        <h4>Need a new token?</h4>
+                        Use the button below to generate a new access
+                    </div>
+                    <div class="wht-buttons">
+                        <div>
+                            <?php
+                            submit_button('Save', 'primary', 'submit-save', true, array('data-style' => 'wht-save'));
+                            ?>
+                        </div>
+                        <div>
+                            <p class="submit">
+                                <?php
+
+                                $nonce = wp_create_nonce("wht_refresh_token_nonce");
+                                ?>
+                                <button type="button" data-nonce="<?php echo $nonce ?>" data-style="wht-refresh-token"
+                                        id="wht-refresh-token"
+                                        class="button button-primary">
+                                    Refresh Token
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -226,6 +254,11 @@ class Watchtower
                 setTimeout(function () {
                     jQuery('#wht-copied').css("display", "none");
                 }, 2000);
+            });
+
+            jQuery('#wht-refresh-token').on('click', function (e) {
+                jQuery("input[name='watchtower[access_token]']").prop('checked', true);
+                jQuery('#wht-form').submit();
             });
         </script>
         <?php
@@ -273,13 +306,10 @@ class Watchtower
      *
      * @return array
      */
-    public function sanitize(
-        $input
-    )
+    public function sanitize($input)
     {
         $token = new Token;
         $new_input = array();
-
         if (isset($input['access_token']) && $input['access_token'] == 'true') {
             $new_input['access_token'] = $token->generate();
         } else {
@@ -300,12 +330,13 @@ class Watchtower
      */
     public function access_token_info()
     {
-        print '<h1 class="centered">Access Token</h1>
+        print '
 <span class="watchtower_token_area">
 <span class="watchtower_token_field clip" data-clipboard-text="' . get_option('watchtower')['access_token'] . '">
+<small>ACCESS TOKEN</small>
 ' . get_option('watchtower')['access_token'] . '
 <span id="wht-copied">Copied!</span>
-<span id="wht-copy-info">Click to Copy</span>
+<span id="wht-copy-info"><span class="dashicons dashicons-admin-page"></span></span>
 </span>
 </span>';
     }
