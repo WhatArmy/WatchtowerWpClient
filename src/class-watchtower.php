@@ -224,11 +224,6 @@ class Watchtower
                     </div>
                     <div class="wht-buttons">
                         <div>
-                            <?php
-                            submit_button('Save', 'primary', 'submit-save', true, array('data-style' => 'wht-save'));
-                            ?>
-                        </div>
-                        <div>
                             <p class="submit">
                                 <?php
 
@@ -240,6 +235,11 @@ class Watchtower
                                     Refresh Token
                                 </button>
                             </p>
+                        </div>
+                        <div>
+                            <?php
+                            submit_button('Save', 'primary', 'submit-save', true, array('data-style' => 'wht-save'));
+                            ?>
                         </div>
                     </div>
 
