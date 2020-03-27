@@ -1,0 +1,21 @@
+{
+  "name": "phreshservice-test",
+  "slug": "phreshservice-test",
+  "version": "1.1.1",
+  "download_url": "https://pluginpath/not-important/the-update-is-works/just-the-info-popup-not/phreshservice-test.zip",
+  "homepage": "https://phresh-it.hu/apps/phreshservice/",
+  "requires": "4.5",
+  "tested": "4.8",
+  "last_updated": "2019-01-01 16:17:00",
+  "upgrade_notice": "Here's why you should upgrade...",
+  "author": "Kis Krisztián - Phresh-IT",
+  "author_homepage": "https://phresh-it.hu/",
+  "sections": {
+    "description": "(Required) Plugin description. Basic HTML can be used in all sections.",
+    "changelog": "(Recommended) Changelog. <p>This section will be displayed by default when the user clicks.</p>"
+  },
+  "rating": 90,
+  "num_ratings": 123,
+  "downloaded": 1234,
+  "active_installs": 12345
+}

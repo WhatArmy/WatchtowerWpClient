@@ -19,13 +19,13 @@ class Self_Update
      */
     public function __construct()
     {
+        $use_beta = (get_option('watchtower')['use_beta'] == true) ? "develop" : "master";
+        $info_path = "https://raw.githubusercontent.com/WhatArmy/WatchtowerWpClient/{$use_beta}/info.json";
         $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
-            WHT_REPO_URL,
+            $info_path,
             WHT_MAIN,
             'whatarmy-watchtower-plugin'
         );
-
-        $use_beta = (get_option('watchtower')['use_beta'] == true) ? "develop" : "master";
 
         $myUpdateChecker->setBranch($use_beta);
         $myUpdateChecker->addResultFilter(function ($info, $response = null) {
