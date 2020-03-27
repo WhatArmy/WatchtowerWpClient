@@ -203,8 +203,8 @@ class Watchtower
     {
         $this->options = get_option('watchtower');
         ?>
-        <script src="<?php echo plugin_dir_url(__FILE__) . '../assets/js/clipboard.js'; ?>"></script>
-        <link href="<?php echo plugin_dir_url(__FILE__) . '../assets/css/wht_dashboard.css'; ?>" rel="stylesheet"
+        <script src="<?php echo plugin_dir_url(__FILE__) . '../assets/js/clipboard.js?v=2'; ?>"></script>
+        <link href="<?php echo plugin_dir_url(__FILE__) . '../assets/css/wht_dashboard.css?v=2'; ?>" rel="stylesheet"
               type="text/css" media="all">
         <div class="wrap">
             <div class="wht-wrap">
