@@ -48,6 +48,35 @@ class Watchtower
 
         register_activation_hook(WHT_MAIN, [$this, 'check_db']);
         add_action('admin_notices', [$this, 'wht_activation_notice']);
+
+        add_filter('plugin_action_links_' . plugin_basename(WHT_MAIN), array($this, 'plugin_action_links'));
+
+    }
+
+    public static function plugin_action_links($links)
+    {
+        $action_links = array(
+            'settings' => '<a href="' . admin_url('options-general.php?page=watchtower-setting-admin') . '">Settings</a>',
+        );
+
+        return array_merge($action_links, $links);
+    }
+
+    public function bkash_settings_link($links)
+    {
+        $settings_link = '<a href="admin.php?page=wc-settings&tab=checkout&section=softtech_bkash">' . __('Settings') . '</a>';
+
+
+        array_push($links, $settings_link);
+        return $links;
+    }
+
+    public function salcode_add_plugin_page_settings_link($links)
+    {
+        $links[] = '<a href="' .
+            admin_url('options-general.php?page=my-plugin') .
+            '">' . __('Settings') . '</a>';
+        return $links;
     }
 
     /**
