@@ -19,17 +19,19 @@ class Self_Update
      */
     public function __construct()
     {
-        $myUpdateChecker = \Puc_v4p8_Factory::buildUpdateChecker(
+        $myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
             WHT_REPO_URL,
             WHT_MAIN,
             'whatarmy-watchtower-plugin'
         );
 
-        $myUpdateChecker->setBranch('master');
+        $use_beta = (get_option('watchtower')['use_beta'] == true) ? "develop" : "master";
+
+        $myUpdateChecker->setBranch($use_beta);
         $myUpdateChecker->addResultFilter(function ($info, $response = null) {
             $info->icons = array(
-                '1x' => WHT_MAIN_URI.'/assets/images/logo1x.png',
-                '2x' => WHT_MAIN_URI.'/assets/images/logo2x.png',
+                '1x' => WHT_MAIN_URI . '/assets/images/logo1x.png',
+                '2x' => WHT_MAIN_URI . '/assets/images/logo2x.png',
             );
             return $info;
         });

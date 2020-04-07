@@ -8,7 +8,9 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'ef6802c8a38664a4b1e8712ed25377fb' => __DIR__ . '/..' . '/shuber/curl/curl.php',
+        '241d2b5b9c1e680c0770b006b0271156' => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/load-v4p9.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -18,10 +20,15 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Filesystem\\' => 29,
+        ),
+        'I' => 
+        array (
+            'Ifsnop\\' => 7,
         ),
         'D' => 
         array (
@@ -46,6 +53,10 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
@@ -61,6 +72,10 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
         'Symfony\\Component\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
+        ),
+        'Ifsnop\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ifsnop/mysqldump-php/src/Ifsnop',
         ),
         'Doctrine\\Common\\Collections\\' => 
         array (
@@ -80,28 +95,6 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'P' => 
-        array (
-            'Puc_v4p8_' => 
-            array (
-                0 => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker',
-            ),
-            'Puc_v4_' => 
-            array (
-                0 => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker',
-            ),
-            'PucReadmeParser' => 
-            array (
-                0 => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/vendor',
-            ),
-            'Parsedown' => 
-            array (
-                0 => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/vendor',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'MySQLDump' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLDump.php',
         'MySQLImport' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLImport.php',
@@ -112,7 +105,6 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00::$classMap;
 
         }, null, ClassLoader::class);

@@ -4,43 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b15f45bbc782e7d3b3c4e6ab7fca84f6",
+    "content-hash": "0058d3aba2d63114ad425a45251ef9fe",
     "packages": [
         {
             "name": "alchemy/zippy",
-            "version": "0.3.5",
+            "version": "0.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alchemy-fr/Zippy.git",
-                "reference": "92c773f7bbe47fdb30c61dbaea3dcbf4dd13a40a"
+                "reference": "59fbeefb9a249122867ef25e53addfcce31850d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alchemy-fr/Zippy/zipball/92c773f7bbe47fdb30c61dbaea3dcbf4dd13a40a",
-                "reference": "92c773f7bbe47fdb30c61dbaea3dcbf4dd13a40a",
+                "url": "https://api.github.com/repos/alchemy-fr/Zippy/zipball/59fbeefb9a249122867ef25e53addfcce31850d7",
+                "reference": "59fbeefb9a249122867ef25e53addfcce31850d7",
                 "shasum": ""
             },
             "require": {
                 "doctrine/collections": "~1.0",
-                "ext-mbstring": "*",
-                "php": ">=5.3.3",
-                "symfony/filesystem": "^2.0.5|^3.0",
-                "symfony/process": "^2.1|^3.0"
+                "php": ">=5.5",
+                "symfony/filesystem": "^2.0.5 || ^3.0 || ^4.0",
+                "symfony/polyfill-mbstring": "^1.3",
+                "symfony/process": "^2.1 || ^3.0 || ^4.0"
             },
             "require-dev": {
                 "ext-zip": "*",
                 "guzzle/guzzle": "~3.0",
-                "phpunit/phpunit": "^4.0|^5.0",
-                "symfony/finder": "^2.0.5|^3.0"
+                "guzzlehttp/guzzle": "^6.0",
+                "phpunit/phpunit": "^4.0 || ^5.0",
+                "symfony/finder": "^2.0.5 || ^3.0 || ^4.0"
             },
             "suggest": {
                 "ext-zip": "To use the ZipExtensionAdapter",
-                "guzzle/guzzle": "To use the GuzzleTeleporter"
+                "guzzle/guzzle": "To use the GuzzleTeleporter with Guzzle 3",
+                "guzzlehttp/guzzle": "To use the GuzzleTeleporter with Guzzle 6"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.2.x-dev"
+                    "dev-master": "0.4.x-dev"
                 }
             },
             "autoload": {
@@ -66,7 +68,7 @@
                 "tar",
                 "zip"
             ],
-            "time": "2016-02-15T22:46:40+00:00"
+            "time": "2018-02-22T13:58:36+00:00"
         },
         {
             "name": "barryvdh/composer-cleanup-plugin",
@@ -194,16 +196,16 @@
         },
         {
             "name": "doctrine/collections",
-            "version": "v1.6.2",
+            "version": "1.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
-                "reference": "c5e0bc17b1620e97c968ac409acbff28b8b850be"
+                "reference": "6b1e4b2b66f6d6e49983cebfe23a21b7ccc5b0d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/c5e0bc17b1620e97c968ac409acbff28b8b850be",
-                "reference": "c5e0bc17b1620e97c968ac409acbff28b8b850be",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/6b1e4b2b66f6d6e49983cebfe23a21b7ccc5b0d7",
+                "reference": "6b1e4b2b66f6d6e49983cebfe23a21b7ccc5b0d7",
                 "shasum": ""
             },
             "require": {
@@ -232,16 +234,16 @@
             ],
             "authors": [
                 {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
                     "name": "Roman Borschel",
                     "email": "roman@code-factory.org"
                 },
                 {
                     "name": "Benjamin Eberlei",
                     "email": "kontakt@beberlei.de"
-                },
-                {
-                    "name": "Guilherme Blanco",
-                    "email": "guilhermeblanco@gmail.com"
                 },
                 {
                     "name": "Jonathan Wage",
@@ -260,32 +262,64 @@
                 "iterators",
                 "php"
             ],
-            "time": "2019-06-09T13:48:14+00:00"
+            "time": "2019-11-13T13:07:11+00:00"
         },
         {
-            "name": "prospress/action-scheduler",
-            "version": "2.2.5",
+            "name": "ifsnop/mysqldump-php",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Prospress/action-scheduler.git",
-                "reference": "fd7c6b76a7af27d6403ffe39b0963dbd8ce50488"
+                "url": "https://github.com/code2prog/mysqldump-php.git",
+                "reference": "1e3934b17fb20e703e8a76583dc791e4ec06d84f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Prospress/action-scheduler/zipball/fd7c6b76a7af27d6403ffe39b0963dbd8ce50488",
-                "reference": "fd7c6b76a7af27d6403ffe39b0963dbd8ce50488",
+                "url": "https://api.github.com/repos/code2prog/mysqldump-php/zipball/1e3934b17fb20e703e8a76583dc791e4ec06d84f",
+                "reference": "1e3934b17fb20e703e8a76583dc791e4ec06d84f",
                 "shasum": ""
             },
-            "require-dev": {
-                "wp-cli/wp-cli": "1.5.1"
+            "require": {
+                "php": ">=5.3.0"
             },
-            "type": "wordpress-plugin",
-            "notification-url": "https://packagist.org/downloads/",
+            "require-dev": {
+                "phpunit/phpunit": "4.8.36",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ifsnop\\": "src/Ifsnop/"
+                }
+            },
             "license": [
-                "GPL-3.0"
+                "GPL-3.0-or-later"
             ],
-            "description": "Action Scheduler for WordPress and WooCommerce",
-            "time": "2019-04-24T12:45:40+00:00"
+            "authors": [
+                {
+                    "name": "Diego Torres",
+                    "homepage": "https://github.com/ifsnop",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP version of mysqldump cli that comes with MySQL",
+            "homepage": "https://github.com/ifsnop/mysqldump-php",
+            "keywords": [
+                "database",
+                "hhvm",
+                "mariadb",
+                "mysql",
+                "mysql-backup",
+                "mysqldump",
+                "pdo",
+                "php",
+                "php5",
+                "php7",
+                "sql"
+            ],
+            "support": {
+                "source": "https://github.com/code2prog/mysqldump-php/tree/master"
+            },
+            "time": "2020-03-20T14:11:54+00:00"
         },
         {
             "name": "shuber/curl",
@@ -322,26 +356,26 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.4.32",
+            "version": "v4.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "00e3a6ddd723b8bcfe4f2a1b6f82b98eeeb51516"
+                "reference": "fe297193bf2e6866ed900ed2d5869362768df6a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/00e3a6ddd723b8bcfe4f2a1b6f82b98eeeb51516",
-                "reference": "00e3a6ddd723b8bcfe4f2a1b6f82b98eeeb51516",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/fe297193bf2e6866ed900ed2d5869362768df6a7",
+                "reference": "fe297193bf2e6866ed900ed2d5869362768df6a7",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8",
+                "php": "^7.1.3",
                 "symfony/polyfill-ctype": "~1.8"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -368,20 +402,20 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2019-08-20T13:31:17+00:00"
+            "time": "2020-03-27T16:54:36+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v3.4.32",
+            "version": "v3.4.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "2b6a666d6ff7fb65d10b97d817c8e7930944afb9"
+                "reference": "5ec813ccafa8164ef21757e8c725d3a57da59200"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/2b6a666d6ff7fb65d10b97d817c8e7930944afb9",
-                "reference": "2b6a666d6ff7fb65d10b97d817c8e7930944afb9",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/5ec813ccafa8164ef21757e8c725d3a57da59200",
+                "reference": "5ec813ccafa8164ef21757e8c725d3a57da59200",
                 "shasum": ""
             },
             "require": {
@@ -417,20 +451,20 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2019-09-01T21:32:23+00:00"
+            "time": "2020-02-14T07:34:21+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.12.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "550ebaac289296ce228a706d0867afc34687e3f4"
+                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/550ebaac289296ce228a706d0867afc34687e3f4",
-                "reference": "550ebaac289296ce228a706d0867afc34687e3f4",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
+                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
                 "shasum": ""
             },
             "require": {
@@ -442,7 +476,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12-dev"
+                    "dev-master": "1.15-dev"
                 }
             },
             "autoload": {
@@ -475,29 +509,88 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2019-08-06T08:03:45+00:00"
+            "time": "2020-02-27T09:26:54+00:00"
         },
         {
-            "name": "symfony/process",
-            "version": "v3.4.32",
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/process.git",
-                "reference": "344dc588b163ff58274f1769b90b75237f32ed16"
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "81ffd3a9c6d707be22e3012b827de1c9775fc5ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/344dc588b163ff58274f1769b90b75237f32ed16",
-                "reference": "344dc588b163ff58274f1769b90b75237f32ed16",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/81ffd3a9c6d707be22e3012b827de1c9775fc5ac",
+                "reference": "81ffd3a9c6d707be22e3012b827de1c9775fc5ac",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8"
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "1.15-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2020-03-09T19:04:49+00:00"
+        },
+        {
+            "name": "symfony/process",
+            "version": "v4.4.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "3e40e87a20eaf83a1db825e1fa5097ae89042db3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/3e40e87a20eaf83a1db825e1fa5097ae89042db3",
+                "reference": "3e40e87a20eaf83a1db825e1fa5097ae89042db3",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -524,33 +617,66 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2019-09-25T14:09:38+00:00"
+            "time": "2020-03-27T16:54:36+00:00"
         },
         {
-            "name": "yahnis-elsts/plugin-update-checker",
-            "version": "v4.8",
+            "name": "woocommerce/action-scheduler",
+            "version": "3.1.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/YahnisElsts/plugin-update-checker.git",
-                "reference": "8ad3ff27698473accf51470ce46679c37279fa5c"
+                "url": "https://github.com/woocommerce/action-scheduler.git",
+                "reference": "5a01f0b549a283dc88c2feeef877650215907a76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/8ad3ff27698473accf51470ce46679c37279fa5c",
-                "reference": "8ad3ff27698473accf51470ce46679c37279fa5c",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/5a01f0b549a283dc88c2feeef877650215907a76",
+                "reference": "5a01f0b549a283dc88c2feeef877650215907a76",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.6",
+                "woocommerce/woocommerce-sniffs": "0.0.8",
+                "wp-cli/wp-cli": "~1.5.1"
+            },
+            "type": "wordpress-plugin",
+            "extra": {
+                "scripts-description": {
+                    "test": "Run unit tests",
+                    "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+                    "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "Action Scheduler for WordPress and WooCommerce",
+            "homepage": "https://actionscheduler.org/",
+            "time": "2020-03-18T15:05:10+00:00"
+        },
+        {
+            "name": "yahnis-elsts/plugin-update-checker",
+            "version": "v4.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YahnisElsts/plugin-update-checker.git",
+                "reference": "28f29c940cc22754aff85a99645e3c0a51c097e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/28f29c940cc22754aff85a99645e3c0a51c097e8",
+                "reference": "28f29c940cc22754aff85a99645e3c0a51c097e8",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": ">=5.2.0"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Puc_v4p8_": "",
-                    "Puc_v4_": "",
-                    "PucReadmeParser": "vendor/",
-                    "Parsedown": "vendor/"
-                }
+                "files": [
+                    "load-v4p9.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -572,14 +698,15 @@
                 "theme updates",
                 "wordpress"
             ],
-            "time": "2019-10-03T09:37:04+00:00"
+            "time": "2020-02-07T11:07:19+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "shuber/curl": 20
+        "shuber/curl": 20,
+        "ifsnop/mysqldump-php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -588,7 +715,8 @@
         "ext-zip": "*",
         "ext-mysqli": "*",
         "ext-json": "*",
-        "ext-fileinfo": "*"
+        "ext-fileinfo": "*",
+        "ext-zlib": "*"
     },
     "platform-dev": []
 }

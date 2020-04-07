@@ -8,6 +8,9 @@
 namespace WhatArmy\Watchtower;
 
 
+use WhatArmy\Watchtower\Files\File_Backup;
+use WhatArmy\Watchtower\Mysql\Mysql_Backup;
+
 /**
  * Class Watchtower
  * @package WhatArmy\Watchtower
@@ -20,17 +23,20 @@ class Watchtower
     public function __construct()
     {
         $this->load_wp_plugin_class();
+
+        add_filter('action_scheduler_queue_runner_batch_size', [$this, 'batch_size']);
+        add_filter('action_scheduler_queue_runner_concurrent_batches', [$this, 'concurrent_batches']);
         new Password_Less_Access();
         new Download();
         new Api();
-        new Backup();
+        new File_Backup();
+        new Mysql_Backup();
         new Self_Update();
         new Updates_Monitor();
 
         add_action('admin_menu', [$this, 'add_plugin_page']);
         add_action('admin_init', [$this, 'page_init']);
         add_action('plugins_loaded', [$this, 'check_db']);
-
 
         if (function_exists('is_multisite') && is_multisite()) {
             register_activation_hook(WHT_MAIN, [$this, 'install_hook_multisite']);
@@ -42,6 +48,53 @@ class Watchtower
 
         register_activation_hook(WHT_MAIN, [$this, 'check_db']);
         add_action('admin_notices', [$this, 'wht_activation_notice']);
+
+        add_filter('plugin_action_links_' . plugin_basename(WHT_MAIN), array($this, 'plugin_action_links'));
+
+    }
+
+    public static function plugin_action_links($links)
+    {
+        $action_links = array(
+            'settings' => '<a href="' . admin_url('options-general.php?page=watchtower-setting-admin') . '">Settings</a>',
+        );
+
+        return array_merge($action_links, $links);
+    }
+
+    public function bkash_settings_link($links)
+    {
+        $settings_link = '<a href="admin.php?page=wc-settings&tab=checkout&section=softtech_bkash">' . __('Settings') . '</a>';
+
+
+        array_push($links, $settings_link);
+        return $links;
+    }
+
+    public function salcode_add_plugin_page_settings_link($links)
+    {
+        $links[] = '<a href="' .
+            admin_url('options-general.php?page=my-plugin') .
+            '">' . __('Settings') . '</a>';
+        return $links;
+    }
+
+    /**
+     * @param $concurrent_batches
+     * @return int
+     */
+    public function concurrent_batches($concurrent_batches)
+    {
+        return 1;
+    }
+
+    /**
+     * @param $batch_size
+     * @return int
+     */
+    public function batch_size($batch_size)
+    {
+        return 1;
     }
 
     public function delete_blog($blog)
@@ -53,8 +106,8 @@ class Watchtower
             $blog_id = $blog->id;
         }
         switch_to_blog($blog_id);
-        $table_name = $wpdb->prefix.'watchtower_logs';
-        $wpdb->query("DROP TABLE IF EXISTS ".$table_name);
+        $table_name = $wpdb->prefix . 'watchtower_logs';
+        $wpdb->query("DROP TABLE IF EXISTS " . $table_name);
         restore_current_blog();
 
     }
@@ -119,7 +172,7 @@ class Watchtower
     public function load_wp_plugin_class()
     {
         if (!function_exists('get_plugins')) {
-            require_once ABSPATH.'wp-admin/includes/plugin.php';
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
     }
 
@@ -131,7 +184,7 @@ class Watchtower
         global $wpdb;
 
         $charset_collate = $wpdb->get_charset_collate();
-        $table_name = $wpdb->prefix.'watchtower_logs';
+        $table_name = $wpdb->prefix . 'watchtower_logs';
 
 
         $sql = "CREATE TABLE $table_name (
@@ -142,7 +195,7 @@ class Watchtower
 		UNIQUE KEY id (id)
 	) $charset_collate;";
 
-        require_once(ABSPATH.'wp-admin/includes/upgrade.php');
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
 
         update_option('watchtower_db_version', $version);
@@ -179,18 +232,46 @@ class Watchtower
     {
         $this->options = get_option('watchtower');
         ?>
-        <script src="<?php echo plugin_dir_url(__FILE__).'../assets/js/clipboard.js'; ?>"></script>
-        <link href="<?php echo plugin_dir_url(__FILE__).'../assets/css/wht_dashboard.css'; ?>" rel="stylesheet"
+        <script src="<?php echo plugin_dir_url(__FILE__) . '../assets/js/clipboard.js?v=2'; ?>"></script>
+        <link href="<?php echo plugin_dir_url(__FILE__) . '../assets/css/wht_dashboard.css?v=2'; ?>" rel="stylesheet"
               type="text/css" media="all">
         <div class="wrap">
             <div class="wht-wrap">
-                <h1 class="titled">Watchtower Settings</h1>
-                <form method="post" action="options.php">
+                <img src="<?php echo plugin_dir_url(__FILE__) . '../assets/images/logo.png'; ?>" alt="">
+                <form method="post" action="options.php" id="wht-form">
                     <?php
                     settings_fields('watchtower');
-                    do_settings_sections('watchtower-settings');
-                    submit_button('Update settings');
                     ?>
+                    <?php
+                    do_settings_sections('watchtower-settings');
+                    ?>
+
+                    <hr style="margin-top:40px;">
+                    <div class="wht-info-paragraph">
+                        <h4>Need a new token?</h4>
+                        Use the button below to generate a new access
+                    </div>
+                    <div class="wht-buttons">
+                        <div>
+                            <p class="submit">
+                                <?php
+
+                                $nonce = wp_create_nonce("wht_refresh_token_nonce");
+                                ?>
+                                <button type="button" data-nonce="<?php echo $nonce ?>" data-style="wht-refresh-token"
+                                        id="wht-refresh-token"
+                                        class="button button-primary">
+                                    Refresh Token
+                                </button>
+                            </p>
+                        </div>
+                        <div>
+                            <?php
+                            submit_button('Save', 'primary', 'submit-save', true, array('data-style' => 'wht-save'));
+                            ?>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -202,6 +283,11 @@ class Watchtower
                 setTimeout(function () {
                     jQuery('#wht-copied').css("display", "none");
                 }, 2000);
+            });
+
+            jQuery('#wht-refresh-token').on('click', function (e) {
+                jQuery("input[name='watchtower[access_token]']").prop('checked', true);
+                jQuery('#wht-form').submit();
             });
         </script>
         <?php
@@ -233,6 +319,15 @@ class Watchtower
             'access_token_section',
             []
         );
+
+        add_settings_field(
+            'use_beta',
+            'Use Beta Plugin',
+            [$this, 'use_beta_callback'],
+            'watchtower-settings',
+            'access_token_section',
+            []
+        );
     }
 
     /**
@@ -240,16 +335,20 @@ class Watchtower
      *
      * @return array
      */
-    public function sanitize(
-        $input
-    ) {
+    public function sanitize($input)
+    {
         $token = new Token;
         $new_input = array();
-
         if (isset($input['access_token']) && $input['access_token'] == 'true') {
             $new_input['access_token'] = $token->generate();
         } else {
             $new_input['access_token'] = get_option('watchtower')['access_token'];
+        }
+
+        if (isset($input['use_beta']) && $input['use_beta'] == 'true') {
+            $new_input['use_beta'] = true;
+        } else {
+            $new_input['use_beta'] = false;
         }
 
         return $new_input;
@@ -260,12 +359,13 @@ class Watchtower
      */
     public function access_token_info()
     {
-        print '<h1 class="centered">Access Token</h1>
+        print '
 <span class="watchtower_token_area">
-<span class="watchtower_token_field clip" data-clipboard-text="'.get_option('watchtower')['access_token'].'">
-'.get_option('watchtower')['access_token'].'
+<span class="watchtower_token_field clip" data-clipboard-text="' . get_option('watchtower')['access_token'] . '">
+<small>ACCESS TOKEN</small>
+' . get_option('watchtower')['access_token'] . '
 <span id="wht-copied">Copied!</span>
-<span id="wht-copy-info">Click to Copy</span>
+<span id="wht-copy-info"><span class="dashicons dashicons-admin-page"></span></span>
 </span>
 </span>';
     }
@@ -278,6 +378,15 @@ class Watchtower
         printf(
             '<input type="checkbox" value="true" name="watchtower[access_token]" />',
             isset($this->options['access_token']) ? esc_attr($this->options['access_token']) : ''
+        );
+    }
+
+    public function use_beta_callback()
+    {
+        $is_checked = (get_option('watchtower')['use_beta'] == 1) ? "checked" : "";
+        printf(
+            '<input type="checkbox" value="true" name="watchtower[use_beta]" ' . $is_checked . '/>',
+            isset($this->options['use_beta']) ? esc_attr($this->options['use_beta']) : ''
         );
     }
 }

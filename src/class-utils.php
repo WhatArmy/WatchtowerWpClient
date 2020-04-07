@@ -20,6 +20,10 @@ class Utils
         return $match[0];
     }
 
+    /**
+     * @param int $length
+     * @return string
+     */
     public static function random_string($length = 12)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -73,7 +77,7 @@ class Utils
     /**
      * @param $haystack
      * @param $needle
-     * @param  int  $offset
+     * @param int $offset
      * @return bool
      */
     public static function strposa($haystack, $needle, $offset = 0)
@@ -90,14 +94,122 @@ class Utils
         return false;
     }
 
+    /**
+     * @param $filename
+     * @return string
+     */
+    public static function extract_group_from_filename($filename)
+    {
+        if (strpos($filename, '_dump.sql.gz') !== false) {
+            return explode('_dump.sql.gz', $filename)[0];
+        }
+
+        if (strpos($filename, '.zip') !== false) {
+            return explode('.zip', $filename)[0];
+        }
+
+    }
+
+    /**
+     * @param $needle
+     * @param $replace
+     * @param $haystack
+     * @return string|string[]
+     */
+    public static function str_replace_once($needle, $replace, $haystack)
+    {
+        $pos = strpos($haystack, $needle);
+        return (false !== $pos) ? substr_replace($haystack, $replace, $pos, strlen($needle)) : $haystack;
+    }
+
+    /**
+     * @param $path
+     * @param float|int $ms
+     */
     public static function cleanup_old_backups($path, $ms = 60 * 60 * 12)
     {
-        foreach (glob($path.'/*') as $file) {
+        foreach (glob($path . '/*') as $file) {
             if (is_file($file)) {
-                if (time() - filemtime($file) >=  $ms) {
+                if (time() - filemtime($file) >= $ms) {
                     unlink($file);
                 }
             }
         }
+    }
+
+    /**
+     * @param $text
+     * @return false|string|string[]|null
+     */
+    public static function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
+    }
+
+    public static function create_backup_dir()
+    {
+        if (!file_exists(WHT_BACKUP_DIR)) {
+            mkdir(WHT_BACKUP_DIR, 0777, true);
+        }
+
+        if (!file_exists(WHT_BACKUP_DIR . '/index.html')) {
+            @file_put_contents(WHT_BACKUP_DIR . '/index.html',
+                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/index.html.stub'));
+        }
+
+        if (!file_exists(WHT_BACKUP_DIR . '/.htaccess')) {
+            @file_put_contents(WHT_BACKUP_DIR . '/.htaccess',
+                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/htaccess.stub'));
+        }
+
+        if (!file_exists(WHT_BACKUP_DIR . '/web.config')) {
+            @file_put_contents(WHT_BACKUP_DIR . '/web.config',
+                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/web.config.stub'));
+        }
+    }
+
+    public static function gzCompressFile($source, $level = 9)
+    {
+        $dest = $source . '.gz';
+        $mode = 'wb' . $level;
+        $error = false;
+        if ($fp_out = gzopen($dest, $mode)) {
+            if ($fp_in = fopen($source, 'rb')) {
+                while (!feof($fp_in))
+                    gzwrite($fp_out, fread($fp_in, 1024 * 512));
+                fclose($fp_in);
+            } else {
+                $error = true;
+            }
+            gzclose($fp_out);
+        } else {
+            $error = true;
+        }
+        if ($error)
+            return false;
+        else
+            return $dest;
     }
 }
