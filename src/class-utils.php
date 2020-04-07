@@ -21,7 +21,7 @@ class Utils
     }
 
     /**
-     * @param int $length
+     * @param  int  $length
      * @return string
      */
     public static function random_string($length = 12)
@@ -77,7 +77,7 @@ class Utils
     /**
      * @param $haystack
      * @param $needle
-     * @param int $offset
+     * @param  int  $offset
      * @return bool
      */
     public static function strposa($haystack, $needle, $offset = 0)
@@ -124,11 +124,11 @@ class Utils
 
     /**
      * @param $path
-     * @param float|int $ms
+     * @param  float|int  $ms
      */
     public static function cleanup_old_backups($path, $ms = 60 * 60 * 12)
     {
-        foreach (glob($path . '/*') as $file) {
+        foreach (glob($path.'/*') as $file) {
             if (is_file($file)) {
                 if (time() - filemtime($file) >= $ms) {
                     unlink($file);
@@ -174,31 +174,32 @@ class Utils
             mkdir(WHT_BACKUP_DIR, 0777, true);
         }
 
-        if (!file_exists(WHT_BACKUP_DIR . '/index.html')) {
-            @file_put_contents(WHT_BACKUP_DIR . '/index.html',
-                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/index.html.stub'));
+        if (!file_exists(WHT_BACKUP_DIR.'/index.html')) {
+            @file_put_contents(WHT_BACKUP_DIR.'/index.html',
+                file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/index.html.stub'));
         }
 
-        if (!file_exists(WHT_BACKUP_DIR . '/.htaccess')) {
-            @file_put_contents(WHT_BACKUP_DIR . '/.htaccess',
-                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/htaccess.stub'));
+        if (!file_exists(WHT_BACKUP_DIR.'/.htaccess')) {
+            @file_put_contents(WHT_BACKUP_DIR.'/.htaccess',
+                file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/htaccess.stub'));
         }
 
-        if (!file_exists(WHT_BACKUP_DIR . '/web.config')) {
-            @file_put_contents(WHT_BACKUP_DIR . '/web.config',
-                file_get_contents(plugin_dir_path(WHT_MAIN) . '/stubs/web.config.stub'));
+        if (!file_exists(WHT_BACKUP_DIR.'/web.config')) {
+            @file_put_contents(WHT_BACKUP_DIR.'/web.config',
+                file_get_contents(plugin_dir_path(WHT_MAIN).'/stubs/web.config.stub'));
         }
     }
 
     public static function gzCompressFile($source, $level = 9)
     {
-        $dest = $source . '.gz';
-        $mode = 'wb' . $level;
+        $dest = $source.'.gz';
+        $mode = 'wb'.$level;
         $error = false;
         if ($fp_out = gzopen($dest, $mode)) {
             if ($fp_in = fopen($source, 'rb')) {
-                while (!feof($fp_in))
+                while (!feof($fp_in)) {
                     gzwrite($fp_out, fread($fp_in, 1024 * 512));
+                }
                 fclose($fp_in);
             } else {
                 $error = true;
@@ -207,9 +208,15 @@ class Utils
         } else {
             $error = true;
         }
-        if ($error)
+        if ($error) {
             return false;
-        else
+        } else {
             return $dest;
+        }
+    }
+
+    public static function flush_cache()
+    {
+        wp_cache_flush();
     }
 }
