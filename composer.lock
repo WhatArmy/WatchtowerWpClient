@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0058d3aba2d63114ad425a45251ef9fe",
+    "content-hash": "43537697e3a5c2967f47612f9fb0fad9",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -512,6 +512,65 @@
             "time": "2020-02-27T09:26:54+00:00"
         },
         {
+            "name": "symfony/polyfill-iconv",
+            "version": "v1.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-iconv.git",
+                "reference": "ad6d62792bfbcfc385dd34b424d4fcf9712a32c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/ad6d62792bfbcfc385dd34b424d4fcf9712a32c8",
+                "reference": "ad6d62792bfbcfc385dd34b424d4fcf9712a32c8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-iconv": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.15-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Iconv\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Iconv extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "iconv",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2020-03-09T19:04:49+00:00"
+        },
+        {
             "name": "symfony/polyfill-mbstring",
             "version": "v1.15.0",
             "source": {
@@ -716,7 +775,8 @@
         "ext-mysqli": "*",
         "ext-json": "*",
         "ext-fileinfo": "*",
-        "ext-zlib": "*"
+        "ext-zlib": "*",
+        "ext-iconv": "*"
     },
     "platform-dev": []
 }

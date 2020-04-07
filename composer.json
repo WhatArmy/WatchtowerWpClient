@@ -39,6 +39,8 @@
     "symfony/finder": "3.x",
     "barryvdh/composer-cleanup-plugin": "0.2.x",
     "ifsnop/mysqldump-php": "dev-master",
-    "ext-zlib": "*"
+    "ext-zlib": "*",
+    "ext-iconv": "*",
+    "symfony/polyfill-iconv": "^1.15"
   }
 }
