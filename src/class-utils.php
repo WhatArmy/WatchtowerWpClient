@@ -7,6 +7,8 @@
 
 namespace WhatArmy\Watchtower;
 
+use finfo;
+
 /**
  * Class Utils
  * @package WhatArmy\Watchtower

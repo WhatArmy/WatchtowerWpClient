@@ -16,7 +16,8 @@ class Stream_Download
 
         $fileInfo = $this->getFileInfo($sourceFile);
 
-        $this->setHeaders($fileInfo['mimeType'], $fileName, $fileInfo['fileSize'], $fileInfo['offset'], $fileInfo['end']);
+        $this->setHeaders($fileInfo['mimeType'], $fileName, $fileInfo['fileSize'], $fileInfo['offset'],
+            $fileInfo['end']);
 
         $sourceFile = fopen($sourceFile, 'r');
         // seek to the requested offset, this is 0 if it's not a partial content request
@@ -36,7 +37,7 @@ class Stream_Download
         exit;
     }
 
-    private function getFileInfo(string $sourceFile)
+    private function getFileInfo($sourceFile)
     {
         $fileSize = filesize($sourceFile);
         $offset = 0;
@@ -55,11 +56,11 @@ class Stream_Download
         }
 
         return [
-            'length' => $length,
-            'offset' => $offset,
-            'end' => $end,
+            'length'   => $length,
+            'offset'   => $offset,
+            'end'      => $end,
             'fileSize' => $fileSize,
-            'mimeType' => mime_content_type($sourceFile),
+            'mimeType' => 'application/gzip',
         ];
     }
 
@@ -72,8 +73,8 @@ class Stream_Download
         }
 
         // output the regular HTTP headers
-        header('Content-Type: ' . $mimeType);
-        header("Content-Length: " . $fileSize);
+        header('Content-Type: '.$mimeType);
+        header("Content-Length: ".$fileSize);
         header("Content-Disposition: attachment; filename=\"$fileName\"");
         header('Accept-Ranges: bytes');
     }
