@@ -89,31 +89,31 @@ class Api
     {
         $core = new Core();
         $res = $core->upgrade();
-
+        Utils::flush_cache();
         return $this->make_response($res);
     }
 
     /**
-     * @param WP_REST_Request $request
+     * @param  WP_REST_Request  $request
      * @return WP_REST_Response
      */
     public function run_upgrade_theme_action(WP_REST_Request $request)
     {
         $plugin = new Theme();
         $res = $plugin->doUpdate($request->get_param('toUpdate'));
-
+        Utils::flush_cache();
         return $this->make_response($res);
     }
 
     /**
-     * @param WP_REST_Request $request
+     * @param  WP_REST_Request  $request
      * @return WP_REST_Response
      */
     public function run_upgrade_plugin_action(WP_REST_Request $request)
     {
         $plugin = new Plugin();
         $res = $plugin->doUpdate($request->get_param('toUpdate'));
-
+        Utils::flush_cache();
         return $this->make_response($res);
     }
 
@@ -138,7 +138,7 @@ class Api
     }
 
     /**
-     * @param WP_REST_Request $request
+     * @param  WP_REST_Request  $request
      * @return WP_REST_Response
      */
     public function run_backup_file_queue_action(WP_REST_Request $request)
@@ -150,7 +150,7 @@ class Api
     }
 
     /**
-     * @param WP_REST_Request $request
+     * @param  WP_REST_Request  $request
      * @return WP_REST_Response
      */
     public function cancel_backup_action(WP_REST_Request $request)
@@ -161,7 +161,7 @@ class Api
     }
 
     /**
-     * @param WP_REST_Request $request
+     * @param  WP_REST_Request  $request
      * @return WP_REST_Response
      */
     public function run_backup_db_action(WP_REST_Request $request)
@@ -174,7 +174,7 @@ class Api
 
 
     /**
-     * @param WP_REST_Request $request
+     * @param  WP_REST_Request  $request
      * @return WP_REST_Response
      */
     public function run_backup_file_action(WP_REST_Request $request)
@@ -182,7 +182,7 @@ class Api
         $backup = new File_Backup();
         $filename = $backup->run($request->get_param('callbackUrl'));
 
-        return $this->make_response(['filename' => $filename . '.zip']);
+        return $this->make_response(['filename' => $filename.'.zip']);
     }
 
 
@@ -200,14 +200,15 @@ class Api
      */
     public function get_all_action()
     {
+        Utils::flush_cache();
         $core = new Core;
         $plugins = new Plugin;
         $themes = new Theme;
 
         return $this->make_response([
-            'core' => $core->get(),
+            'core'    => $core->get(),
             'plugins' => $plugins->get(),
-            'themes' => $themes->get(),
+            'themes'  => $themes->get(),
         ]);
     }
 
@@ -248,8 +249,8 @@ class Api
     }
 
     /**
-     * @param array $data
-     * @param int $status_code
+     * @param  array  $data
+     * @param  int  $status_code
      * @return WP_REST_Response
      */
     private function make_response($data = [], $status_code = 200)
@@ -257,7 +258,7 @@ class Api
         $core = new Core;
         $response = new WP_REST_Response([
             'version' => $core->test()['version'],
-            'data' => $data
+            'data'    => $data
         ]);
         $response->set_status($status_code);
 
@@ -265,7 +266,7 @@ class Api
     }
 
     /**
-     * @param WP_REST_Request $request
+     * @param  WP_REST_Request  $request
      * @return bool
      */
     public function check_permission(WP_REST_Request $request)
@@ -274,7 +275,7 @@ class Api
     }
 
     /**
-     * @param WP_REST_Request $request
+     * @param  WP_REST_Request  $request
      * @return bool
      */
     public function check_ota(WP_REST_Request $request)
@@ -283,15 +284,15 @@ class Api
     }
 
     /**
-     * @param callable $_action
-     * @param string $method
+     * @param  callable  $_action
+     * @param  string  $method
      * @return array
      */
     private function resolve_action($_action, $method = 'POST')
     {
         return [
-            'methods' => $method,
-            'callback' => [$this, $_action],
+            'methods'             => $method,
+            'callback'            => [$this, $_action],
             'permission_callback' => [$this, ($_action == 'access_login_action') ? 'check_ota' : 'check_permission']
         ];
     }
