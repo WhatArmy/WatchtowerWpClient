@@ -6,77 +6,47 @@ namespace WhatArmy\Watchtower;
 
 class Stream_Download
 {
-    public function downloadFile($sourceFile, $fileName, $chunkSize = 1)
+
+    /**
+     * @param $file
+     * @param  null  $name
+     */
+    protected function sendHeaders($file, $name = null)
     {
-        $file = $sourceFile;
-        $bufferSize = $chunkSize * (1024 * 1024);
-
-        // don't forget to send the data too
-        ini_set('memory_limit', '-1');
-
-        $fileInfo = $this->getFileInfo($sourceFile);
-
-        $this->setHeaders($fileInfo['mimeType'], $fileName, $fileInfo['fileSize'], $fileInfo['offset'],
-            $fileInfo['end']);
-
-        $sourceFile = fopen($sourceFile, 'r');
-        // seek to the requested offset, this is 0 if it's not a partial content request
-        fseek($sourceFile, $fileInfo['offset']);
-
-        while ($fileInfo['length'] >= $bufferSize) {
-            print(fread($sourceFile, $bufferSize));
-            $fileInfo['length'] -= $bufferSize;
+        $mime = mime_content_type($file);
+        if ($name == null) {
+            $name = basename($file);
         }
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Disposition: attachment; filename="'.$name.'";');
+        header('Content-Type: '.$mime);
+        header('Content-Length: '.filesize($file));
+    }
 
-        if ($fileInfo['length']) {
-            print(fread($sourceFile, $fileInfo['length']));
+    /**
+     * @param $file
+     * @param $basename
+     */
+    public function downloadFile($file, $basename)
+    {
+        self::sendHeaders($file, $basename);
+        $download_rate = 600 * 10;
+        $handle = fopen($file, 'r');
+        while (!feof($handle)) {
+            $buffer = fread($handle, round($download_rate * 1024));
+            echo $buffer;
+            if (strpos($file, 'sql.gz') === false) {
+                @ob_end_flush();
+            }
+            flush();
+            sleep(1);
         }
-
-        fclose($sourceFile);
+        fclose($handle);
         unlink($file);
         exit;
-    }
-
-    private function getFileInfo($sourceFile)
-    {
-        $fileSize = filesize($sourceFile);
-        $offset = 0;
-        $end = $fileSize - 1;
-        $length = $fileSize;
-
-        if (isset($_SERVER['HTTP_RANGE'])) {
-            preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
-            $offset = intval($matches[1]);
-            $end = $matches[2] || $matches[2] === '0' ? intval($matches[2]) : $fileSize - 1;
-            $length = $end + 1 - $offset;
-        }
-
-        if (strpos($sourceFile, '.zip') !== false) {
-            $mime = 'application/zip';
-        } else {
-            $mime = 'application/gzip';
-        }
-        return [
-            'length'   => $length,
-            'offset'   => $offset,
-            'end'      => $end,
-            'fileSize' => $fileSize,
-            'mimeType' => $mime,
-        ];
-    }
-
-    private function setHeaders($mimeType, $fileName, $fileSize, $offset, $end)
-    {
-        if (isset($_SERVER['HTTP_RANGE'])) {
-            // output the right headers for partial content
-            header('HTTP/1.1 206 Partial Content');
-            header("Content-Range: bytes $offset-$end/$fileSize");
-        }
-
-        // output the regular HTTP headers
-        header('Content-Type: '.$mimeType);
-        header("Content-Length: ".$fileSize);
-        header("Content-Disposition: attachment; filename=\"$fileName\"");
-        header('Accept-Ranges: bytes');
     }
 }
