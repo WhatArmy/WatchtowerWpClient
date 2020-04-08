@@ -7,8 +7,6 @@
 
 namespace WhatArmy\Watchtower;
 
-use finfo;
-
 /**
  * Class Utils
  * @package WhatArmy\Watchtower
@@ -219,6 +217,6 @@ class Utils
 
     public static function flush_cache()
     {
-        wp_cache_flush();
+       //wp_cache_flush();
     }
 }
