@@ -45,10 +45,6 @@ class Stream_Download
         $length = $fileSize;
 
         if (isset($_SERVER['HTTP_RANGE'])) {
-            // if the HTTP_RANGE header is set we're dealing with partial content
-            // find the requested range
-            // this might be too simplistic, apparently the client can request
-            // multiple ranges, which can become pretty complex, so ignore it for now
             preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
             $offset = intval($matches[1]);
             $end = $matches[2] || $matches[2] === '0' ? intval($matches[2]) : $fileSize - 1;
