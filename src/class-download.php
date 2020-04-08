@@ -85,7 +85,7 @@ class Download
      */
     protected function sendHeaders($file, $name = null)
     {
-        $mime = mime_content_type($file);
+        $mime = (strpos($file, '.zip') !== false) ? 'application/zip' : 'application/gzip';
         if ($name == null) {
             $name = basename($file);
         }
