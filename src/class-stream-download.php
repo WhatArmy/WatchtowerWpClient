@@ -55,12 +55,17 @@ class Stream_Download
             $length = $end + 1 - $offset;
         }
 
+        if (strpos($sourceFile, '.zip') !== false) {
+            $mime = 'application/zip';
+        } else {
+            $mime = 'application/gzip';
+        }
         return [
             'length'   => $length,
             'offset'   => $offset,
             'end'      => $end,
             'fileSize' => $fileSize,
-            'mimeType' => 'application/gzip',
+            'mimeType' => $mime,
         ];
     }
 
