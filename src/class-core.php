@@ -123,7 +123,7 @@ class Core
         if ($path !== false && $path != '' && file_exists($path)) {
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path,
                 \FilesystemIterator::SKIP_DOTS)) as $object) {
-                if (strpos($object->getPath(), WHT_BACKUP_DIR_NAME) == false && strpos($object->getPath(), 'node_modules/.bin') === false) {
+                if (strpos($object->getPath(), WHT_BACKUP_DIR_NAME) == false && $object->isFile()) {
                     $bytesTotal += $object->getSize();
                 }
             }
