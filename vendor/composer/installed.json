@@ -66,50 +66,6 @@
         ]
     },
     {
-        "name": "barryvdh/composer-cleanup-plugin",
-        "version": "v0.2.0",
-        "version_normalized": "0.2.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/barryvdh/composer-cleanup-plugin.git",
-            "reference": "1efa5ce0aa415f1e7bc7fccfbedfe43d8f0941b0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/barryvdh/composer-cleanup-plugin/zipball/1efa5ce0aa415f1e7bc7fccfbedfe43d8f0941b0",
-            "reference": "1efa5ce0aa415f1e7bc7fccfbedfe43d8f0941b0",
-            "shasum": ""
-        },
-        "require": {
-            "composer-plugin-api": "^1.0"
-        },
-        "time": "2018-05-14T08:32:22+00:00",
-        "type": "composer-plugin",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "0.1-dev"
-            },
-            "class": "Barryvdh\\Composer\\CleanupPlugin"
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Barryvdh\\Composer\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Barry vd. Heuvel",
-                "email": "barryvdh@gmail.com"
-            }
-        ],
-        "description": "A composer cleanup plugin, to remove tests and documentation to save space"
-    },
-    {
         "name": "claudiosanches/wp-autoloader",
         "version": "1.0.0",
         "version_normalized": "1.0.0.0",

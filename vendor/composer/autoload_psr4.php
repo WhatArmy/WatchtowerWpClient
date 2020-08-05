@@ -16,6 +16,5 @@ return array(
     'Ifsnop\\' => array($vendorDir . '/ifsnop/mysqldump-php/src/Ifsnop'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib/Doctrine/Common/Collections'),
     'ClaudioSanches\\WPAutoloader\\' => array($vendorDir . '/claudiosanches/wp-autoloader/src'),
-    'Barryvdh\\Composer\\' => array($vendorDir . '/barryvdh/composer-cleanup-plugin/src'),
     'Alchemy\\Zippy\\' => array($vendorDir . '/alchemy/zippy/src'),
 );

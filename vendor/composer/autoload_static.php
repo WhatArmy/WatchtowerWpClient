@@ -40,10 +40,6 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
         array (
             'ClaudioSanches\\WPAutoloader\\' => 28,
         ),
-        'B' => 
-        array (
-            'Barryvdh\\Composer\\' => 18,
-        ),
         'A' => 
         array (
             'Alchemy\\Zippy\\' => 14,
@@ -90,10 +86,6 @@ class ComposerStaticInit1ed00d4e8b35b8ee2068965c940c3d00
         'ClaudioSanches\\WPAutoloader\\' => 
         array (
             0 => __DIR__ . '/..' . '/claudiosanches/wp-autoloader/src',
-        ),
-        'Barryvdh\\Composer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/barryvdh/composer-cleanup-plugin/src',
         ),
         'Alchemy\\Zippy\\' => 
         array (
