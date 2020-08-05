@@ -147,7 +147,7 @@ class Mysql_Backup
         } else {
             Schedule::call_headquarter_status($job['callbackHeadquarter'], $job['queue'], $job['filename'] . ".gz");
             $this->backupName = $job['dir'] . '_dump.sql';
-            Schedule::clean_queue($job['group'], 'add_to_dump');
+            Schedule::clean_queue($job['file'], 'add_to_dump');
             Utils::gzCompressFile($this->backupName);
             unlink($this->backupName);
             Schedule::call_headquarter($job['callbackHeadquarter'], $job['filename'], 'gz');

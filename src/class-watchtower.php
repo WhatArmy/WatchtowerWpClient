@@ -155,11 +155,18 @@ class Watchtower
     {
         if (get_transient('wht-activation-notice-message')) {
             ?>
-            <div class="updated notice is-dismissible" style="padding-top:15px;padding-bottom:15px;">
-                <h2>Thank you for using WhatArmy Watchtower!</h2>
-                <h4 style="margin-bottom:0;">Here is you <a
-                            href="<?php echo admin_url('options-general.php?page=watchtower-setting-admin'); ?>">Access
-                        Token</a>.</h4>
+            <div class="updated notice is-dismissible"
+                 style="padding-top:15px;padding-bottom:15px;display:flex;flex-direction:row">
+                <div>
+                    <img src="<?php echo WHT_MAIN_URI . 'assets/images/logo1x.png'; ?>"
+                         style="height:100px;padding-right:15px;" alt="">
+                </div>
+                <div>
+                    <h2>Thank you for using WhatArmy Watchtower!</h2>
+                    <h4 style="margin-bottom:0;">Here is you <a
+                                href="<?php echo admin_url('options-general.php?page=watchtower-setting-admin'); ?>">Access
+                            Token</a>.</h4>
+                </div>
             </div>
             <?php
             delete_transient('wht-activation-notice-message');

@@ -25,7 +25,7 @@ class Self_Update
             'whatarmy-watchtower-plugin'
         );
 
-        if (array_key_exists('use_beta', get_option('watchtower'))) {
+        if (array_key_exists('use_beta', get_option('watchtower', []))) {
             $use_beta = (get_option('watchtower')['use_beta'] == true) ? "develop" : "master";
         } else {
             $use_beta = "master";
