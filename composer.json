@@ -34,7 +34,7 @@
     "ext-mysqli": "*",
     "ext-json": "*",
     "woocommerce/action-scheduler": "^3",
-    "yahnis-elsts/plugin-update-checker": "^4.9",
+    "yahnis-elsts/plugin-update-checker": "^4.6",
     "ext-fileinfo": "*",
     "symfony/finder": "3.x",
     "barryvdh/composer-cleanup-plugin": "0.2.x",
