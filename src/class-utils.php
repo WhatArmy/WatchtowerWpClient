@@ -126,7 +126,7 @@ class Utils
      * @param $path
      * @param float|int $ms
      */
-    public static function cleanup_old_backups($path, $ms = 60 * 60 * 24 * 2)
+    public static function cleanup_old_backups($path, $ms = 60 * 60 * 12)
     {
         Schedule::clean_older_than_days(2);
         foreach (glob($path . '/*') as $file) {
