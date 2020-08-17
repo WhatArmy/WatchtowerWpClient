@@ -160,6 +160,7 @@ class Mysql_Backup
      */
     public function run($callback_url)
     {
+        Utils::cleanup_old_backups(WHT_BACKUP_DIR);
         Utils::create_backup_dir();
         $this->group = date('Y_m_d__H_i_s') . "_" . Utils::random_string();
         $dir = WHT_BACKUP_DIR . '/' . $this->group;

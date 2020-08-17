@@ -96,6 +96,22 @@ class Schedule
         }
     }
 
+    public static function clean_older_than_days($days = 3)
+    {
+        global $wpdb;
+
+        $actions = $wpdb->get_results(
+            'SELECT action_id,group_id  FROM ' . $wpdb->prefix . 'actionscheduler_actions 
+            WHERE (hook = "add_to_zip" OR hook = "add_to_dump") AND scheduled_date_gmt < NOW() - INTERVAL ' . $days . ' DAY'
+        );
+
+        foreach ($actions as $action) {
+            $wpdb->delete($wpdb->prefix . 'actionscheduler_logs', ['action_id' => $action->action_id]);
+            $wpdb->delete($wpdb->prefix . 'actionscheduler_actions', ['action_id' => $action->action_id]);
+            $wpdb->delete($wpdb->prefix . 'actionscheduler_groups', ['group_id' => $action->group_id]);
+        }
+    }
+
     /**
      * @param $status
      * @param null $group
